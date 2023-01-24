@@ -33,16 +33,16 @@ const socketManager = require("./server-socket");
 
 // Server configuration below
 // TODO change connection URL after setting up your team database
-const mongoConnectionURL = "FILL ME IN";
+const mongoConnectionURL = "mongodb+srv://IncoherentButter:uNzqsbyjnEBbswlR@cluster0.iquizbo.mongodb.net/?retryWrites=true&w=majority";
 // TODO change database name to the name you chose
-const databaseName = "FILL ME IN";
+// const databaseName = "mongodb+srv://IncoherentButter:uNzqsbyjnEBbswlR@cluster0.iquizbo.mongodb.net/?retryWrites=true&w=majority";
 
 // connect to mongodb
 mongoose
   .connect(mongoConnectionURL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-    dbName: databaseName,
+    // dbName: databaseName,
   })
   .then(() => console.log("Connected to MongoDB"))
   .catch((err) => console.log(`Error connecting to MongoDB: ${err}`));

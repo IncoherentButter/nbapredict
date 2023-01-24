@@ -11,6 +11,13 @@ import { socket } from "../client-socket.js";
 
 import { get, post } from "../utilities";
 
+import { scrape } from "../bbref-scraper.js";
+import HomePage from "./pages/HomePage.js";
+
+// import 'bootstrap-table/dist/bootstrap-table.js';
+// import 'bootstrap-table/dist/bootstrap-table.min.css';
+
+
 /**
  * Define the "App" component
  */
@@ -43,10 +50,14 @@ const App = () => {
 
   return (
     <>
-      <Router>
-        <Skeleton path="/" handleLogin={handleLogin} handleLogout={handleLogout} userId={userId} />
-        <NotFound default />
-      </Router>
+      {/* <NavBar/> */}
+      <div className="App-container">
+        <Router>
+          {/* <Skeleton path="/" handleLogin={handleLogin} handleLogout={handleLogout} userId={userId} /> */}
+          <HomePage path="/" userId="Ryan"/>
+          <NotFound default />
+        </Router>
+      </div>
     </>
   );
 };

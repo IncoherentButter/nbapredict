@@ -43,6 +43,44 @@ router.post("/initsocket", (req, res) => {
 // | write your API methods below!|
 // |------------------------------|
 
+
+
+
+router.get("/user", (req, res) => {
+  User.findById(req.query.userid).then((user) => {
+    res.send(user);
+  });
+});
+
+router.post("/user", (req, res) => {
+  const newUser = new User({
+    name: req.user.name,
+    googleid: req.user.googleid,
+  });
+
+  newStory.save().then((newUser) => res.send(newUser));
+});
+
+// router.get("/standingprediction", (req, res) => {
+//   //find user -> find league -> return standingprediction
+//   // StandingPrediction.findById(req.query.userid).then((user) => {
+//   //   res.send(user);
+//   // });
+// });
+
+router.post("/standingprediction", (req, res) => {
+  const newStandingPrediction = new StandingPrediction({
+    creator_id: req.user._id,
+    league_id: req.league_id,
+    predictions: req.predictions,
+  });
+
+  newStandingPrediction.save().then((newStandingPrediction) => res.send(newStandingPrediction)); 
+});
+
+
+//----------END My API Methods------------------
+
 // anything else falls to this "not found" case
 router.all("*", (req, res) => {
   console.log(`API route not found: ${req.method} ${req.url}`);
