@@ -302,75 +302,72 @@ WASHINGTON_WIZARDS: {
     teams.WASHINGTON_WIZARDS
   ];
 
+  const [westernStandings, setWesternStandings] = useState(
+    sample_western_standings
+  );
+  const [easternStandings, setEasternStandings] = useState(
+    sample_eastern_standings
+  );
 
-  // const loadMessageHistory = (recipient) => {
-  //   get("/api/chat", { recipient_id: recipient._id }).then((messages) => {
-  //     setActiveChat({
-  //       recipient: recipient,
-  //       messages: messages,
-  //     });
-  //   });
-  // };
+  console.log("----TYPE OF WEST STAND");
+  console.log(typeof westernStandings);
+  console.log(westernStandings);
 
+  let conferenceTable = {westernStandings, easternStandings};
+  let changedConferenceTable = false;
+
+
+  //------SUBMIT BUTTON-------
+  let submitButton = null;
+  if (props.userId) {
+    submitButton = (
+      <div>
+        <button
+          className="button-71"
+          onClick={() => {
+            post("/api/standingprediction", { user_id: props.userId, west_predictions: westernStandings, east_predictions: easternStandings});
+          }}
+        >
+          Submit
+        </button>
+      </div>
+    );
+  }
+  //-------------------------
+  
+  //------method that updates user predictions LOCALLY (Submit button sends POST req)
+
+  const setUserStandings = (user, tempWestStandings, tempEastStandings) => {
+    if (user.userId){
+      setWesternStandings(tempWestStandings);
+      setEasternStandings(tempEastStandings);
+    }
+  };
+
+
+  // When conferenceTable changes, we
   useEffect(() => {
-    document.title = "NBAPredict";
-  }, []);
 
-  // useEffect(() => {
-  //   loadMessageHistory(activeChat.recipient);
-  // }, [activeChat.recipient._id]);
+  }, changedConferenceTable);
 
+
+
+  //-----------Get user's predictions and post them----
+  // 
   // useEffect(() => {
-  //   get("/api/activeUsers").then((data) => {
-  //     // If user is logged in, we load their chats. If they are not logged in,
-  //     // there's nothing to load. (Also prevents data races with socket event)
-  //     if (props.userId) {
-  //       setActiveUsers([ALL_CHAT].concat(data.activeUsers));
-  //     };
+  //   get("/api/standingprediction", { user_id: user.userId }).then((westernStandings) => {
+  //     setWesternStandings();
   //   });
   // }, []);
 
-  // useEffect(() => {
-  //   const addMessages = (data) => {
-  //     if (
-  //       (data.recipient._id === activeChat.recipient._id &&
-  //         data.sender._id === props.userId) ||
-  //       (data.sender._id === activeChat.recipient._id &&
-  //         data.recipient._id === props.userId) ||
-  //       (data.recipient._id === "ALL_CHAT" && activeChat.recipient._id === "ALL_CHAT")
-  //     ) {
-  //       setActiveChat(prevActiveChat => ({
-  //         recipient: prevActiveChat.recipient,
-  //         messages: prevActiveChat.messages.concat(data),
-  //       }));
-  //     }
-  //   };
-  //   socket.on("message", addMessages);
-  //   return () => {
-  //     socket.off("message", addMessages);
-  //   };
-  // }, [activeChat.recipient._id, props.userId]);
 
   // useEffect(() => {
-  //   const callback = (data) => {
-  //     setActiveUsers([ALL_CHAT].concat(data.activeUsers));
-  //   };
-  //   socket.on("activeUsers", callback);
-  //   return () => {
-  //     socket.off("activeUsers", callback);
-  //   };
+  //   document.title = "NBAPredict";
   // }, []);
 
-  // const setActiveUser = (user) => {
-  //   if (user._id !== activeChat.recipient._id) {
-  //     setActiveChat({
-  //       recipient: user,
-  //       messages: [],
-  //     });
-  //   }
-  // };
+  
   // const dayInMilliseconds = 1000 * 60 * 60 * 24;
-  // setInterval(scrape(),dayInMilliseconds );
+  // setInterval(scrape(),dayInMilliseconds );  
 
   if (!props.userId) {
     return <div>Log in before using NBAPredict</div>;
@@ -381,10 +378,12 @@ WASHINGTON_WIZARDS: {
         {/*CreateLeagueButton*/}
         {/*JoinLeagueButton*/}
         {/*YourLeaguesButton*/}
-        {console.log("TYPE OF SAMPLE STANDINGS")}
-        {console.log(typeof(sample_western_standings))}
-        <p><ConferenceTable is_editable={true} west_teams={sample_western_standings} east_teams={sample_eastern_standings} league_id="actual"/></p>
-        <p><ConferenceTable is_editable={false} west_teams={sample_western_standings} east_teams={sample_eastern_standings} league_id="actual"/></p>
+        {/* {console.log("TYPE OF SAMPLE STANDINGS")}
+        {console.log(typeof(sample_western_standings))} */}
+        {/* <p><ConferenceTable is_editable={true} west_teams={westernStandings} east_teams={easternStandings} league_id={user.userId}/></p> */}
+        <p><ConferenceTable is_editable={false} west_teams={sample_western_standings} east_teams={sample_eastern_standings} league_id="actual" setUserStandings={setUserStandings}/></p>
+        <div className="HomePage-Submit-button">{submitButton}</div>
+        <p><ConferenceTable is_editable={false} west_teams={sample_western_standings} east_teams={sample_eastern_standings} league_id="actual" setUserStandings={setUserStandings}/></p>
       </div>
     </>
   );

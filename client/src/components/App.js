@@ -5,6 +5,8 @@ import jwt_decode from "jwt-decode";
 import NotFound from "./pages/NotFound.js";
 import Skeleton from "./pages/Skeleton.js";
 
+import NavBar from "./modules/NavBar.js";
+
 import "../utilities.css";
 
 import { socket } from "../client-socket.js";
@@ -13,6 +15,10 @@ import { get, post } from "../utilities";
 
 import { scrape } from "../bbref-scraper.js";
 import HomePage from "./pages/HomePage.js";
+
+// import { DndProvider } from 'react-dnd';
+// import { HTML5Backend } from 'react-dnd-html5-backend';
+
 
 // import 'bootstrap-table/dist/bootstrap-table.js';
 // import 'bootstrap-table/dist/bootstrap-table.min.css';
@@ -50,7 +56,8 @@ const App = () => {
 
   return (
     <>
-      {/* <NavBar/> */}
+      {/* <NavBar handleLogin={handleLogin} handleLogout={handleLogout} userId={userId} /> */}
+      <NavBar/>
       <div className="App-container">
         <Router>
           {/* <Skeleton path="/" handleLogin={handleLogin} handleLogout={handleLogout} userId={userId} /> */}

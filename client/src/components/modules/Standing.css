@@ -1,3 +1,14 @@
+.Standing-Table{
+    table-layout: fixed;
+    width: 100%;
+    border-collapse: collapse;
+    border: 1.5px solid white;
+}
+
+
+.Standing-tbody-tr{
+    background-color: rgb(145, 189, 174);
+}
 .TeamCard-name{
     font-family: Arial, Helvetica, sans-serif;
 }
@@ -26,3 +37,5 @@ overflow-wrap: anywhere;
 background: var(--primary--dim);
 color: var(--white);
 }
+
+

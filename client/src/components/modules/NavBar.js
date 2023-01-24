@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "@reach/router";
-import GoogleLogin, { GoogleLogout } from "react-google-login";
+// import GoogleLogin, { GoogleLogout } from "react-google-login";
 
 import "./NavBar.css";
 
@@ -13,26 +13,27 @@ const GOOGLE_CLIENT_ID = "395785444978-7b9v7l0ap2h3308528vu1ddnt3rqftjc.apps.goo
 const NavBar = (props) => {
   return (
     <nav className="NavBar-container">
-      <div className="NavBar-title u-inlineBlock">Catbook</div>
+      <div className="NavBar-title u-inlineBlock">NBA</div>
       <div className="NavBar-title u-inlineBlock">|</div>
-      <div className="NavBar-title-red u-inlineBlock">Game</div>
-      <div className="NavBar-title u-inlineBlock">book</div>
+      <div className="NavBar-title-red u-inlineBlock">Predict</div>
+      {/* <div className="NavBar-title u-inlineBlock">book</div> */}
       <div className="NavBar-linkContainer u-inlineBlock">
-        <Link to="/" className="NavBar-link">
+        {/* Home */}
+        {/* <Link to="/" className="NavBar-link">
           Home
-        </Link>
-        {props.userId && (
+        </Link> */}
+        {/* {props.userId && (
           <Link to={`/profile/${props.userId}`} className="NavBar-link">
             Profile
           </Link>
-        )}
-        <Link to="/chat/" className="NavBar-link">
+        )} */}
+        {/* <Link to="/chat/" className="NavBar-link">
           Chat
-        </Link>
-        <Link to="/game/" className="NavBar-link">
+        </Link> */}
+        {/* <Link to="/game/" className="NavBar-link">
           Game
-        </Link>
-        {props.userId ? (
+        </Link> */}
+        {/* {props.userId ? (
           <GoogleLogout
             clientId={GOOGLE_CLIENT_ID}
             buttonText="Logout"
@@ -48,7 +49,7 @@ const NavBar = (props) => {
             onFailure={(err) => console.log(err)}
             className="NavBar-link NavBar-login"
           />
-        )}
+        )} */}
       </div>
     </nav>
   );

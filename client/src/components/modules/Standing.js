@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {useDrag, useDrop } from 'react-dnd';
+// import { useDrag, useDrop } from 'react-dnd';
 import Teams from "../../team-enums.js";
 import "./Standing.css";
 
@@ -18,59 +18,61 @@ import "./Standing.css";
  * Proptypes
  * @param {string} league_id
  * @param {[Teams]} teams
+ * @param {(String, [Object], [Object] => ())} setUserStandings
  */
 const NUM_ROWS = 2;
 const type = 'teamRow';
 
-function TeamRow({ team, index, moveTeam }) {
-    const [, drop] = useDrop({
-        accept: type,
-        hover(item, monitor) {
-            if (!monitor.canDrop()) {
-                return;
-            }
-            const dragIndex = item.index;
-            const hoverIndex = index;
-            if (dragIndex === hoverIndex) {
-                return;
-            }
-            moveTeam(dragIndex, hoverIndex);
-            item.index = hoverIndex;
-        },
-    });
-    const [{ isDragging }, drag] = useDrag({
-        item: { type, index },
-        collect: (monitor) => ({
-            isDragging: monitor.isDragging(),
-        }),
-    });
-    const opacity = isDragging ? 0 : 1;
-    return (
-        <tr
-            ref={(node) => {
-                drag(drop(node));
-            }}
-            style={{ opacity }}
-        >
-            <td>{index + 1}</td>
-            <td>{team.name}</td>
-        </tr>
-    );
-}
-
+// function TeamRow({ team, index, moveTeam }) {
+//     const [, drop] = useDrop({ 
+//         accept: type,
+//         hover(item, monitor) { //hover() is called whenever you hover over component
+//             if (!monitor.canDrop()) { //if you cant drop the object here, then dont do anything
+//                 return;
+//             }
+//             const dragIndex = item.index; //index the item started at
+//             const hoverIndex = index; //index hovering at
+//             if (dragIndex === hoverIndex) { //if havent moved indices, dont do anything
+//                 return;
+//             }
+//             moveTeam(dragIndex, hoverIndex); //call the drop logic 
+//             item.index = hoverIndex; //update item
+//         },
+//     });
+//     const [{ isDragging }, drag] = useDrag({
+//         item: { type, index },
+//         collect: (monitor) => ({
+//             isDragging: monitor.isDragging(),
+//         }),
+//     });
+//     const opacity = isDragging ? 0 : 1; // if dragging, non-opaque
+//     return (
+//         <tr
+//             ref={(node) => { 
+//                 drag(drop(node));
+//             }}
+//             style={{ opacity }}
+//         >
+//             <td>{index + 1}</td>
+//             <td>{team.name}</td>
+//         </tr>
+//     );
+// }
 
 const Standing = (props) => {
-    const [conferenceStanding, setConferenceStanding] = useState([]);
+    const [conferenceStanding, setConferenceStanding] = useState(props.teams);
 
-    function moveTeam(dragIndex, hoverIndex) {
-        const newTeams = [...conferenceStanding];
-        const [draggedTeam] = newTeams.splice(dragIndex, 1);
-        newTeams.splice(hoverIndex, 0, draggedTeam);
-        setConferenceStanding(newTeams);
-    }
+    // Handles the logic for drag and drop
+    // function moveTeam(dragIndex, hoverIndex) {
+    //     const newTeams = [...conferenceStanding];
+    //     const [draggedTeam] = newTeams.splice(dragIndex, 1); //remove the dragged team, assign to draggedTeam
+    //     newTeams.splice(hoverIndex, 0, draggedTeam); //insert draggedTeam after the team at hoverIndex
+    //     setConferenceStanding(newTeams); //update teams
+    // }
+
     return (
         <div>
-            <table>
+            <table className="Standing-Table">
                 <thead>
                     <tr>
                         <th>Seed</th>
@@ -78,14 +80,20 @@ const Standing = (props) => {
                     </tr>
                 </thead>
                 <tbody>
-                    {conferenceStanding.map((team, index) => (
-                        <TeamRow
+                    {props.teams.map((team, index) => (
+                        <tr key={team.name} className="Standing-tbody-tr">
+                            <td>{index + 1}</td>
+                            <td>{team.name}</td>
+                        </tr>
+                    ))}
+                    {/* {conferenceStanding.map((team, index) => (
+                        <TeamRow    
                             key={team.name}
                             team={team}
                             index={index}
                             moveTeam={moveTeam}
                         />
-                    ))}
+                    ))} */}
                 </tbody>
             </table>
         </div>
@@ -101,10 +109,10 @@ const Standing = (props) => {
     //             </thead>
     //             <tbody>
     //                 {props.teams.map((team, index) => (
-    //                     <tr key={team.name}>
-    //                         <td>{index + 1}</td>
-    //                         <td>{team.name}</td>
-    //                     </tr>
+                        // <tr key={team.name}>
+                        //     <td>{index + 1}</td>
+                        //     <td>{team.name}</td>
+                        // </tr>
     //                 ))}
     //             </tbody>
     //         </table>

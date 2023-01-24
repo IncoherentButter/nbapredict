@@ -12,6 +12,7 @@ import "./ConferenceTable.css";
  * @param {[Teams]} east_teams
  * @param {string} league_id
  * @param {boolean} is_editable
+ * @param {(String, [Object], [Object] => ())} setUserStandings
  */
 
 
@@ -31,7 +32,6 @@ const ConferenceTable = (props) => {
     
     return ( 
         <div className="ConferenceTable-container">
-            Hello! ConferenceTable.js
             <p>
                 <Standing league_id={props.league_id} teams={props.west_teams}/>
             </p>

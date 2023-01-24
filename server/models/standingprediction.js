@@ -1,9 +1,9 @@
 const mongoose = require("mongoose");
 
 const StandingPredictionSchema = new mongoose.Schema({
-  creator_id: String,
-  league_id: String,
-  predictions: [{type: String}],
+  user_id: req.user._id,
+  west_predictions:  [{type: Object}],
+  east_predictions:  [{type: Object}],
 });
 
 // compile model from schema

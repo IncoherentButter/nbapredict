@@ -46,34 +46,40 @@ router.post("/initsocket", (req, res) => {
 
 
 
-router.get("/user", (req, res) => {
-  User.findById(req.query.userid).then((user) => {
-    res.send(user);
-  });
-});
+// router.get("/user", (req, res) => {
+//   User.findById(req.query.userid).then((user) => {
+//     res.send(user);
+//   });
+// });
 
-router.post("/user", (req, res) => {
-  const newUser = new User({
-    name: req.user.name,
-    googleid: req.user.googleid,
-  });
+// router.post("/user", (req, res) => {
+//   const newUser = new User({
+//     name: req.user.name,
+//     googleid: req.user.googleid,
+//   });
 
-  newStory.save().then((newUser) => res.send(newUser));
-});
+//   newStory.save().then((newUser) => res.send(newUser));
+// });
 
 // router.get("/standingprediction", (req, res) => {
-//   //find user -> find league -> return standingprediction
-//   // StandingPrediction.findById(req.query.userid).then((user) => {
-//   //   res.send(user);
-//   // });
+  //find user -> find league -> return standingprediction
+  // StandingPrediction.findById(req.query.userid).then((user) => {
+  //   res.send(user);
+  // });
 // });
 
 router.post("/standingprediction", (req, res) => {
   const newStandingPrediction = new StandingPrediction({
-    creator_id: req.user._id,
-    league_id: req.league_id,
-    predictions: req.predictions,
+    user_id: req.user._id,
+    west_predictions: req.west_predictions,
+    east_predictions: req.east_predictions,
   });
+  
+  //socket update here
+  // call a socket-defined plugin that updates user prediction data
+  // if (req.user){
+
+  // }
 
   newStandingPrediction.save().then((newStandingPrediction) => res.send(newStandingPrediction)); 
 });

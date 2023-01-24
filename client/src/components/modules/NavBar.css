@@ -4,7 +4,8 @@
   }
   
   .NavBar-title {
-    color: var(--white);
+    /* color: var(--white); */
+    color: #543106;
     font-size: 20px;
   }
   
