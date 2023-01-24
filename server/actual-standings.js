@@ -1,28 +1,24 @@
-import React, { useEffect, useState } from "react";
-import { socket } from "../../client-socket.js";
-import ConferenceTable from "../modules/ConferenceTable.js";
-import Teams from "../../team-enums.js";
-import SampleStandings from "../../team-enums.js";
+// import ConferenceTable from "client\src\components\modules\ConferenceTable.css"
+// const cheerio = require('cheerio');
+// const axios = require('axios');
 
-import "./HomePage.css";
-import { get } from "jquery";
+// async function scrape() {
+//     // const { data } = await axios.get(`https://www.basketball-reference.com/friv/standings.fcgi?month=${cur_month}&day=${cur_day}&year=${cur_year}`);
+//     const { data } = await axios.get(`https://www.basketball-reference.com/friv/standings.fcgi?month=01&day=22&year=2023`); 
+//     const $ = cheerio.load(data);
+//     const east_standings = $('table#standings_e');
+//     const west_standings = $('table#standings_w');
+//     console.log(east_standings.html());
+//     console.log(west_standings.html());
+
+//     {/* <ConferenceTable west_teams={west_standings} east_teams={east_standings} league_id="actual"><ConferenceTable/>; */}
+
+// }
+// scrape()
 
 
-/**
- * Page component to display when at the "/chat" route
- *
- * Proptypes
- * @param {string} user_id id of current logged in user
- */
-const HomePage = (props) => {
-  const [activeUsers, setActiveUsers] = useState([]);
 
-  
-  // const [activeChat, setActiveChat] = useState({
-  //   recipient: ALL_CHAT,
-  //   messages: [],
-  // });
-  const teams = {ATLANTA_HAWKS: {
+const teams = {ATLANTA_HAWKS: {
     name: "Atlanta Hawks",
     logo: "https://www.example.com/hawks-logo.png",
     primaryColor: "#E03A3E",
@@ -303,145 +299,5 @@ WASHINGTON_WIZARDS: {
     teams.WASHINGTON_WIZARDS
   ];
 
-  const [westernStandings, setWesternStandings] = useState(
-    sample_western_standings
-  );
-  const [easternStandings, setEasternStandings] = useState(
-    sample_eastern_standings
-  );
+  export default {teams, sample_western_standings, sample_eastern_standings};
 
-  console.log("----TYPE OF WEST STAND");
-  console.log(typeof westernStandings);
-  console.log(westernStandings);
-
-  let conferenceTable = {westernStandings, easternStandings};
-  let changedConferenceTable = false;
-
-
-  //------SUBMIT BUTTON-------
-  const [score, setScore] = useState(0);
-  let scoreButton = null;
-  let submitButton = null;
-  if (props.user_id) {
-    submitButton = (
-      <div>
-        <button
-          className="button-71"
-          onClick={() => {
-            post("/api/standingprediction", { user_id: props.userId, west_predictions: westernStandings, east_predictions: easternStandings}).then((res) => {
-              // setScore(res.score);
-            })
-          }}
-        >
-          Submit
-        </button>
-      </div>
-    );
-  }
-  //-------------------------
-  // useEffect(() => {
-  //   get("/api/standingprediction", { user_id: props.userId, west_predictions: westernStandings, east_predictions: easternStandings }).then((score) =>{
-  //     setScore(res.score);
-  //   });
-  // }, []);
-  scoreButton = (
-    <div>
-      <button
-      className="button-76"
-      onClick={()=>{console.log(Click)}}>
-        Score={score}
-      </button>
-    </div>
-  );
-
-
-
-
-  // useEffect(() => {
-  //   const score = get("/api/standingprediction", { user_id: user.userId, west_predictions: westernStandings, east_predictions: easternStandings });
-  //   setScore(score);
-
-  // }, submitButton);
-  // let scoreButton = (
-  //   <div>
-  //     <button
-  //     className="button-49">
-  //       {score}
-  //     </button>
-  //   </div>
-  //   )
-
-
-  // const loadMessageHistory = (recipient) => {
-  //   get("/api/chat", { recipient_id: recipient._id }).then((messages) => {
-  //     setActiveChat({
-  //       recipient: recipient,
-  //       messages: messages,
-  //     });
-  //   });
-  // };
-  // get("/api/standingprediction", { user_id: props.userId, west_predictions: westernStandings, east_predictions: easternStandings })
-  // if (props.user_id && )
-
-
-  //--------------------
-  
-  //------method that updates user predictions LOCALLY (Submit button sends POST req)
-  const setUserStandings = (user, tempWestStandings, tempEastStandings, isWest) => {
-    if (!user.userId){
-      return;
-    }
-    if (isWest){
-      setWesternStandings(tempWestStandings);
-    } else {
-      setEasternStandings(tempEastStandings);
-    }
-  };
-
-
-  // When conferenceTable changes, we
-  // useEffect(() => {
-
-  // }, changedConferenceTable);
-
-
-
-  //-----------Get user's predictions and post them----
-  // 
-  // useEffect(() => {
-  //   get("/api/standingprediction", { user_id: user.userId }).then((westernStandings) => {
-  //     setWesternStandings();
-  //   });
-  // }, []);
-
-
-  // useEffect(() => {
-  //   document.title = "NBAPredict";
-  // }, []);
-
-  
-  // const dayInMilliseconds = 1000 * 60 * 60 * 24;
-  // setInterval(scrape(),dayInMilliseconds );  
-
-  if (!props.user_id) {
-    return <div>Log in before using NBAPredict</div>;
-  }
-  return (
-    <>
-      <div className="HomePage-container">
-        {/*CreateLeagueButton*/}
-        {/*JoinLeagueButton*/}
-        {/*YourLeaguesButton*/}
-        {/* {console.log("TYPE OF SAMPLE STANDINGS")}
-        {console.log(typeof(sample_western_standings))} */}
-        {/* <p><ConferenceTable is_editable={true} west_teams={westernStandings} east_teams={easternStandings} league_id={user.userId}/></p> */}
-        <p><ConferenceTable is_editable={true} west_teams={westernStandings} east_teams={easternStandings} user_id={props.user_id} setUserStandings={setUserStandings}/></p>
-        <div className="HomePage-Submit-button">{submitButton}</div>
-        <p><ConferenceTable is_editable={false} west_teams={sample_western_standings} east_teams={sample_eastern_standings} user_id={props.user_id} setUserStandings={setUserStandings}/></p>
-        <div className="HomePage-Submit-button Disabed">{scoreButton}</div>
-      </div>
-    </>
-  );
-}
-
-export default HomePage;

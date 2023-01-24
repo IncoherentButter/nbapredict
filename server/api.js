@@ -6,11 +6,17 @@
 | This file defines the routes for your server.
 |
 */
+// import {getSumOfSquareDistances} from "./ranking-logic.js";
+// import {sample_western_standings, sample_eastern_standings} from "./actual-standings.js";
+// import {teams} from "./actual-standings.js";
 
 const express = require("express");
 
 // import models so we can interact with the database
 const User = require("./models/user");
+// const League = require("./models/league");
+const StandingPrediction = require("./models/standingprediction");
+
 
 // import authentication library
 const auth = require("./auth");
@@ -44,6 +50,8 @@ router.post("/initsocket", (req, res) => {
 // |------------------------------|
 
 
+const westStandings = [];
+const eastStandings = [];
 
 
 // router.get("/user", (req, res) => {
@@ -61,19 +69,33 @@ router.post("/initsocket", (req, res) => {
 //   newStory.save().then((newUser) => res.send(newUser));
 // });
 
-// router.get("/standingprediction", (req, res) => {
-  //find user -> find league -> return standingprediction
+router.get("/standingprediction", (req, res) => {
+  // find user -> find league -> return standingprediction
   // StandingPrediction.findById(req.query.userid).then((user) => {
   //   res.send(user);
   // });
-// });
+  User.findById(req.query.user_id).then(() => {
+    // res.send(getSumOfSquareDistances(req.west_predictions, sample_western_standings) + getSumOfSquareDistances(req.east_predictions, sample_eastern_standings));
+    StandingPrediction.find({}).then()
+    westStandings = req.query.west_predictions; 
+    eastStandings = req.query.east_predictions;
+    res.send(westStandings, eastStandings);
+  });
+});
 
 router.post("/standingprediction", (req, res) => {
+  console.log(`Received a standing prediction from ${req.user_id}`);
+  console.log(`Req = ${req}`);
+
   const newStandingPrediction = new StandingPrediction({
     user_id: req.user._id,
-    west_predictions: req.west_predictions,
-    east_predictions: req.east_predictions,
+    west_predictions: req.body.west_predictions,
+    east_predictions: req.body.east_predictions,
   });
+
+  // const west_score = getSumOfSquareDistances(newStandingPrediction.west_predictions, sample_western_standings);
+  // const east_score = getSumOfSquareDistances(newStandingPrediction.east_predictions, sample_eastern_standings);
+  // const total_score = west_score + east_score;
   
   //socket update here
   // call a socket-defined plugin that updates user prediction data

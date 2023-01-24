@@ -13,7 +13,7 @@ import { socket } from "../client-socket.js";
 
 import { get, post } from "../utilities";
 
-import { scrape } from "../bbref-scraper.js";
+// import { scrape } from "../bbref-scraper.js";
 import HomePage from "./pages/HomePage.js";
 
 // import { DndProvider } from 'react-dnd';
@@ -61,7 +61,7 @@ const App = () => {
       <div className="App-container">
         <Router>
           {/* <Skeleton path="/" handleLogin={handleLogin} handleLogout={handleLogout} userId={userId} /> */}
-          <HomePage path="/" userId="Ryan"/>
+          <HomePage path="/" user_id="Ryan"/>
           <NotFound default />
         </Router>
       </div>

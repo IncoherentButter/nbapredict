@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 // import { useDrag, useDrop } from 'react-dnd';
+import ReactDOM from 'react-dom'
 import Teams from "../../team-enums.js";
 import "./Standing.css";
 
@@ -16,9 +17,11 @@ import "./Standing.css";
  * Component to render an online user
  *
  * Proptypes
- * @param {string} league_id
+ * @param {string} user_id
  * @param {[Teams]} teams
- * @param {(String, [Object], [Object] => ())} setUserStandings
+ * @param {boolean} is_editable
+ * @param {(String, [Object], [Object], boolean => ())} setUserStandings
+ * @param {boolean} is_west
  */
 const NUM_ROWS = 2;
 const type = 'teamRow';
@@ -60,7 +63,13 @@ const type = 'teamRow';
 // }
 
 const Standing = (props) => {
-    const [conferenceStanding, setConferenceStanding] = useState(props.teams);
+    // const [conferenceStanding, setConferenceStanding] = useState(props.teams);
+    // const [firstRowIndex, setFirstRowIndex] = useState(-1);
+    // const [secondRowIndex, setSecondRowIndex] = useState(-2);
+    const [teams, setTeams] = useState(props.teams);
+    // const handleChange(e){
+    //     alert('')
+    // }
 
     // Handles the logic for drag and drop
     // function moveTeam(dragIndex, hoverIndex) {
@@ -70,8 +79,59 @@ const Standing = (props) => {
     //     setConferenceStanding(newTeams); //update teams
     // }
 
-    return (
+    const [firstRowIndex, setFirstRowIndex] = useState(1);
+    const [secondRowIndex, setSecondRowIndex] = useState(1);
+
+    function handleFirstRowChange(event) {
+        setFirstRowIndex(event.target.value);
+    }
+
+    function handleSecondRowChange(event) {
+        setSecondRowIndex(event.target.value);
+    }
+
+    function handleConfirmClick() {
+        const newTeams = [...props.teams];
+        const firstTeam = newTeams[firstRowIndex - 1];
+        const secondTeam = newTeams[secondRowIndex - 1];
+        newTeams[firstRowIndex - 1] = secondTeam;
+        newTeams[secondRowIndex - 1] = firstTeam;
+
+        setTeams(newTeams);
+
+        if (props.is_west){
+            props.setUserStandings(props.user_id, newTeams, [], true);
+        } else{
+            props.setUserStandings(props.user_id, [], newTeams, false);
+        }
+    }
+    let confirmationSection;
+    if (props.is_editable){
+        confirmationSection = (
         <div>
+            <label>
+                Choose the first row to swap:
+                <select value={firstRowIndex} onChange={handleFirstRowChange}>
+                    {[...Array(15)].map((_, i) => (
+                        <option key={i} value={i + 1}>
+                            {i + 1}
+                        </option>
+                    ))}
+                </select>
+            </label>
+            <br />
+            <label>
+                Choose the second row to swap:
+                <select value={secondRowIndex} onChange={handleSecondRowChange}>
+                    {[...Array(15)].map((_, i) => (
+                        <option key={i} value={i + 1}>
+                            {i + 1}
+                        </option>
+                    ))}
+                </select>
+            </label>
+            <br />
+            <button onClick={handleConfirmClick}>Confirm</button>
             <table className="Standing-Table">
                 <thead>
                     <tr>
@@ -80,7 +140,7 @@ const Standing = (props) => {
                     </tr>
                 </thead>
                 <tbody>
-                    {props.teams.map((team, index) => (
+                    {teams.map((team, index) => (
                         <tr key={team.name} className="Standing-tbody-tr">
                             <td>{index + 1}</td>
                             <td>{team.name}</td>
@@ -97,6 +157,43 @@ const Standing = (props) => {
                 </tbody>
             </table>
         </div>
+        )
+    } else {
+        confirmationSection = (
+            <div>
+                <table className="Standing-Table">
+                    <thead>
+                        <tr>
+                            <th>Seed</th>
+                            <th>Team</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {teams.map((team, index) => (
+                            <tr key={team.name} className="Standing-tbody-tr">
+                                <td>{index + 1}</td>
+                                <td>{team.name}</td>
+                            </tr>
+                        ))}
+                        {/* {conferenceStanding.map((team, index) => (
+                            <TeamRow    
+                                key={team.name}
+                                team={team}
+                                index={index}
+                                moveTeam={moveTeam}
+                            />
+                        ))} */}
+                    </tbody>
+                </table>
+            </div>
+        )
+    }
+
+    return (
+        <div>
+            {confirmationSection}
+        </div>
+        
     );
     // return ( 
     //     <div>

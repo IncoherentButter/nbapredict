@@ -10,9 +10,9 @@ import "./ConferenceTable.css";
  * Proptypes
  * @param {[Teams]} west_teams
  * @param {[Teams]} east_teams
- * @param {string} league_id
+ * @param {string} user_id
  * @param {boolean} is_editable
- * @param {(String, [Object], [Object] => ())} setUserStandings
+ * @param {(String, [Object], [Object], boolean => ())} setUserStandings
  */
 
 
@@ -33,10 +33,10 @@ const ConferenceTable = (props) => {
     return ( 
         <div className="ConferenceTable-container">
             <p>
-                <Standing league_id={props.league_id} teams={props.west_teams}/>
+                <Standing user_id={props.user_id} teams={props.west_teams} is_editable={props.is_editable} setUserStandings={props.setUserStandings} is_west={true}/>
             </p>
             <p>
-                <Standing league_id={props.league_id} teams={props.east_teams}/>
+                <Standing user_id={props.user_id} teams={props.east_teams} is_editable={props.is_editable} setUserStandings={props.setUserStandings} is_west={false}/>
             </p>
         </div>
         // <Table>
