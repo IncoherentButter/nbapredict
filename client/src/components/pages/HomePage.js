@@ -5,7 +5,6 @@ import Teams from "../../team-enums.js";
 import SampleStandings from "../../team-enums.js";
 
 import "./HomePage.css";
-import { get } from "jquery";
 
 
 /**
