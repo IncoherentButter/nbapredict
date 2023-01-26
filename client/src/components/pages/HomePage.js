@@ -437,7 +437,10 @@ WASHINGTON_WIZARDS: {
         <p><ConferenceTable is_editable={true} west_teams={westernStandings} east_teams={easternStandings} user_id={props.user_id} setUserStandings={setUserStandings}/></p>
         <div className="HomePage-Submit-button">{submitButton}</div>
         <p><ConferenceTable is_editable={false} west_teams={sample_western_standings} east_teams={sample_eastern_standings} user_id={props.user_id} setUserStandings={setUserStandings}/></p>
-        <div className="HomePage-Submit-button Disabed">{scoreButton}</div>
+        {/* <div className="HomePage-Submit-button Disabed">{scoreButton}</div> */}
+      </div>
+      <div>
+        <span className="HomePage-Score-button Disabed">{scoreButton}</span>
       </div>
     </>
   );

@@ -12,6 +12,15 @@
     margin: auto;
 }
 
+.HomePage-Score-button {
+  display: flex;
+  margin: 20;
+  align-self: center;
+  vertical-align: 50;
+  justify-content: center;
+}
+
+
 
 /* CSS */
 .button-71 {

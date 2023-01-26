@@ -53,7 +53,6 @@ client/src/bootstrap-table-master/.eslintrc.js
 client/src/bootstrap-table-master/.gitignore
 client/src/bootstrap-table-master/.npmignore
 client/src/bootstrap-table-master/.stylelintrc
-client/src/bootstrap-table-master/bootstrap-table.jquery.json
 client/src/bootstrap-table-master/bower.json
 client/src/bootstrap-table-master/CHANGELOG.md
 client/src/bootstrap-table-master/composer.json
