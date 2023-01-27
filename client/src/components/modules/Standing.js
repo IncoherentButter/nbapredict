@@ -67,6 +67,10 @@ const Standing = (props) => {
     // const [firstRowIndex, setFirstRowIndex] = useState(-1);
     // const [secondRowIndex, setSecondRowIndex] = useState(-2);
     const [teams, setTeams] = useState(props.teams);
+
+    teams.forEach((team, index) => {
+        console.log(`Team at index=${index} is ${team.name}`);
+    })
     // const handleChange(e){
     //     alert('')
     // }
@@ -79,8 +83,8 @@ const Standing = (props) => {
     //     setConferenceStanding(newTeams); //update teams
     // }
 
-    const [firstRowIndex, setFirstRowIndex] = useState(1);
-    const [secondRowIndex, setSecondRowIndex] = useState(1);
+    const [firstRowIndex, setFirstRowIndex] = useState(0);
+    const [secondRowIndex, setSecondRowIndex] = useState(0);
 
     function handleFirstRowChange(event) {
         setFirstRowIndex(event.target.value);
@@ -91,11 +95,11 @@ const Standing = (props) => {
     }
 
     function handleConfirmClick() {
-        const newTeams = [...props.teams];
-        const firstTeam = newTeams[firstRowIndex - 1];
-        const secondTeam = newTeams[secondRowIndex - 1];
-        newTeams[firstRowIndex - 1] = secondTeam;
-        newTeams[secondRowIndex - 1] = firstTeam;
+        const newTeams = [...teams];
+        const firstTeam = newTeams[firstRowIndex];
+        const secondTeam = newTeams[secondRowIndex];
+        newTeams[firstRowIndex] = secondTeam;
+        newTeams[secondRowIndex] = firstTeam;
 
         setTeams(newTeams);
 
@@ -104,7 +108,10 @@ const Standing = (props) => {
         } else{
             props.setUserStandings(props.user_id, [], newTeams, false);
         }
+
     }
+
+
     let confirmationSection;
     if (props.is_editable){
         confirmationSection = (
@@ -124,7 +131,7 @@ const Standing = (props) => {
                 Choose the second row to swap:
                 <select value={secondRowIndex} onChange={handleSecondRowChange}>
                     {[...Array(15)].map((_, i) => (
-                        <option key={i} value={i + 1}>
+                        <option key={i} value={i}>
                             {i + 1}
                         </option>
                     ))}
@@ -140,12 +147,14 @@ const Standing = (props) => {
                     </tr>
                 </thead>
                 <tbody>
-                    {teams.map((team, index) => (
-                        <tr key={team.name} className="Standing-tbody-tr">
-                            <td>{index + 1}</td>
-                            <td>{team.name}</td>
-                        </tr>
-                    ))}
+                    {
+                        teams.map((team, index) => (
+                            <tr key={index} className="Standing-tbody-tr">
+                                <td>{index + 1}</td>
+                                <td>{team.name}</td>
+                            </tr>
+                        ))
+                    }
                     {/* {conferenceStanding.map((team, index) => (
                         <TeamRow    
                             key={team.name}

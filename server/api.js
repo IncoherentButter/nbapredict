@@ -50,6 +50,16 @@ router.post("/initsocket", (req, res) => {
 // |------------------------------|
 
 
+const data = {
+  prediction: [
+    {
+      user_id: 0,
+      westStandings: [],
+      eastStandings: [],
+    }
+  ]
+}
+
 const westStandings = [];
 const eastStandings = [];
 
@@ -69,29 +79,74 @@ const eastStandings = [];
 //   newStory.save().then((newUser) => res.send(newUser));
 // });
 
+// Send back a prediction to the frontend!
 router.get("/standingprediction", (req, res) => {
   // find user -> find league -> return standingprediction
-  // StandingPrediction.findById(req.query.userid).then((user) => {
-  //   res.send(user);
+
+
+  //-------WORKSHOP 5 METHOD------------
+  console.log(`Req input for get standingpreds: ${req.user_id}`);
+  // const userId = req.query.user_id;
+
+  // // return the standings for user's with the same ID as in the GET request.
+  // const filteredStandings = data.prediction.filter((prediction) => {
+  //   return prediction.user_id == userId;
+  // })
+
+  // res.send(filteredStandings.westStandings, filteredStandings.eastStandings); //workshop 5
+  //------------------------------------
+
+  //-------WORKSHOP 6 METHOD------------
+  // pull from StandingPrediction collection, unfiltered, then send those results
+  StandingPrediction.find({user_id: req.query.user_id}).then((standingPredictions) => {
+    res.send(standingPredictions)
+  })
+
+  //------------------------------------
+
+  //--NOT SURE IF BELOW WORKS
+  // User.findById(req.query.user_id).then(() => {
+  //   // res.send(getSumOfSquareDistances(req.west_predictions, sample_western_standings) + getSumOfSquareDistances(req.east_predictions, sample_eastern_standings));
+  //   StandingPrediction.find({}).then()
+  //   westStandings = req.query.west_predictions; 
+  //   eastStandings = req.query.east_predictions;
+  //   res.send(westStandings, eastStandings);
   // });
-  User.findById(req.query.user_id).then(() => {
-    // res.send(getSumOfSquareDistances(req.west_predictions, sample_western_standings) + getSumOfSquareDistances(req.east_predictions, sample_eastern_standings));
-    StandingPrediction.find({}).then()
-    westStandings = req.query.west_predictions; 
-    eastStandings = req.query.east_predictions;
-    res.send(westStandings, eastStandings);
-  });
+  //------------------------------------
 });
 
 router.post("/standingprediction", (req, res) => {
   console.log(`Received a standing prediction from ${req.user_id}`);
   console.log(`Req = ${req}`);
 
+  //------------WORKSHOP 5 METHOD----------
+  // const newWS5Prediction = {
+  //   user_id: data.prediction.length,
+  //   westStandings: [],
+  //   eastStandings: [],
+  // };
+
+  // data.prediction.push(newWS5Prediction);
+  // res.send(newWS5Prediction);
+
+  // const newStandingPrediction = new StandingPrediction({
+  //   user_id: req.user._id,
+  //   west_predictions: req.body.west_predictions,
+  //   east_predictions: req.body.east_predictions,
+  // });
+  //----------------------------------------
+
+  //------------WORKSHOP 6 METHOD---------
   const newStandingPrediction = new StandingPrediction({
-    user_id: req.user._id,
+    user_id: req.body.user_id,
     west_predictions: req.body.west_predictions,
     east_predictions: req.body.east_predictions,
   });
+
+  //Save the Mongoose document and then send it back to the client
+  newStandingPrediction.save().then((newStandingPrediction) => res.send(newStandingPrediction));
+
+  //--------------------------------------
 
   // const west_score = getSumOfSquareDistances(newStandingPrediction.west_predictions, sample_western_standings);
   // const east_score = getSumOfSquareDistances(newStandingPrediction.east_predictions, sample_eastern_standings);
@@ -103,7 +158,7 @@ router.post("/standingprediction", (req, res) => {
 
   // }
 
-  newStandingPrediction.save().then((newStandingPrediction) => res.send(newStandingPrediction)); 
+  // newStandingPrediction.save().then((newStandingPrediction) => res.send(newStandingPrediction)); 
 });
 
 

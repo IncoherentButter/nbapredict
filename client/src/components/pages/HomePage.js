@@ -3,6 +3,8 @@ import { socket } from "../../client-socket.js";
 import ConferenceTable from "../modules/ConferenceTable.js";
 import Teams from "../../team-enums.js";
 import SampleStandings from "../../team-enums.js";
+import { post } from "../../utilities";
+import { get } from "../../utilities"
 
 import "./HomePage.css";
 
@@ -301,15 +303,49 @@ WASHINGTON_WIZARDS: {
     teams.TORONTO_RAPTORS,
     teams.WASHINGTON_WIZARDS
   ];
-
+  // initialize useState for Western and Eastern standings
   const [westernStandings, setWesternStandings] = useState(
     sample_western_standings
   );
+
   const [easternStandings, setEasternStandings] = useState(
     sample_eastern_standings
   );
+  
 
-  console.log("----TYPE OF WEST STAND");
+  //------Update standings if possible-------
+  useEffect(() => {
+    get("/api/standingprediction", { user_id: props.user_id}).then((standingPrediction) => {
+        const westStandings = standingPrediction.west_predictions;
+        const eastStandings = standingPrediction.east_predictions;
+        // const firstTeam = westStandings[0];
+        console.log(`GET RES westernStandings team 1 = ${typeof westStandings}`)
+        if (westStandings != undefined){
+          setWesternStandings(westStandings);
+        }
+        if (eastStandings != undefined){
+          setEasternStandings(eastStandings);
+        }
+    });
+  }, []); 
+
+  const handlePredictionSubmit = (event) => {
+    event.preventDefault();
+    const newStandingPrediction = {user_id: props.userId, west_predictions: westernStandings, east_predictions: easternStandings};
+    // console.log(`PRE-POST westernStandings team 1 = ${westernStandings[0].name}`)
+    post("/api/standingprediction", newStandingPrediction).then((prediction) => {
+      // setScore(res.score);
+      if (westernStandings != undefined){
+        const firstTeam = westernStandings[0];
+        if (firstTeam != undefined){
+          console.log(`POST RES westernStandings team 1 = ${firstTeam.name}`)
+        }
+      }
+      console.log("POST standingprediction went through!")
+    })
+  }
+
+  console.log("----TYPE OF WEST STANDING");
   console.log(typeof westernStandings);
   console.log(westernStandings);
 
@@ -326,11 +362,7 @@ WASHINGTON_WIZARDS: {
       <div>
         <button
           className="button-71"
-          onClick={() => {
-            post("/api/standingprediction", { user_id: props.userId, west_predictions: westernStandings, east_predictions: easternStandings}).then((res) => {
-              // setScore(res.score);
-            })
-          }}
+          onClick={handlePredictionSubmit}
         >
           Submit
         </button>
@@ -434,9 +466,13 @@ WASHINGTON_WIZARDS: {
         {/* {console.log("TYPE OF SAMPLE STANDINGS")}
         {console.log(typeof(sample_western_standings))} */}
         {/* <p><ConferenceTable is_editable={true} west_teams={westernStandings} east_teams={easternStandings} league_id={user.userId}/></p> */}
-        <p><ConferenceTable is_editable={true} west_teams={westernStandings} east_teams={easternStandings} user_id={props.user_id} setUserStandings={setUserStandings}/></p>
+        <div>
+          <ConferenceTable is_editable={true} west_teams={westernStandings} east_teams={easternStandings} user_id={props.user_id} setUserStandings={setUserStandings}/>
+        </div>
         <div className="HomePage-Submit-button">{submitButton}</div>
-        <p><ConferenceTable is_editable={false} west_teams={sample_western_standings} east_teams={sample_eastern_standings} user_id={props.user_id} setUserStandings={setUserStandings}/></p>
+        <div>
+          <ConferenceTable is_editable={false} west_teams={sample_western_standings} east_teams={sample_eastern_standings} user_id={props.user_id} setUserStandings={setUserStandings}/>
+        </div>
         {/* <div className="HomePage-Submit-button Disabed">{scoreButton}</div> */}
       </div>
       <div>

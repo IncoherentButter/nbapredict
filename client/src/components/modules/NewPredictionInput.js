@@ -15,7 +15,7 @@ import "./NewPredictionInput.css";
 
 const NewPredictionInput = (props) => {
     const [value, setValue] = useState([]);
-
+    
     // called whenever the user types in the new post input box
     const handleChange = (event) => {
         setValue(event.target.value);
@@ -53,7 +53,7 @@ const NewPredictionInput = (props) => {
 
 const NewPrediction = (props) => {
     const addPrediction = (value) => {
-        const body = {user_id: props.storyId, west_predictions: props.west_predictions, east_predictions: props.east_predictions};
+        const body = {user_id: props.userId, west_predictions: props.west_predictions, east_predictions: props.east_predictions};
         post("/api/standingprediction", body).then((newStandingPrediction) => {
           // display this comment on the screen
           props.addPrediction(newStandingPrediction);
