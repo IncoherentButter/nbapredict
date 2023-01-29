@@ -578,3 +578,4 @@ client/src/bootstrap-table-master/src/vue/index.js
 client/src/bootstrap-table-master/tools/check-api.js
 client/src/bootstrap-table-master/tools/check-locale.js
 client/src/bootstrap-table-master/tools/README.md
+client/src/bootstrap-table-master/bootstrap-table.jquery.json

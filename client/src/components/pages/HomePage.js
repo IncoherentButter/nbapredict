@@ -5,8 +5,11 @@ import Teams from "../../team-enums.js";
 import SampleStandings from "../../team-enums.js";
 import { post } from "../../utilities";
 import { get } from "../../utilities"
+import getSumOfSquareDistances from "../../ranking-logic"
 
 import "./HomePage.css";
+
+import * as NBAIcons from 'react-nba-logos';
 
 
 /**
@@ -15,6 +18,7 @@ import "./HomePage.css";
  * Proptypes
  * @param {string} user_id id of current logged in user
  */
+
 const HomePage = (props) => {
   const [activeUsers, setActiveUsers] = useState([]);
 
@@ -23,6 +27,17 @@ const HomePage = (props) => {
   //   recipient: ALL_CHAT,
   //   messages: [],
   // });
+  let teamAbbreviations = ["ATL", "BKN", "BOS", "CHA", "CHI", "CLE", "DAL", "DEN", "DET", "GSW", "HOU", "IND", "LAC", "LAL", "MEM", "MIA", "MIL", "MIN", "NOP", "NYK", "OKC", "ORL", "PHI", "PHX", "POR", "SAC", "SAS", "TOR", "UTA", "WAS"];
+  let teamLogoElements = [];
+  for (let i = 0; i < teamAbbreviations.length; i++) {
+    let teamAbbr = teamAbbreviations[i];
+    let teamLogo = document.createElement(`NBAIcons.${teamAbbr}`);
+    teamLogo.setAttribute("size", 25);
+    teamLogoElements.push(teamLogo);
+    
+    // You can add here other attributes to the element
+    // append the element to some parent element or do something else with it
+  }
   const teams = {ATLANTA_HAWKS: {
     name: "Atlanta Hawks",
     logo: "https://www.example.com/hawks-logo.png",
@@ -315,48 +330,72 @@ WASHINGTON_WIZARDS: {
 
   //------Update standings if possible-------
   useEffect(() => {
-    get("/api/standingprediction", { user_id: props.user_id}).then((standingPrediction) => {
+    get("/api/standingprediction", { user_id: props.user_id }).then((standingPrediction) => {
+        //------DEBUGGING------------------
+        console.log(`user id = ${props.user_id}`)
+        if (standingPrediction != undefined){
+          console.log("STANDINGPREDICTION IS DEFINED")
+        }
+        // console.log(`GET standingPrediction = ${JSON.stringify(standingPrediction)}`)
+        // console.log(`GET type of response: ${typeof standingPrediction}`)
+        // console.log(`GET west_predictions = ${standingPrediction["west_predictions"]}`)
+        //--------DEBUGGING BREAK----------
+
+
         const westStandings = standingPrediction.west_predictions;
         const eastStandings = standingPrediction.east_predictions;
-        // const firstTeam = westStandings[0];
         console.log(`GET RES westernStandings team 1 = ${typeof westStandings}`)
         if (westStandings != undefined){
+          console.log(`DEFINED GET RES westernStandings team 1 = ${westStandings[0].name}`)
           setWesternStandings(westStandings);
-        }
+          setUserStandings(props.user_id, westStandings, null, true);
+        } else{console.log(`westStandings UNDEFINED`)}
         if (eastStandings != undefined){
           setEasternStandings(eastStandings);
+          setUserStandings(props.user_id, null, eastStandings, false);
         }
     });
+    // delete("/api/standingprediction", {user_id: props.user_id}).then(() => {
+    //   console.log("deleted it alllll");
+    // });
+    console.log(`Finished GET Standingprediction`)
   }, []); 
+
 
   const handlePredictionSubmit = (event) => {
     event.preventDefault();
-    const newStandingPrediction = {user_id: props.userId, west_predictions: westernStandings, east_predictions: easternStandings};
-    // console.log(`PRE-POST westernStandings team 1 = ${westernStandings[0].name}`)
+    const newStandingPrediction = {user_id: props.user_id, west_predictions: westernStandings, east_predictions: easternStandings};
+    // console.log(`handlePredictionSubmit: newStandings = ${JSON.stringify(newStandingPrediction)}`)
+    newStandingPrediction.west_predictions.forEach((team, index) => {
+      console.log(`Team at index=${index} is ${team.name}`);
+    })  
     post("/api/standingprediction", newStandingPrediction).then((prediction) => {
       // setScore(res.score);
       if (westernStandings != undefined){
-        const firstTeam = westernStandings[0];
+        const firstTeam = prediction.west_predictions[0];
         if (firstTeam != undefined){
           console.log(`POST RES westernStandings team 1 = ${firstTeam.name}`)
         }
       }
       console.log("POST standingprediction went through!")
+      const west_score = getSumOfSquareDistances(newStandingPrediction.west_predictions, sample_western_standings);
+      const east_score = getSumOfSquareDistances(newStandingPrediction.east_predictions, sample_eastern_standings);
+      const total_score = west_score + east_score;
+      setScore(total_score);
+
     })
   }
 
-  console.log("----TYPE OF WEST STANDING");
-  console.log(typeof westernStandings);
-  console.log(westernStandings);
 
-  let conferenceTable = {westernStandings, easternStandings};
-  let changedConferenceTable = false;
 
 
   //------SUBMIT BUTTON-------
   const [score, setScore] = useState(0);
   let scoreButton = null;
   let submitButton = null;
+  let CreateLeagueButton = null;
+  let JoinLeagueButton = null;
+  let ViewLeagueButton = null;
   if (props.user_id) {
     submitButton = (
       <div>
@@ -370,11 +409,6 @@ WASHINGTON_WIZARDS: {
     );
   }
   //-------------------------
-  // useEffect(() => {
-  //   get("/api/standingprediction", { user_id: props.userId, west_predictions: westernStandings, east_predictions: easternStandings }).then((score) =>{
-  //     setScore(res.score);
-  //   });
-  // }, []);
   scoreButton = (
     <div>
       <button
@@ -384,75 +418,55 @@ WASHINGTON_WIZARDS: {
       </button>
     </div>
   );
+  
+  CreateLeagueButton = (
+    <div>
+      <button
+      className="button-72"
+      onClick={()=>{console.log("create league clicked")}}
+      >CreateLeague</button>
+    </div>
+  );
+  JoinLeagueButton = (
+    <div>
+      <button
+      className="button-72"
+      onClick={()=>{console.log("join league clicked")}}
+      >Join League</button>
+    </div>
+  );
+
+  ViewLeagueButton = (
+    <div>
+      <button
+      className="button-72"
+      onClick={()=>{console.log("view league clicked")}}
+      >View Your Leagues</button>
+    </div>
+  );
 
 
-
-
-  // useEffect(() => {
-  //   const score = get("/api/standingprediction", { user_id: user.userId, west_predictions: westernStandings, east_predictions: easternStandings });
-  //   setScore(score);
-
-  // }, submitButton);
-  // let scoreButton = (
-  //   <div>
-  //     <button
-  //     className="button-49">
-  //       {score}
-  //     </button>
-  //   </div>
-  //   )
-
-
-  // const loadMessageHistory = (recipient) => {
-  //   get("/api/chat", { recipient_id: recipient._id }).then((messages) => {
-  //     setActiveChat({
-  //       recipient: recipient,
-  //       messages: messages,
-  //     });
-  //   });
-  // };
-  // get("/api/standingprediction", { user_id: props.userId, west_predictions: westernStandings, east_predictions: easternStandings })
-  // if (props.user_id && )
 
 
   //--------------------
   
   //------method that updates user predictions LOCALLY (Submit button sends POST req)
   const setUserStandings = (user, tempWestStandings, tempEastStandings, isWest) => {
-    if (!user.userId){
+    if (user !== props.user_id){
+      console.log(`Ids dont match!`)
+      console.log(`user parameter = ${user}, user prop is ${props.user_id}`)
       return;
     }
     if (isWest){
+      console.log(`Is west, updating standings!`)
+      console.log(`setUserStandings parameter West team 1 = ${tempWestStandings[0].name}`)
       setWesternStandings(tempWestStandings);
+      console.log(`setUserStandings updated West team 1 = ${westernStandings[0].name}`)
     } else {
+      console.log(`Is east, updating standings!`)
       setEasternStandings(tempEastStandings);
     }
-  };
-
-
-  // When conferenceTable changes, we
-  // useEffect(() => {
-
-  // }, changedConferenceTable);
-
-
-
-  //-----------Get user's predictions and post them----
-  // 
-  // useEffect(() => {
-  //   get("/api/standingprediction", { user_id: user.userId }).then((westernStandings) => {
-  //     setWesternStandings();
-  //   });
-  // }, []);
-
-
-  // useEffect(() => {
-  //   document.title = "NBAPredict";
-  // }, []);
-
-  
-  // const dayInMilliseconds = 1000 * 60 * 60 * 24;
-  // setInterval(scrape(),dayInMilliseconds );  
+  }; 
 
   if (!props.user_id) {
     return <div>Log in before using NBAPredict</div>;
@@ -460,12 +474,8 @@ WASHINGTON_WIZARDS: {
   return (
     <>
       <div className="HomePage-container">
-        {/*CreateLeagueButton*/}
         {/*JoinLeagueButton*/}
         {/*YourLeaguesButton*/}
-        {/* {console.log("TYPE OF SAMPLE STANDINGS")}
-        {console.log(typeof(sample_western_standings))} */}
-        {/* <p><ConferenceTable is_editable={true} west_teams={westernStandings} east_teams={easternStandings} league_id={user.userId}/></p> */}
         <div>
           <ConferenceTable is_editable={true} west_teams={westernStandings} east_teams={easternStandings} user_id={props.user_id} setUserStandings={setUserStandings}/>
         </div>
@@ -473,11 +483,13 @@ WASHINGTON_WIZARDS: {
         <div>
           <ConferenceTable is_editable={false} west_teams={sample_western_standings} east_teams={sample_eastern_standings} user_id={props.user_id} setUserStandings={setUserStandings}/>
         </div>
-        {/* <div className="HomePage-Submit-button Disabed">{scoreButton}</div> */}
       </div>
       <div>
         <span className="HomePage-Score-button Disabed">{scoreButton}</span>
       </div>
+      <div className="HomePage-Create-button">{CreateLeagueButton}</div>
+      <div className="HomePage-Join-button">{JoinLeagueButton}</div>
+      <div className="HomePage-View-button">{ViewLeagueButton}</div>
     </>
   );
 }

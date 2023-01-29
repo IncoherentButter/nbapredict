@@ -1,14 +1,39 @@
 .Standing-Table{
+    display: flex;
+    flex-direction: column;
     table-layout: fixed;
     width: 100%;
     border-collapse: collapse;
-    border: 1.5px solid white;
+    border: 1.5px solid rgb(21, 8, 8);
+    gap: 1em
 }
 
+.Standing-moveable-tbody-tr{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 2em;
+    flex: 1;
+}
+
+.Standing-moveable-teamSeed{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.Standing-moveable-teamLogo{
+    /* flex-grow: 2; */
+}
+
+/* .Standing-moveable-teamName{
+    flex-grow: 2;
+} */
 
 .Standing-tbody-tr{
     background-color: rgb(145, 189, 174);
 }
+
 .TeamCard-name{
     font-family: Arial, Helvetica, sans-serif;
 }

@@ -1,11 +1,12 @@
 import React from "react";
 import { Link } from "@reach/router";
-// import GoogleLogin, { GoogleLogout } from "react-google-login";
+import { GoogleOAuthProvider, googleLogout } from "@react-oauth/google";
+import GoogleLogin, { GoogleLogout } from "react-google-login";
 
 import "./NavBar.css";
 
 // This identifies your web application to Google's authentication service
-const GOOGLE_CLIENT_ID = "395785444978-7b9v7l0ap2h3308528vu1ddnt3rqftjc.apps.googleusercontent.com";
+const GOOGLE_CLIENT_ID = "449503962510-3bph545kka03uneu6bqv8gvrckl4flub.apps.googleusercontent.com";
 
 /**
  * The navigation bar at the top of all pages. Takes no props.
@@ -33,7 +34,7 @@ const NavBar = (props) => {
         {/* <Link to="/game/" className="NavBar-link">
           Game
         </Link> */}
-        {/* {props.userId ? (
+        {props.userId ? (
           <GoogleLogout
             clientId={GOOGLE_CLIENT_ID}
             buttonText="Logout"
@@ -46,10 +47,13 @@ const NavBar = (props) => {
             clientId={GOOGLE_CLIENT_ID}
             buttonText="Login"
             onSuccess={props.handleLogin}
-            onFailure={(err) => console.log(err)}
+            onFailure={(err) => {
+              console.log(err)
+              console.log("LOGIN FAILED")
+            }}
             className="NavBar-link NavBar-login"
           />
-        )} */}
+        )}
       </div>
     </nav>
   );
