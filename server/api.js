@@ -16,7 +16,6 @@ const express = require("express");
 const User = require("./models/user");
 // const League = require("./models/league");
 const StandingPrediction = require("./models/standingprediction");
-const Dummy = require("./models/standingprediction");
 
 
 // import authentication library
@@ -28,6 +27,7 @@ const router = express.Router();
 //initialize socket
 const socketManager = require("./server-socket");
 const e = require("express");
+const { Mongoose } = require("mongoose");
 
 router.post("/login", auth.login);
 router.post("/logout", auth.logout);
@@ -350,44 +350,91 @@ const sample_eastern_standings = [
 
 
 router.get("/standingprediction", (req, res) => {
-  // find user -> find league -> return standingprediction
-
-  // StandingPrediction.deleteMany({}).then((standingPrediction) =>{
-  //   console.log("Deleted");
-  // })
   console.log(`Req input for get standingpreds: ${req.query.user_id}`);
 
-  //-------WORKSHOP 6 METHOD------------
-  // pull from StandingPrediction collection, unfiltered, then send those results
   StandingPrediction.findOne({user_id: req.query.user_id}).then((standingPrediction) => {
     res.send(standingPrediction)
   })
 
-  // ------------------------------------
-
-  // // --NOT SURE IF BELOW WORKS
-  // User.findById(req.query.user_id).then(() => {
-  //   // res.send(getSumOfSquareDistances(req.west_predictions, sample_western_standings) + getSumOfSquareDistances(req.east_predictions, sample_eastern_standings));
-  //   StandingPrediction.find({}).then()
-  //   westStandings = req.query.west_predictions; 
-  //   eastStandings = req.query.east_predictions;
-  //   res.send(westStandings, eastStandings);
-  // });
-  //------------------------------------
 });
 
 router.post("/standingprediction", (req, res) => {
-  console.log(`Received a standing prediction from ${req.user_id}`);
-  console.log(`Req = ${req}`);
+  // console.log(`Received a standing prediction from ${req.body.user_id}`);
+  // console.log(`req.body west predictions = ${JSON.stringify(req.body.west_predictions)}`)
+  // console.log(`Req = ${req}`);
+  const filter = { user_id: req.body.user_id }
+  const incomingPrediction = new StandingPrediction({
+    user_id: req.body.user_id,
+    west_predictions: req.body.west_predictions,
+    east_predictions: req.body.east_predictions,
+  })
 
-  StandingPrediction.findOne({user_id: req.body.user_id}).then((standingPrediction) => {
-    standingPrediction.west_predictions = req.body.west_predictions;
-    standingPrediction.east_predictions = req.body.east_predictions;
-    // const west_score = getSumOfSquareDistances(newStandingPrediction.west_predictions, sample_western_standings);
-    // const east_score = getSumOfSquareDistances(newStandingPrediction.east_predictions, sample_eastern_standings);
-    // const total_score = west_score + east_score;
-    standingPrediction.save().then((standingPrediction) => res.send(standingPrediction));
-  });
+  StandingPrediction.findOneAndUpdate({user_id: req.body.user_id}, {$set: {west_predictions: req.body.west_predictions, east_predictions: req.body.east_predictions}}, {new: true, upsert: true}, (err, standingPrediction) => {
+    if (err) {
+      console.log(err);
+      return res.status(500).send("Error updating/creating standingPrediction");
+    }
+    return res.status(200).send(standingPrediction);
+    });
+
+  // StandingPrediction.findOneAndUpdate(filter, incomingPrediction, {new: true}, {useFindAndModify: false}).then((standingPrediction) => {
+  //   // console.log(`type of standingPrediction.wp is ${typeof standingPrediction.west_predictions}`)
+  //   // standingPrediction.west_predictions = req.body.west_predictions;
+  //   // standingPrediction.east_predictions = req.body.east_predictions;
+  //   // standingPrediction.save().then((standingPrediction) => res.send(standingPrediction));
+  //   incomingPrediction.save().then((incomingPrediction) => res.send(incomingPrediction));
+  // });
+
+
+
+
+
+
+  // StandingPrediction.exists({user_id: req.body.user_id}, function(err, result){
+  //   if (err){
+  //     console.log(`No Prediction exists`)
+  //   } else {
+  //     console.log(`A prediction exists!`)
+  //   }
+  // })
+  // // If no prediction exists for the given user yet, make a new one. Otherwise, update an existing one.
+  // StandingPrediction.exists({user_id: req.body.user_id}, function(err, result){
+    // if (err){
+    //   const newStandingPrediction = new StandingPrediction({
+    //     user_id: req.body.user_id,
+    //     west_predictions: req.body.west_predictions,
+    //     east_predictions: req.body.east_predictions,
+    //   });
+    //   newStandingPrediction.save().then((standingPrediction) => res.send(standingPrediction));
+    // } else {
+    //   console.log(`Result type: ${typeof result}`)
+    //   console.log(`Result wp: ${JSON.stringify(result.west_predictions)}`)
+
+    //   result.west_predictions = req.body.west_predictions;
+    //   result.east_predictions = req.body.east_predictions;
+    //   result.save().then((result) => res.send(result));
+      // StandingPrediction.findOne({user_id: req.body.user_id}).then((standingPrediction) => {
+      //   console.log(`type of standingPrediction.wp is ${JSON.stringify(standingPrediction)}`)
+      //   standingPrediction.west_predictions = req.body.west_predictions;
+      //   standingPrediction.east_predictions = req.body.east_predictions;
+      //   standingPrediction.save().then((standingPrediction) => res.send(standingPrediction));
+      // })
+    // }});
+
+  // if (predictionAlreadyExists){
+    // StandingPrediction.findOne({user_id: req.body.user_id}).then((standingPrediction) => {
+    //   console.log(`type of standingPrediction.wp is ${typeof standingPrediction.west_predictions}`)
+    //   standingPrediction.west_predictions = req.body.west_predictions;
+    //   standingPrediction.east_predictions = req.body.east_predictions;
+    //   standingPrediction.save().then((standingPrediction) => res.send(standingPrediction));
+    // });
+  // } else {
+  //   const newStandingPrediction = new StandingPrediction({
+  //     user_id: req.body.user_id,
+  //     west_predictions: req.body.west_predictions,
+  //     east_predictions: req.body.east_predictions,
+  //   });
+  // }
 
 
   

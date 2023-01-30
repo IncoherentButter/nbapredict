@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const LeagueSchema = new mongoose.Schema({
     league_id: String,
     league_name: String,
+    league_password: String,
     league_type: String,
     users: [{type: String}],
 });

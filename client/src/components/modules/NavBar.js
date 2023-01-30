@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "@reach/router";
-import { GoogleOAuthProvider, googleLogout } from "@react-oauth/google";
-import GoogleLogin, { GoogleLogout } from "react-google-login";
+import { GoogleOAuthProvider, GoogleLogin, googleLogout } from "@react-oauth/google";
+
 
 import "./NavBar.css";
 
@@ -19,22 +19,29 @@ const NavBar = (props) => {
       <div className="NavBar-title-red u-inlineBlock">Predict</div>
       {/* <div className="NavBar-title u-inlineBlock">book</div> */}
       <div className="NavBar-linkContainer u-inlineBlock">
-        {/* Home */}
-        {/* <Link to="/" className="NavBar-link">
-          Home
-        </Link> */}
-        {/* {props.userId && (
-          <Link to={`/profile/${props.userId}`} className="NavBar-link">
-            Profile
+        <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
+          {props.userId ? (
+            <button
+              onClick={() => {
+                googleLogout();
+                props.handleLogout();
+              }}
+            >
+              Logout
+            </button>
+          ) : (
+            <GoogleLogin onSuccess={props.handleLogin} onError={(err) => console.log(err)} />
+          )}
+        </GoogleOAuthProvider>
+        <Link to="/" className="NavBar-link"></Link>
+        
+        {props.userId && (
+          <Link to={`/${props.userId}`} className="NavBar-link">
+            UserPage
           </Link>
-        )} */}
-        {/* <Link to="/chat/" className="NavBar-link">
-          Chat
-        </Link> */}
-        {/* <Link to="/game/" className="NavBar-link">
-          Game
-        </Link> */}
-        {props.userId ? (
+        )}
+        <Link to={`/createleague`} className="NavBar-link"> CreateLeague</Link>
+        {/* {props.userId ? (
           <GoogleLogout
             clientId={GOOGLE_CLIENT_ID}
             buttonText="Logout"
@@ -49,11 +56,11 @@ const NavBar = (props) => {
             onSuccess={props.handleLogin}
             onFailure={(err) => {
               console.log(err)
-              console.log("LOGIN FAILED")
+              console.log("LOGIN FAILED") 
             }}
             className="NavBar-link NavBar-login"
           />
-        )}
+        )} */}
       </div>
     </nav>
   );

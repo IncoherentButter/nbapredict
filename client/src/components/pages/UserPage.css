@@ -1,0 +1,185 @@
+.UserPage-container {
+    display: flex;
+    justify-content: space-around;
+}
+
+.UserPage-ConferenceTable-container{
+    display: flex;
+}
+
+.UserPage-Submit-button {
+    display: block;
+    margin: auto;
+}
+
+.UserPage-Score-button {
+  display: flex;
+  margin: 20;
+  padding-bottom: 2%;
+  align-self: center;
+  vertical-align: 50;
+  justify-content: center;
+}
+
+.UserPage-Create-button {
+  display: flex;
+  margin: 20;
+  padding-left: 10%;
+  padding-bottom: 25px;
+  align-self: center;
+  vertical-align: 50;
+  justify-content: left;
+}
+.UserPage-Join-button {
+  display: flex;
+  margin: 20;
+  padding-left: 10%;
+  padding-bottom: 25px;
+  align-self: center;
+  vertical-align: 50;
+  justify-content: left;
+}
+.UserPage-View-button {
+  display: flex;
+  margin: 20;
+  padding-left: 10%;
+  padding-bottom: 10px;
+  align-self: center;
+  vertical-align: 50;
+  justify-content: left;
+}
+
+
+
+/* CSS */
+.button-71 {
+  background-color: #0078d0;
+  border: 0;
+  border-radius: 56px;
+  color: #fff;
+  cursor: pointer;
+  display: inline-block;
+  font-family: system-ui,-apple-system,system-ui,"Segoe UI",Roboto,Ubuntu,"Helvetica Neue",sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  outline: 0;
+  padding: 16px 21px;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  transition: all .3s;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+.button-71:before {
+  background-color: initial;
+  background-image: linear-gradient(#fff 0, rgba(255, 255, 255, 0) 100%);
+  border-radius: 125px;
+  content: "";
+  height: 50%;
+  left: 4%;
+  opacity: .5;
+  position: absolute;
+  top: 0;
+  transition: all .3s;
+  width: 92%;
+}
+
+.button-71:hover {
+  box-shadow: rgba(255, 255, 255, .2) 0 3px 15px inset, rgba(0, 0, 0, .1) 0 3px 5px, rgba(0, 0, 0, .1) 0 10px 13px;
+  transform: scale(1.05);
+}
+
+@media (min-width: 768px) {
+  .button-71 {
+    padding: 16px 48px;
+  }
+}
+
+.Disabled{
+  pointer-events: none;
+  cursor: not-allowed;
+  /* opacity: 0.65; */
+  /* filter: alpha(opacity=65); */
+  /* -webkit-box-shadow: none; */
+  /* box-shadow: none; */
+}
+
+
+/* CSS */
+.button-76 {
+  background-color: #cf245f;
+  background-image: linear-gradient(to bottom right, #fcd34d, #ef4444, #ec4899);
+  border: 0;
+  border-radius: .25rem;
+  box-sizing: border-box;
+  color: #fff;
+  cursor: pointer;
+  font-family: ui-sans-serif,system-ui,-apple-system,system-ui,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+  font-size: 1.125rem; /* 18px */
+  font-weight: 600;
+  line-height: 1.75rem; /* 28px */
+  padding: 1rem 1.25rem;
+  text-align: center;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+.button-76:hover {
+  box-shadow: none;
+}
+
+@media (min-width: 1024px) {
+  .button-76 {
+    font-size: 1.5rem; /* 24px */
+    padding: 1rem 1.5rem;
+    line-height: 2rem; /* 32px */
+  }
+}
+
+
+
+
+
+
+/* CSS */
+.button-72 {
+  align-items: center;
+  background-color: initial;
+  background-image: linear-gradient(rgba(179, 132, 201, .84), rgba(57, 31, 91, .84) 50%);
+  border-radius: 42px;
+  border-width: 0;
+  box-shadow: rgba(57, 31, 91, 0.24) 0 2px 2px,rgba(179, 132, 201, 0.4) 0 8px 12px;
+  color: #FFFFFF;
+  cursor: pointer;
+  display: flex;
+  font-family: Quicksand,sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  justify-content: center;
+  letter-spacing: .04em;
+  line-height: 16px;
+  margin: 0;
+  padding: 18px 18px;
+  text-align: center;
+  text-decoration: none;
+  text-shadow: rgba(255, 255, 255, 0.4) 0 0 4px,rgba(255, 255, 255, 0.2) 0 0 12px,rgba(57, 31, 91, 0.6) 1px 1px 4px,rgba(57, 31, 91, 0.32) 4px 4px 16px;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  vertical-align: baseline;
+}
+
+.button-72:hover {
+  background-image: linear-gradient(#B384C9, #391F5B 50%);
+}
+
+@media (min-width: 768px) {
+  .button-72 {
+    font-size: 21px;
+    padding: 18px 34px;
+  }
+}

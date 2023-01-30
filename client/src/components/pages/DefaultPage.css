@@ -1,18 +1,29 @@
-.HomePage-container {
+
+
+.DefaultPage-ConferenceTableContainer{
     display: flex;
-    justify-content: space-around;
+    box-sizing: border-box;
+
+    position: absolute;
+    width: 620px;
+    height: 750px;
+    left: 640px;
+    top: 179px;
+    
+    background: #111344;
+    border: 1px solid #000000;
+    border-radius: 25px;
+
+    justify-content: center;
 }
 
-.HomePage-ConferenceTable-container{
-    display: flex;
-}
 
-.HomePage-Submit-button {
+.UserPage-Submit-button {
     display: block;
     margin: auto;
 }
 
-.HomePage-Score-button {
+.UserPage-Score-button {
   display: flex;
   margin: 20;
   padding-bottom: 2%;
@@ -21,7 +32,7 @@
   justify-content: center;
 }
 
-.HomePage-Create-button {
+.UserPage-Create-button {
   display: flex;
   margin: 20;
   padding-left: 10%;
@@ -30,7 +41,7 @@
   vertical-align: 50;
   justify-content: left;
 }
-.HomePage-Join-button {
+.UserPage-Join-button {
   display: flex;
   margin: 20;
   padding-left: 10%;
@@ -38,8 +49,10 @@
   align-self: center;
   vertical-align: 50;
   justify-content: left;
+
+    
 }
-.HomePage-View-button {
+.UserPage-View-button {
   display: flex;
   margin: 20;
   padding-left: 10%;
@@ -152,7 +165,7 @@
   background-image: linear-gradient(rgba(179, 132, 201, .84), rgba(57, 31, 91, .84) 50%);
   border-radius: 42px;
   border-width: 0;
-  box-shadow: rgba(57, 31, 91, 0.24) 0 2px 2px,rgba(179, 132, 201, 0.4) 0 8px 12px;
+  box-shadow: rgba(129, 85, 129, 0.24) 0 2px 2px,rgba(179, 132, 201, 0.4) 0 8px 12px;
   color: #FFFFFF;
   cursor: pointer;
   display: flex;
@@ -171,10 +184,22 @@
   -webkit-user-select: none;
   touch-action: manipulation;
   vertical-align: baseline;
+
+  box-sizing: border-box;
+
+position: absolute;
+width: 487px;
+height: 131px;
+left: 30px;
+top: 464px;
+
+background: #F9CFF2;
+border: 1px solid #000000;
+border-radius: 50px;
 }
 
 .button-72:hover {
-  background-image: linear-gradient(#B384C9, #391F5B 50%);
+  background-image: linear-gradient(#F9CFF2, #d6b2d0 50%);
 }
 
 @media (min-width: 768px) {

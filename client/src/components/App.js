@@ -14,7 +14,9 @@ import { socket } from "../client-socket.js";
 import { get, post } from "../utilities";
 
 // import { scrape } from "../bbref-scraper.js";
-import HomePage from "./pages/HomePage.js";
+import UserPage from "./pages/UserPage.js";
+import DefaultPage from "./pages/DefaultPage.js";
+import CreateLeague from "./pages/CreateLeague.js";
 
 // import { DndProvider } from 'react-dnd';
 // import { HTML5Backend } from 'react-dnd-html5-backend';
@@ -59,8 +61,10 @@ const App = () => {
       <NavBar handleLogin={handleLogin} handleLogout={handleLogout} userId={userId}/>
       <div className="App-container">
         <Router>
-          <HomePage path="/" user_id="Ryan"/>
           {/* <Skeleton path="/" handleLogin={handleLogin} handleLogout={handleLogout} userId={userId} /> */}
+          {/* <DefaultPage path="/"/> */}
+          <UserPage path="/" user_id={userId}/>
+          <CreateLeague path="/createleague/" user_id={userId}/>
           <NotFound default />
         </Router>
       </div>

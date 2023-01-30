@@ -223,33 +223,17 @@ const TeamToLogo = (props) =>{
 }
 
 const Standing = (props) => {
-    // const [conferenceStanding, setConferenceStanding] = useState(props.teams);
-    // const [firstRowIndex, setFirstRowIndex] = useState(-1);
-    // const [secondRowIndex, setSecondRowIndex] = useState(-2);
     const [teams, setTeams] = useState(props.teams);
+
+    useEffect(() => {
+        if (JSON.stringify(props.teams) != JSON.stringify(teams)) {
+            setTeams(props.teams);
+        }
+    }, [props.teams]);
 
     // teams.forEach((team, index) => {
     //     console.log(`Team at index=${index} is ${team.name}`);
     // })
-
-    // Handles the logic for drag and drop
-    function moveTeam(dragIndex, hoverIndex) {
-        const newTeams = [...teams];
-        const [draggedTeam] = newTeams.splice(dragIndex, 1); //remove the dragged team, assign to draggedTeam
-        newTeams.splice(hoverIndex, 0, draggedTeam); //insert draggedTeam after the team at hoverIndex
-        setTeams(newTeams); //update teams
-    }
-
-    function array_move(arr, old_index, new_index) {
-        if (new_index >= arr.length) {
-            var k = new_index - arr.length + 1;
-            while (k--) {
-                arr.push(undefined);
-            }
-        }
-        arr.splice(new_index, 0, arr.splice(old_index, 1)[0]);
-        return arr; // for testing
-    };
 
     const moveRow = (dragIndex, hoverIndex) => {
         // console.log(`moveRow called. dragIndex = ${dragIndex}, hoverIndex = ${hoverIndex}`)
@@ -275,7 +259,7 @@ const Standing = (props) => {
                 ],
             })
         )
-        const newTeams = [...teams];
+        // const newTeams = [...teams];
         // setTeams(newTeams)
         
         // const firstTeam = newTeams[firstRowIndex];
@@ -284,16 +268,30 @@ const Standing = (props) => {
         // newTeams[secondRowIndex] = firstTeam;
 
         // setTeams(newTeams);
+        // if (props.is_west){
+        //     console.log(`Working with west.`)
+        //     console.log(`moveRow newTeams West team 1 = ${newTeams[0].name}`)
+        //     console.log(`moveRow West team 1 = ${teams[0].name}`)
+        //     console.log(`moveRow west standings = ${JSON.stringify(newTeams)}`)
+        //     props.setUserStandings(props.user_id, newTeams, [], true);
+        // } else{
+        //     console.log(`Working with east.`)
+        //     props.setUserStandings(props.user_id, [], newTeams, false);
+        // }
+    };
+
+    useEffect(() => {
         if (props.is_west){
             console.log(`Working with west.`)
-            console.log(`moveRow newTeams West team 1 = ${newTeams[0].name}`)
+            // console.log(`moveRow newTeams West team 1 = ${newTeams[0].name}`)
             console.log(`moveRow West team 1 = ${teams[0].name}`)
-            props.setUserStandings(props.user_id, newTeams, [], true);
+            console.log(`moveRow west standings = ${JSON.stringify(teams)}`)
+            props.setUserStandings(props.user_id, teams, [], true);
         } else{
             console.log(`Working with east.`)
-            props.setUserStandings(props.user_id, [], newTeams, false);
+            props.setUserStandings(props.user_id, [], teams, false);
         }
-    };
+    }, [teams])
     
 
     // const [firstRowIndex, setFirstRowIndex] = useState(0);
@@ -337,7 +335,7 @@ const Standing = (props) => {
                 <table className="Standing-Table">
                     <thead>
                         <tr>
-                            <th>Team</th>
+                            <th>Your Prediction</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -390,8 +388,8 @@ const Standing = (props) => {
                 <table className="Standing-Table">
                     <thead>
                         <tr>
-                            <th>Seed</th>
-                            <th>Team</th>
+                            <th>True</th>
+                            <th>Standings</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -470,57 +468,3 @@ const Standing = (props) => {
 
 export default Standing;
 
-{/* <Table
-className = "table table-hover table-responsive">
- <thead className="thead-dark">
-    
- </thead>
-</Table>  */}
-
-
-    // const getRowId = React.useCallback(row => {
-//         return row.id
-//     });
-
-//     const {
-//         getTableProps,
-//         getTableBodyProps,
-//         headerGroups,
-//         rows,
-//         prepareRow,
-//     } = useTable({
-//         data: records,
-//         columns,
-//         getRowId,
-//     });
-
-
-
-//     return (
-//     <table {...getTableProps()}>
-//         <thead>
-//             {headerGroups.map(headerGroup => (
-//             <tr {...headerGroup.getHeaderGroupProps()}>
-//                 <th></th>
-//                 {headerGroup.headers.map(column => (
-//                 <th {...column.getHeaderProps()}>{column.render('Header')}</th>
-//                 ))}
-//             </tr>
-//             ))}
-//         </thead>
-//         <tbody {...getTableBodyProps()}>
-//             {rows.map(
-//             (row, index) =>
-//                 prepareRow(row) || (
-//                 <Row
-//                     index={index}
-//                     row={row}
-//                     moveRow={moveRow}
-//                     {...row.getRowProps()}
-//                 />
-//                 )
-//             )}
-//         </tbody>
-//     </table>
-//     )
-// }

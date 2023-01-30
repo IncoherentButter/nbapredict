@@ -303,6 +303,16 @@ const ConferenceTable = (props) => {
     //states to hold our standings
     const [westStanding, setWestStanding] = useState(props.west_teams);
     const [eastStanding, setEastStanding] = useState(props.east_teams);
+
+    useEffect(() => {
+      console.log(westStanding);
+      setWestStanding(props.west_teams);
+    }, [props.west_teams]);
+
+    useEffect(() => {
+      console.log(eastStanding);
+      setEastStanding(props.east_teams);
+    }, [props.east_teams]);
     
     return ( 
         <div className="ConferenceTable-container">
