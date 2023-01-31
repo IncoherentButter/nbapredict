@@ -277,7 +277,7 @@
 
 
 /* CSS */
-.button-76 {
+/* .button-76 {
   background-color: #cf245f;
   background-image: linear-gradient(to bottom right, #fcd34d, #ef4444, #ec4899);
   border: 0;
@@ -287,17 +287,17 @@
   cursor: pointer;
   font-family: ui-sans-serif,system-ui,-apple-system,system-ui,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
   font-size: 1.125rem; /* 18px */
-  font-weight: 600;
-  line-height: 1.75rem; /* 28px */
-  padding: 1rem 1.25rem;
-  text-align: center;
+  /* font-weight: 600; */
+  /* line-height: 1.75rem; 28px */
+  /* padding: 1rem 1.25rem; */
+  /* text-align: center;
   user-select: none;
   -webkit-user-select: none;
   touch-action: manipulation;
 
-  box-sizing: border-box;
+  box-sizing: border-box; */
 
-  position: absolute;
+  /* position: absolute;
   width: 487px;
   height: 131px;
   left: 30px;
@@ -305,20 +305,20 @@
 
   background: #52154E;
   border: 1px solid #000000;
-  border-radius: 50px;
-}
+  border-radius: 50px; */
+/* }  */
 
-.button-76:hover {
+/* .button-76:hover {
   box-shadow: none;
-}
+} */
 
-@media (min-width: 1024px) {
+/* @media (min-width: 1024px) {
   .button-76 {
     font-size: 1.5rem; /* 24px */
-    padding: 1rem 1.5rem;
-    line-height: 2rem; /* 32px */
-  }
-}
+    /* padding: 1rem 1.5rem; */
+    /* line-height: 2rem; 32px */
+  /* } */
+/* } */ 
 
 
 

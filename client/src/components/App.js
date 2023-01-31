@@ -18,6 +18,7 @@ import UserPage from "./pages/UserPage.js";
 import DefaultPage from "./pages/DefaultPage.js";
 import CreateLeague from "./pages/CreateLeague.js";
 import JoinLeague from "./pages/JoinLeague.js";
+import YourLeagues from "./pages/YourLeagues.js";
 
 // import { DndProvider } from 'react-dnd';
 // import { HTML5Backend } from 'react-dnd-html5-backend';
@@ -67,6 +68,7 @@ const App = () => {
           <UserPage path="/UserPage" user_id={userId}/>
           <CreateLeague path="/createleague/" user_id={userId}/>
           <JoinLeague path="/JoinLeague"/>
+          <YourLeagues path="/YourLeagues/"/>
           <NotFound default />
         </Router>
       </div>

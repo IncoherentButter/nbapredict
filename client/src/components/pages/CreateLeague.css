@@ -3,6 +3,8 @@
     display:flex;
     flex-direction: column;
     padding-bottom: 10%;
+    justify-content: space-evenly;
+    
 }
 .CreateLeague-Header{
     display: flex;
@@ -12,11 +14,11 @@
     height: 126;
     box-sizing: border-box;
 
-    position: absolute;
+    /* position: absolute;
     width: 1348px;
     height: 126px;
     left: 45px;
-    top: 156px;
+    top: 156px; */
 
     background: #DAE0F2;
     border: 1px solid #000000;
@@ -41,7 +43,6 @@
     color: #000000;
 }
 
-
 .CreateLeague-InputContainer{
     display: flex;
     flex-direction: row;
@@ -63,6 +64,8 @@
     background: #DAE0F2;
     border: 1px solid #000000;
     border-radius: 18px;
+    padding-bottom: 10%;
+    margin: 10%
 }
 
 .CreateLeague-NameForm{
