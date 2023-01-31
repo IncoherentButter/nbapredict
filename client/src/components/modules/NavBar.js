@@ -33,14 +33,19 @@ const NavBar = (props) => {
             <GoogleLogin onSuccess={props.handleLogin} onError={(err) => console.log(err)} />
           )}
         </GoogleOAuthProvider>
-        <Link to="/" className="NavBar-link"></Link>
+        <Link to="/" className="NavBar-link">Home</Link>
         
-        {props.userId && (
-          <Link to={`/${props.userId}`} className="NavBar-link">
+        {/* {props.userId && (
+          <Link to={`/UserPage`} className="NavBar-link">
             UserPage
           </Link>
-        )}
+        )} */}
         <Link to={`/createleague`} className="NavBar-link"> CreateLeague</Link>
+        {props.userId && (
+          <Link to={`/UserPage`} className="NavBar-link-right">
+            Your Predictions
+          </Link>
+        )}
         {/* {props.userId ? (
           <GoogleLogout
             clientId={GOOGLE_CLIENT_ID}

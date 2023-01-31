@@ -312,8 +312,143 @@ WASHINGTON_WIZARDS: {
     teams.TORONTO_RAPTORS,
     teams.WASHINGTON_WIZARDS
   ];
+  const sample_actual_western_standings = [
+    teams.DALLAS_MAVERICKS,
+    teams.DENVER_NUGGETS,
+    teams.GOLDEN_STATE_WARRIORS,
+    teams.HOUSTON_ROCKETS,
+    teams.LOS_ANGELES_CLIPPERS,
+    teams.LOS_ANGELES_LAKERS,
+    teams.MEMPHIS_GRIZZLIES,
+    teams.MINNESOTA_TIMBERWOLVES,
+    teams.NEW_ORLEANS_PELICANS,
+    teams.OKLAHOMA_CITY_THUNDER,
+    teams.PHOENIX_SUNS,
+    teams.PORTLAND_TRAIL_BLAZERS,
+    teams.SACRAMENTO_KINGS,
+    teams.SAN_ANTONIO_SPURS,
+    teams.UTAH_JAZZ
+  ];
+  const sample_actual_eastern_standings = [
+    teams.ATLANTA_HAWKS,
+    teams.BOSTON_CELTICS,
+    teams.BROOKLYN_NETS,
+    teams.CHARLOTTE_HORNETS,
+    teams.CHICAGO_BULLS,
+    teams.CLEVELAND_CAVALIERS,
+    teams.DETROIT_PISTONS,
+    teams.INDIANA_PACERS,
+    teams.MIAMI_HEAT,
+    teams.MILWAUKEE_BUCKS,
+    teams.NEW_YORK_KNICKS,
+    teams.ORLANDO_MAGIC,
+    teams.PHILADELPHIA_76ERS,
+    teams.TORONTO_RAPTORS,
+    teams.WASHINGTON_WIZARDS
+  ];
+
+  const [actual_western_standings, setActualWesternStandings] = useState(sample_actual_western_standings);
+  const [actual_eastern_standings, setActualEasternStandings] = useState(sample_actual_eastern_standings);
+
 
   // initialize useState for Western and Eastern standings
+
+
+  function teamNameToTeamObject(teamName){
+    console.log(`Converted team with name ${teamName}`)
+    switch(teamName){
+      case "Atlanta Hawks":
+        return teams.ATLANTA_HAWKS;
+        break;
+      case "Boston Celtics":
+          return teams.BOSTON_CELTICS;
+          break;
+      case "Brooklyn Nets":
+          return teams.BROOKLYN_NETS;
+          break;
+      case "Charlotte Hornets":
+          return teams.CHARLOTTE_HORNETS;
+          break;
+      case "Chicago Bulls":
+          return teams.CHICAGO_BULLS;
+          break;
+      case "Cleveland Cavaliers":
+          return teams.CLEVELAND_CAVALIERS;
+      case "Dallas Mavericks":
+          return teams.DALLAS_MAVERICKS;
+      case "Denver Nuggets":
+          return teams.DENVER_NUGGETS
+      case "Detroit Pistons":
+          return teams.DETROIT_PISTONS;
+      case "Golden State Warriors":
+          return teams.GOLDEN_STATE_WARRIORS;
+      case "Houston Rockets":
+          return teams.HOUSTON_ROCKETS;
+      case "Indiana Pacers":
+          return teams.INDIANA_PACERS;
+      case "Los Angeles Clippers":
+          return teams.LOS_ANGELES_CLIPPERS;
+      case "Los Angeles Lakers":
+          return teams.LOS_ANGELES_LAKERS;
+      case "Memphis Grizzlies":
+          return teams.MEMPHIS_GRIZZLIES;
+      case "Miami Heat":
+          return teams.MIAMI_HEAT;
+      case "Milwaukee Bucks":
+          return teams.MILWAUKEE_BUCKS;
+      case "Minnesota Timberwolves":
+          return teams.MINNESOTA_TIMBERWOLVES;
+      case "New Orleans Pelicans":
+          return teams.NEW_ORLEANS_PELICANS;
+      case "New York Knicks":
+          return teams.NEW_YORK_KNICKS;
+      case "Oklahoma City Thunder":
+          return teams.OKLAHOMA_CITY_THUNDER;
+      case "Orlando Magic":
+          return teams.ORLANDO_MAGIC;
+      case "Philadelphia 76ers":
+          return teams.PHILADELPHIA_76ERS;
+      case "Phoenix Suns":
+          return teams.PHOENIX_SUNS;
+      case "Portland Trail Blazers":
+          return teams.PORTLAND_TRAIL_BLAZERS;
+      case "Sacramento Kings":
+          return teams.SACRAMENTO_KINGS;
+      case "San Antonio Spurs":
+          return teams.SAN_ANTONIO_SPURS;
+      case "Toronto Raptors":
+          return teams.TORONTO_RAPTORS;
+      case "Utah Jazz":
+          return teams.UTAH_JAZZ;
+      case "Washington Wizards":
+          return teams.WASHINGTON_WIZARDS;
+      default:
+          return teams.WASHINGTON_WIZARDS;
+    }
+  }
+
+  useEffect(() => {
+    get("/api/actualStanding").then((actualStandings) => {      
+      const westStandingsString = actualStandings.west_predictions;
+      const eastStandingsString = actualStandings.east_predictions;
+      const actualWestStandings = [];
+      const actualEastStandings = [];
+      console.log(`actualStanding GET RES actualWest team 1 = ${typeof westStandingsString}`)
+      if (westStandingsString != undefined){
+        for (let i = 0; i < westStandingsString.length; i++){
+          console.log(`GET actualStanding west team ${i} = ${westStandingsString[i]}`)
+          actualWestStandings.push(teamNameToTeamObject(westStandingsString[i]))
+        } 
+        setUserStandings(props.user_id, actualWestStandings, null, true, false);
+      }
+      if (eastStandingsString != undefined){
+        for (let i = 0; i < eastStandingsString.length; i++){
+          actualEastStandings.push(teamNameToTeamObject(eastStandingsString[i]))
+        } 
+        setUserStandings(props.user_id, null, actualEastStandings, false, false);
+      }
+    })}, [])
+
   const [westernStandings, setWesternStandings] = useState(
     sample_western_standings
   );
@@ -331,22 +466,20 @@ WASHINGTON_WIZARDS: {
           const eastStandings = standingPrediction.east_predictions;
           // console.log(`GET RES westernStandings team 1 = ${typeof westStandings}`)
           if (westStandings != undefined){
-            console.log(`DEFINED GET RES westernStandings team 1 = ${westStandings[0].name}`)
-            setWesternStandings(westStandings);
-            setUserStandings(props.user_id, westStandings, null, true);
-          } else{console.log(`westStandings UNDEFINED`)}
+            // console.log(`DEFINED GET RES westernStandings team 1 = ${westStandings[0].name}`)
+            // setWesternStandings(westStandings);
+            setUserStandings(props.user_id, westStandings, null, true, true);
+          } 
           if (eastStandings != undefined){
-            setEasternStandings(eastStandings);
-            setUserStandings(props.user_id, null, eastStandings, false);
+            // setEasternStandings(eastStandings);
+            setUserStandings(props.user_id, null, eastStandings, false, true);
           }
       })
-      console.log(`Finished GET Standingprediction`)
+      // console.log(`Finished GET Standingprediction`)
     }
   }, [props.user_id]);
   
   
-
-
   const handlePredictionSubmit = (event) => {
     event.preventDefault();
     const newStandingPrediction = {user_id: props.user_id, west_predictions: westernStandings, east_predictions: easternStandings};
@@ -364,8 +497,8 @@ WASHINGTON_WIZARDS: {
         }
       }
       console.log("POST standingprediction went through!")
-      const west_score = getSumOfSquareDistances(newStandingPrediction.west_predictions, sample_western_standings);
-      const east_score = getSumOfSquareDistances(newStandingPrediction.east_predictions, sample_eastern_standings);
+      const west_score = getSumOfSquareDistances(newStandingPrediction.west_predictions, actual_western_standings);
+      const east_score = getSumOfSquareDistances(newStandingPrediction.east_predictions, actual_eastern_standings);
       const total_score = west_score + east_score;
       setScore(total_score);
 
@@ -431,20 +564,31 @@ WASHINGTON_WIZARDS: {
   //--------------------
   
   //------method that updates user predictions LOCALLY 
-  const setUserStandings = (user, tempWestStandings, tempEastStandings, isWest) => {
+  const setUserStandings = (user, tempWestStandings, tempEastStandings, isWest, is_editable) => {
     if (user !== props.user_id){
       console.log(`Ids dont match!`)
       console.log(`user parameter = ${user}, user prop is ${props.user_id}`)
       return;
     }
+    console.log(`IS EDITABLE? ${is_editable}`)
     if (isWest){
       console.log(`Is west, updating standings!`)
       console.log(`setUserStandings parameter West team 1 = ${tempWestStandings[0].name}`)
-      setWesternStandings(tempWestStandings);
+      if (is_editable){
+        console.log(`setting west standings for editable section`)
+        setWesternStandings(tempWestStandings);
+      } else{
+        console.log(`setting west standings for uneditable section`)
+        setActualWesternStandings(tempWestStandings);
+      }
       console.log(`setUserStandings updated West team 1 = ${westernStandings[0].name}`)
     } else {
       console.log(`Is east, updating standings!`)
-      setEasternStandings(tempEastStandings);
+      if (is_editable){
+        setEasternStandings(tempEastStandings);
+      } else{
+        setActualEasternStandings(tempEastStandings);
+      }
     }
   }; 
 
@@ -463,7 +607,7 @@ WASHINGTON_WIZARDS: {
         </div>
         <div className="UserPage-Submit-button">{submitButton}</div>
         <div>
-          <ConferenceTable is_editable={false} west_teams={sample_western_standings} east_teams={sample_eastern_standings} user_id={props.user_id} setUserStandings={setUserStandings}/>
+          <ConferenceTable is_editable={false} west_teams={actual_western_standings} east_teams={actual_eastern_standings} user_id={props.user_id} setUserStandings={setUserStandings}/>
         </div>
       </div>
       <div>

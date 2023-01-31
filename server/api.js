@@ -16,6 +16,7 @@ const express = require("express");
 const User = require("./models/user");
 // const League = require("./models/league");
 const StandingPrediction = require("./models/standingprediction");
+const ActualStanding = require("./models/actualprediction");
 
 
 // import authentication library
@@ -51,16 +52,69 @@ router.post("/initsocket", (req, res) => {
 // | write your API methods below!|
 // |------------------------------|
 
+const cheerio = require('cheerio');
+const axios = require('axios');
 
-const data = {
-  prediction: [
-    {
-      user_id: 0,
-      westStandings: [],
-      eastStandings: [],
-    }
-  ]
+
+
+async function scrape() {
+  // const { data } = await axios.get(`https://www.basketball-reference.com/friv/standings.fcgi?month=${cur_month}&day=${cur_day}&year=${cur_year}`);
+  var today = new Date();
+  var dd = String(today.getDate()).padStart(2, '0');
+  var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+  var yyyy = today.getFullYear();
+  // const date = new Date();
+  // const cur_month = date.getMonth();
+  // const cur_day = date.getDay();
+  // const cur_year = date.getFullYear();
+  // console.log(`MONTH: ${JSON.stringify(cur_month)}`)
+  console.log(`MONTH/DATE/YEAR = ${mm}/${dd}/${yyyy}`)
+  const url = `https://www.basketball-reference.com/friv/standings.fcgi?month=${mm}&day=${dd}&year=${yyyy}`
+  const { data } = await axios.get(url); 
+  const $ = cheerio.load(data);
+
+  let actualEastStandings = null;
+  let actualWestStandings = null;
+  actualEastStandings = $('table#standings_e');
+  actualEastStandings = parseHTMLStandings(JSON.stringify(actualEastStandings.html()))
+  // console.log("SCRAPE RESULTS")
+  // console.log(`-----ACTUAL EAST STANDINGS-----`)
+  // console.log(actualEastStandings.html());
+  // console.log(`STRING OF EAST STANDINGS`)
+  // console.log(JSON.stringify(actualEastStandings.html()));
+  actualWestStandings = $('table#standings_w');
+  actualWestStandings = parseHTMLStandings(JSON.stringify(actualWestStandings.html()))
+  console.log(`actualWestStandings = ${actualWestStandings}`)
+  // console.log(`-----ACTUAL WEST STANDINGS-----`)
+  // console.log(actualWestStandings.html());
+  const actualStandings = {actualWestStandings, actualEastStandings}
+  return actualStandings;
+  {/* <ConferenceTable west_teams={west_standings} east_teams={east_standings} league_id="actual"><ConferenceTable/>; */}
 }
+
+function parseHTMLStandings(htmlStandings){
+  let parsedStandings = [];
+  const standingsTableStartIndex = htmlStandings.indexOf("full_table")
+  let i = standingsTableStartIndex;
+  let teamsFound = 0;
+  while (i < htmlStandings.length && teamsFound < 15){
+    let teamBoundaryIndex = htmlStandings.indexOf("<a href", i);
+    let teamNameStartIndex = teamBoundaryIndex + 33; //31 is just the number of characters between the start of the <a href> element and the beginning of team names
+    let teamNameEndIndex = htmlStandings.indexOf("</a>", teamNameStartIndex)
+    let teamName = htmlStandings.slice(teamNameStartIndex, teamNameEndIndex)
+    parsedStandings.push(teamName)
+    i = teamNameEndIndex + 1;
+    teamsFound += 1;
+  }
+  // console.log(`parsed Standings = ${JSON.stringify(parsedStandings)}`)
+  console.log(`parsed Standings = ${parsedStandings}`)
+  console.log(`typeof parsedStandings = ${typeof parsedStandings}`)
+  return parsedStandings;
+
+}
+
+
+
 
 const westStandings = [];
 const eastStandings = [];
@@ -347,7 +401,21 @@ const sample_eastern_standings = [
   teams.WASHINGTON_WIZARDS
 ];
 
-
+router.get("/actualStanding", (req, res) => {
+  console.log(`Scraping the actual standings`)
+  // const actualScrapedStandings = scrape();
+  scrape().then((scrapedResults) => {
+    const actualScrapedStandings = scrapedResults;
+    // console.log(`actualScrapedStandings = ${JSON.stringify(actualScrapedStandings)}`)
+    console.log(`actualScrapedStandings = ${actualScrapedStandings.actualWestStandings}`) 
+    const actualStandings = new ActualStanding({
+      west_predictions: actualScrapedStandings.actualWestStandings,
+      east_predictions: actualScrapedStandings.actualEastStandings,
+    })
+    console.log("GOT ACTUALSTANDINGS")
+    res.send(actualStandings);
+  })
+});
 
 router.get("/standingprediction", (req, res) => {
   console.log(`Req input for get standingpreds: ${req.query.user_id}`);

@@ -6,6 +6,7 @@ import SampleStandings from "../../team-enums.js";
 import { post } from "../../utilities";
 import { get } from "../../utilities"
 import getSumOfSquareDistances from "../../ranking-logic"
+import { Link } from "@reach/router";
 
 import "./DefaultPage.css";
 import CreateLeague from "./CreateLeague.js";
@@ -295,38 +296,20 @@ const DefaultPage = (props) => {
     ];
 
 
-    useEffect(() => {
-        get("/api/standingprediction", { user_id: props.user_id }).then((standingPrediction) => {
-    
-            //------DEBUGGING------------------
-            console.log(`user id = ${props.user_id}`)
-            if (standingPrediction != undefined){
-              console.log("STANDINGPREDICTION IS DEFINED")
-            }
-            // {console.log(`GET standingPrediction = ${JSON.stringify(standingPrediction)}`)
-            // console.log(`GET type of response: ${typeof standingPrediction}`)
-            // console.log(`GET west_predictions = ${standingPrediction["west_predictions"]}`)}
-            //--------DEBUGGING BREAK----------
-    
-    
-            const westStandings = standingPrediction.west_predictions;
-            const eastStandings = standingPrediction.east_predictions;
-            console.log(`GET RES westernStandings team 1 = ${typeof westStandings}`)
-            if (westStandings != undefined){
-              console.log(`DEFINED GET RES westernStandings team 1 = ${westStandings[0].name}`)
-              setWesternStandings(westStandings);
-              setUserStandings(props.user_id, westStandings, null, true);
-            } else{console.log(`westStandings UNDEFINED`)}
-            if (eastStandings != undefined){
-              setEasternStandings(eastStandings);
-              setUserStandings(props.user_id, null, eastStandings, false);
-            }
-        });
-        // delete("/api/standingprediction", {user_id: props.user_id}).then(() => {
-        //   console.log("deleted it alllll");
-        // });
-        console.log(`Finished GET Standingprediction`)
-    }, []); 
+    // useEffect(() => {
+    //     get("/api/standingprediction", { user_id: props.user_id }).then((standingPrediction) => {
+    //         const westStandings = standingPrediction.west_predictions;
+    //         const eastStandings = standingPrediction.east_predictions;
+    //         if (westStandings != undefined){
+    //         //   setWesternStandings(westStandings);
+    //           setUserStandings(props.user_id, westStandings, null, true);
+    //         }
+    //         if (eastStandings != undefined){
+    //         //   setEasternStandings(eastStandings);
+    //           setUserStandings(props.user_id, null, eastStandings, false);
+    //         }
+    //     });
+    // }, []); 
 
     const setUserStandings = (user, tempWestStandings, tempEastStandings, isWest) => {
         return;
@@ -336,26 +319,33 @@ const DefaultPage = (props) => {
     let ViewLeagueButton = null;
     CreateLeagueButton = (
     <div>
-        <button
-        className="button-72"
-        onClick={()=>{console.log("create league clicked")}}
-        >CreateLeague</button>
+        <Link to ="/createleague">
+            <button
+            id="defaultToCreate"
+            className="button-createleague"
+            onClick={()=>{}}
+            >CreateLeague</button>
+        </Link>
     </div>
     );
     JoinLeagueButton = (
     <div>
-        <button
-        className="button-69"
-        onClick={()=>{console.log("join league clicked")}}
-        >Join League</button>
+        <Link to="/JoinLeague">
+            <button
+            className="button-joinleagues"
+            onClick={()=>{console.log("join league clicked")}}
+            >Join League</button>
+        </Link>
     </div>
     );
     ViewLeagueButton = (
     <div>
-        <button
-        className="button-72"
-        onClick={()=>{console.log("view league clicked")}}
-        >View Your Leagues</button>
+        <Link to="/YourLeagues">
+            <button
+            className="button-viewleagues"
+            onClick={()=>{console.log("view league clicked")}}
+            >View Your Leagues</button>
+        </Link>
     </div>
     );
     
@@ -363,8 +353,9 @@ const DefaultPage = (props) => {
         <>
             <div className="DefaultPage-container">
             <div>
-                <div className="UserPage-Join-button">{JoinLeagueButton}</div>
-                <div className="UserPage-View-button">{ViewLeagueButton}</div>
+                <div>{CreateLeagueButton}</div>
+                <div>{JoinLeagueButton}</div>
+                <div>{ViewLeagueButton}</div>
             </div>
             <div className="DefaultPage-ConferenceTableContainer">
                 {/* <WestLabel/> */}

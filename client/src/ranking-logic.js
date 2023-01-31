@@ -1,11 +1,15 @@
 const QUADRATIC_SCALE_FACTOR = 1.0;
+const LOGARITHMIC_SCALE_FACTOR = 1.0;
 
 const getSumOfSquareDistances = (teams1, teams2) => {
     let sum = 0;
     teams1.forEach((team1, index1) => {
         teams2.forEach((team2, index2) => {
             if (team1.name === team2.name) {
-                sum += QUADRATIC_SCALE_FACTOR * (index1 - index2) ** 2;
+                // sum += QUADRATIC_SCALE_FACTOR * (index1 - index2) ** 2;
+                if (index1 != index2){
+                    sum += LOGARITHMIC_SCALE_FACTOR * Math.abs(Math.log(Math.abs(index1 - index2)))
+                }
             }
         });
     });

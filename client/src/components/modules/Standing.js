@@ -286,10 +286,10 @@ const Standing = (props) => {
             // console.log(`moveRow newTeams West team 1 = ${newTeams[0].name}`)
             console.log(`moveRow West team 1 = ${teams[0].name}`)
             console.log(`moveRow west standings = ${JSON.stringify(teams)}`)
-            props.setUserStandings(props.user_id, teams, [], true);
+            props.setUserStandings(props.user_id, teams, [], true, props.is_editable);
         } else{
             console.log(`Working with east.`)
-            props.setUserStandings(props.user_id, [], teams, false);
+            props.setUserStandings(props.user_id, [], teams, false, props.is_editable);
         }
     }, [teams])
     

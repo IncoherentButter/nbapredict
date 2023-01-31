@@ -1,6 +1,8 @@
 .NavBar-container {
     padding: var(--s) var(--m);
     background-color: var(--primary);
+    display: flex;
+    direction: row;
   }
   
   .NavBar-title {
@@ -20,6 +22,15 @@
   
   .NavBar-link,
   .NavBar-link:visited {
+    color: var(--white);
+    opacity: 0.6;
+    text-decoration: none;
+  }
+
+  .NavBar-link-right,
+  .NavBar-link-right:visited {
+    display: flex;
+    /* justify-content: end; */
     color: var(--white);
     opacity: 0.6;
     text-decoration: none;
