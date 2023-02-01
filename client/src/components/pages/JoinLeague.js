@@ -18,42 +18,89 @@ import * as NBAIcons from 'react-nba-logos';
  *
  * Proptypes
  * @param {string} user_id id of current logged in user
+ * @param {number} user_score score of current user
  */
 
 const JoinLeague = (props) => {
+  const [leagues, setLeagues] = useState([]);
+  const [leagueUsername, setLeagueUsername] = useState('');
+  const [leaguePassword, setLeaguePassword] = useState('');
+
+  // called whenever the user types in the League Username box
+  const handleLeagueNameChange = (event) => {
+    setLeagueUsername(event.target.value);
+  };
+  // called whenever the user types in the League Password box
+  const handleLeaguePasswordChange = (event) => {
+      setLeaguePassword(event.target.value);
+  };
+  
+  const handleJoinSubmit = (event) => {
+    event.preventDefault();
+    const leagueJoinData = { user_id: props.user_id, user_score: props.user_score, league_name: leagueUsername, league_password: leaguePassword }
+
+    // props.onSubmit && props.onSubmit(value);
+    joinLeague(leagueJoinData)
+
+    setLeagueUsername("");
+    setLeaguePassword("");
+  };
+
+  const joinLeague = (leagueJoinData) => {
+    console.log(`entered joinLeague`)
+    console.log(`leagueJoinData = ${JSON.stringify(leagueJoinData)}`)
+    // const leagueData = { creator_id: props.user_id, league_name: leagueUsername, league_password: leaguePassword, league_type: "Standings", user_ids: [props.user_id]}
+    post("/api/addToLeague", leagueJoinData).then((leagueObj) => {
+      // display feedback on screen that league creation was successful
+      // props.addNewLeague(comment);
+      console.log(`Post request for joining league went thru!`)
+      console.log(`POST JoinLeague response: ${JSON.stringify(leagueObj)}`)
+    });
+  }
+
   if (!props.user_id) {
     return <div>Log in before using NBAPredict</div>;
   }
   return (
     <>
-      <div className="CreateLeague-container">
-        <div className="CreateLeague-Header">
-          <div>League Creation Menu</div>
+      <div className="JoinLeague-container">
+        <div className="JoinLeague-Header">
+          <div>League Join Menu</div>
         </div>
-        <div className="CreateLeague-InputContainer">
-          <div className="CreateLeague-NameForm">
-            League Name: 
-          </div>
-          <div className="CreateLeague-PasswordForm">
+        <div className="JoinLeague-InputContainer">
+          <input
+          type="text"
+          placeholder={props.defaultLeagueNameText}
+          value={leagueUsername}
+          onChange={handleLeagueNameChange}
+          className="JoinLeague-NameForm" 
+          /> 
+          <input
+          type="text"
+          placeholder={props.defaultLeaguePasswordText}
+          value={leaguePassword}
+          onChange={handleLeaguePasswordChange}
+          className="JoinLeague-PasswordForm" 
+          />
+          <button
+          type="submit"
+          className="JoinLeague-StandingsButton"
+          value="Submit"
+          onClick={handleJoinSubmit}>
+          Submit
+          </button>
+          {/* <div className="JoinLeague-PasswordForm">
             League Password:
-          </div>
-          <div>
-            <span className="CreateLeague-StandingsButton">
-              Standings
-            </span>
-            <span className="CreateLeague-82Button">
-              82 Game
-            </span>
-          </div>
-        </div>
-        {/*JoinLeagueButton*/}
-        {/*YourLeaguesButton*/}
-        <div>
-          {/* <ConferenceTable is_editable={false} west_teams={sample_western_standings} east_teams={sample_eastern_standings} user_id={props.user_id} setUserStandings={setUserStandings}/> */}
+          </div> */}
+          {/* <div> */}
+            {/* <div className="JoinLeague-StandingsButton">
+              Submit
+            </div> */}
+          {/* </div> */}
         </div>
       </div>
 
-      {/* <div className="UserPage-Create-button">{CreateLeagueButton}</div> */}
+      {/* <div className="UserPage-Create-button">{JoinLeagueButton}</div> */}
     </>
   );
 }

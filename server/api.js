@@ -17,6 +17,7 @@ const User = require("./models/user");
 // const League = require("./models/league");
 const StandingPrediction = require("./models/standingprediction");
 const ActualStanding = require("./models/actualprediction");
+const League = require("./models/league");
 
 
 // import authentication library
@@ -54,6 +55,7 @@ router.post("/initsocket", (req, res) => {
 
 const cheerio = require('cheerio');
 const axios = require('axios');
+const { json } = require("express");
 
 
 
@@ -399,7 +401,166 @@ const sample_eastern_standings = [
   teams.PHILADELPHIA_76ERS,
   teams.TORONTO_RAPTORS,
   teams.WASHINGTON_WIZARDS
-];
+]
+
+router.get("/userLeagues", auth.ensureLoggedIn, (req, res) => {
+  //return all leagues that have user's user_id in them
+  // filter = {user_id: req.body.user_id}
+  console.log(`entered GET userLeagues. user_id = ${req.query.user_id}`)
+
+  League.find({}).then((leagues) => {
+    let userLeagues = [];
+    leagues.map((league, index) => {
+      console.log(`~~~ updateScoreInLeague league_name = ${league.league_name}`)
+      // first check if user_id is part of league ids
+      // var allLeagueUserIds = [];
+      // let userIdIndex;
+      for (let i = 0; i < league.users.length; i++){
+        // allLeagueUserIds.push(league.users[i].user_id)
+        console.log(`League user = ${league.users[i]}`)
+        if (league.users[i].user_id === req.query.user_id){
+          console.log(`${league.users[i].user_id} = ${req.query.user_id}!`)
+          // userIdIndex = i;
+          userLeagues.push(league);
+        }
+      }
+    })
+    console.log(`userLeagues at end of GET = ${JSON.stringify(userLeagues)}`)
+    res.send(userLeagues);
+  })
+  .catch((error) => {
+    res.status(500).send(error);
+  });
+  
+  // League.find({ users: { $in: [req.query.user_id] } })
+  //   .then((leagues) => {
+  //     console.log(`Entered then!`)
+  //     res.send(leagues);
+  //   })
+  //   .catch((error) => {
+  //     res.status(500).send(error);
+  //   });
+});
+
+router.post("/createLeague", auth.ensureLoggedIn, (req, res) => {
+  const filter = {league_name: req.body.league_name, league_type: req.body.league_type}
+  const leagueObj = new League({
+    creator_id: req.body.user_id,
+    league_name: req.body.league_name,
+    league_password: req.body.league_password,
+    league_type: req.body.league_type,
+    users: req.body.users,
+  });
+
+  League.findOne(filter).then((foundLeague)=> {
+    if (!foundLeague){
+      leagueObj.save().then((league) => {res.send(league)})
+      console.log(`Saved the input league!`)
+    } else{
+      console.log(`League of this name already exists`)
+      res.send({ status: 0, message: "A league with that name already exists!" });
+    }
+  }).catch((err) =>{
+    res.status(500).send(error);
+  });
+});
+
+router.post("/updateScoreInLeague", auth.ensureLoggedIn, (req, res) => {
+  console.log(`~~~ updateScoreInLeague user_id = ${req.body.user_id}; user_score = ${req.body.user_score}`)
+  League.find({}).then((leagues) => {
+    let promises = [];
+    leagues.map((league, index) => {
+      console.log(`~~~ updateScoreInLeague league_name = ${league.league_name}`)
+      // first check if user_id is part of league ids
+      var allLeagueUserIds = [];
+      let userIdIndex;
+      for (let i = 0; i < league.users.length; i++){
+        allLeagueUserIds.push(league.users[i].user_id)
+        if (league.users[i].user_id === req.body.user_id){
+          console.log(`${league.users[i].user_id} = ${req.body.user_id}!`)
+          userIdIndex = i;
+        }
+      }
+
+      if (allLeagueUserIds.includes(req.body.user_id)) {
+        console.log(`~~~ updateScoreInLeague user_id is in this league`)
+        // let userIdIndex = league.users.indexOf(req.body.user_id);
+        console.log(`~~~ updateScoreInLeague index of user in users array = ${userIdIndex}`)
+        console.log(`~~~ updateScoreInLeague user score currently stored in array = ${league.users[userIdIndex].user_score}`)
+        league.users[userIdIndex].user_score = req.body.user_score;
+        promises.push(league.save());
+      }
+    })
+    Promise.all(promises).then((result) => res.send(result));
+  })
+
+  // League.updateMany({users: { $in: [{user_id: req.body.user_id}] }}, {$set: {user_score: req.body.user_score }}, {new: true, upsert: true}, (err) => {
+  //   if (err) {
+  //     console.log(err);
+  //     return res.status(500).send("Error updating/creating standingPrediction");
+  //   } else{
+  //     console.log(`NO ERROR!`)
+  //   }
+  //   return res.status(200)
+  // })
+})
+
+router.post("/addToLeague", auth.ensureLoggedIn, (req, res) => {
+  //necessary info:
+  // league_name, league_password, user_id
+  const filter = {league_name: req.body.league_name, league_password: req.body.league_password}
+  console.log(`entered POST addToLeague. filter=${JSON.stringify(filter)}`)
+  League.findOne(filter).then((foundLeague) => {
+    console.log(`Entered findOne`)
+    console.log(`foundLeague=${JSON.stringify(foundLeague)}`)
+    if(!foundLeague){
+      console.log(`Didnt find league`)
+      res.status(404).send('League with that name not found');
+    } else if (foundLeague.users.includes(req.body.user_id)) {
+      console.log(`User in league`)
+      res.status(404).send('You have already joined that league!');
+    } else {
+      console.log(`Found league; user not in it`)
+      const user = {user_id: req.body.user_id, user_score: req.body.user_score}
+      League.findOneAndUpdate(filter, { $push: { users: user } }, { new: true })
+      .then((updatedLeague) => {
+        console.log(`Adding to league!`)
+        res.status(200).send(updatedLeague); 
+      })
+      .catch((error) => {
+        res.status(500).send(error);
+      });
+    }
+  }).catch((error) => {
+    res.status(500).send(error);
+  })
+});
+
+function sortLeagueStandings(users){
+  users.sort((user1, user2) => (user1.score > user2.score) ? 1 : -1)
+  return users
+}
+//PLAN: change all user_id instances in schemas to be {user_id, score}
+//objects instead
+router.get("/leagueStandings", (req, res) => {
+  //nec info:
+  //league_name
+  console.log(`get leagueStandings input name = ${req.query.league_name}`)
+  const filter = { league_name: req.query.league_name, }
+  League.findOne(filter).then((foundLeague) => {
+    if(!foundLeague){
+      console.log(`Didnt find league`)
+      res.status(404).send('League with that name not found');
+    } else {
+      var users = foundLeague.users;
+      users = sortLeagueStandings(users) 
+      res.status(200).send(users)      
+    }    
+  }).catch((error) => {
+    res.status(500).send(error);
+  })
+
+});
 
 router.get("/actualStanding", (req, res) => {
   console.log(`Scraping the actual standings`)
@@ -435,84 +596,16 @@ router.post("/standingprediction", (req, res) => {
     user_id: req.body.user_id,
     west_predictions: req.body.west_predictions,
     east_predictions: req.body.east_predictions,
+    score: req.body.score,
   })
 
-  StandingPrediction.findOneAndUpdate({user_id: req.body.user_id}, {$set: {west_predictions: req.body.west_predictions, east_predictions: req.body.east_predictions}}, {new: true, upsert: true}, (err, standingPrediction) => {
+  StandingPrediction.findOneAndUpdate({user_id: req.body.user_id}, {$set: {west_predictions: req.body.west_predictions, east_predictions: req.body.east_predictions, score: req.body.score}}, {new: true, upsert: true}, (err, standingPrediction) => {
     if (err) {
       console.log(err);
       return res.status(500).send("Error updating/creating standingPrediction");
     }
     return res.status(200).send(standingPrediction);
-    });
-
-  // StandingPrediction.findOneAndUpdate(filter, incomingPrediction, {new: true}, {useFindAndModify: false}).then((standingPrediction) => {
-  //   // console.log(`type of standingPrediction.wp is ${typeof standingPrediction.west_predictions}`)
-  //   // standingPrediction.west_predictions = req.body.west_predictions;
-  //   // standingPrediction.east_predictions = req.body.east_predictions;
-  //   // standingPrediction.save().then((standingPrediction) => res.send(standingPrediction));
-  //   incomingPrediction.save().then((incomingPrediction) => res.send(incomingPrediction));
-  // });
-
-
-
-
-
-
-  // StandingPrediction.exists({user_id: req.body.user_id}, function(err, result){
-  //   if (err){
-  //     console.log(`No Prediction exists`)
-  //   } else {
-  //     console.log(`A prediction exists!`)
-  //   }
-  // })
-  // // If no prediction exists for the given user yet, make a new one. Otherwise, update an existing one.
-  // StandingPrediction.exists({user_id: req.body.user_id}, function(err, result){
-    // if (err){
-    //   const newStandingPrediction = new StandingPrediction({
-    //     user_id: req.body.user_id,
-    //     west_predictions: req.body.west_predictions,
-    //     east_predictions: req.body.east_predictions,
-    //   });
-    //   newStandingPrediction.save().then((standingPrediction) => res.send(standingPrediction));
-    // } else {
-    //   console.log(`Result type: ${typeof result}`)
-    //   console.log(`Result wp: ${JSON.stringify(result.west_predictions)}`)
-
-    //   result.west_predictions = req.body.west_predictions;
-    //   result.east_predictions = req.body.east_predictions;
-    //   result.save().then((result) => res.send(result));
-      // StandingPrediction.findOne({user_id: req.body.user_id}).then((standingPrediction) => {
-      //   console.log(`type of standingPrediction.wp is ${JSON.stringify(standingPrediction)}`)
-      //   standingPrediction.west_predictions = req.body.west_predictions;
-      //   standingPrediction.east_predictions = req.body.east_predictions;
-      //   standingPrediction.save().then((standingPrediction) => res.send(standingPrediction));
-      // })
-    // }});
-
-  // if (predictionAlreadyExists){
-    // StandingPrediction.findOne({user_id: req.body.user_id}).then((standingPrediction) => {
-    //   console.log(`type of standingPrediction.wp is ${typeof standingPrediction.west_predictions}`)
-    //   standingPrediction.west_predictions = req.body.west_predictions;
-    //   standingPrediction.east_predictions = req.body.east_predictions;
-    //   standingPrediction.save().then((standingPrediction) => res.send(standingPrediction));
-    // });
-  // } else {
-  //   const newStandingPrediction = new StandingPrediction({
-  //     user_id: req.body.user_id,
-  //     west_predictions: req.body.west_predictions,
-  //     east_predictions: req.body.east_predictions,
-  //   });
-  // }
-
-
-  
-  //socket update here
-  // call a socket-defined plugin that updates user prediction data
-  // if (req.user){
-
-  // }
-
-  // newStandingPrediction.save().then((newStandingPrediction) => res.send(newStandingPrediction)); 
+  });
 });
 
 

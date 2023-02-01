@@ -1,5 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Imbue:opsz,wght@10..100,200&display=swap');
-.CreateLeague-Container{
+.LeaguePage-Container{
     display:flex;
     flex-direction: column;
     padding-bottom: 10%;
@@ -7,7 +7,7 @@
     gap: 1em;
     
 }
-.CreateLeague-Header{
+.LeaguePage-Header{
     display: flex;
     flex-direction: row;
     margin-bottom: 0;
@@ -45,8 +45,9 @@
     vertical-align: 50;
 }
 
-.CreateLeague-InputContainer{
+.LeaguePage-InputContainer{
     display: flex;
+    flex-direction: column;
     /* flex-direction: row; */
     /* padding: 10% 50% 15% 50%;
     align-items: center;
@@ -72,7 +73,7 @@
     justify-content: center;
 }
 
-.CreateLeague-NameForm{
+.LeaguePage-NameForm{
     display:flex;
     /* border: gray; */
     /* background-color: #F9CFF2; */
@@ -97,12 +98,12 @@
     font-size: 36px;
     line-height: 43px;
 
-    color: #000000;
+    /* color: #000000; */
 
     text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
 
-.CreateLeague-PasswordForm{
+.LeaguePage-PasswordForm{
     display: flex;
     
     /* position: absolute;
@@ -126,14 +127,14 @@
     font-size: 36px;
     line-height: 43px;
 
-    color: #000000;
+    /* color: #000000; */
 
     text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
 
 
 
-.CreateLeague-StandingsButton{
+.LeaguePage-StandingsButton{
     display:flex;
     border: gray;
     border-radius: 50%;
@@ -150,8 +151,53 @@
     justify-content: center;
 }
 
-.CreateLeague-82Button{
+.LeaguePage-82Button{
     display:flex;
     border: gray;
     background-color: #767A9B;
+}
+
+.LeaguePage-UserPredictions{
+    display: flex;
+    justify-content: end;
+    align-self: flex-end;
+}
+
+.LeaguePage-Table{
+    display: flex;
+    flex-direction: column;
+    table-layout: fixed;
+    border-collapse: collapse;
+    border: 1.5px solid rgb(7, 7, 7);
+    gap: 1em;
+
+    position: absolute;
+    width: 170px;
+    height: 363px;
+    left: 300px;
+    top: 300px;
+}
+
+.LeaguePage-Row{
+    display: flex;
+    width: 150px;
+    height: 50px;
+
+    background: #DFFFD6;
+    border-radius: 5px;
+    justify-content: space-between;
+}
+
+.LeaguePage-Row-Index{
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+}
+
+.LeaguePage-Row-Username{
+    color: rgb(36, 107, 177);
+}
+
+.LeaguePage-Row-User-Score{
+    color: rgb(192, 145, 18);
 }

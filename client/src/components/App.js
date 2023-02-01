@@ -19,6 +19,7 @@ import DefaultPage from "./pages/DefaultPage.js";
 import CreateLeague from "./pages/CreateLeague.js";
 import JoinLeague from "./pages/JoinLeague.js";
 import YourLeagues from "./pages/YourLeagues.js";
+import LeaguePage from "./pages/LeaguePage.js";
 
 // import { DndProvider } from 'react-dnd';
 // import { HTML5Backend } from 'react-dnd-html5-backend';
@@ -33,6 +34,7 @@ import YourLeagues from "./pages/YourLeagues.js";
  */
 const App = () => {
   const [userId, setUserId] = useState(undefined);
+  const [user_score, setUserScore] = useState(Number(-1));
 
   useEffect(() => {
     get("/api/whoami").then((user) => {
@@ -58,6 +60,35 @@ const App = () => {
     post("/api/logout");
   };
 
+  const handleScoreUpdate = (newScore) => {
+    setUserScore(newScore);
+    const userInfo = {user_id: userId, user_score: newScore}
+    post("/api/updateScoreInLeague", userInfo).then(() => {
+      console.log(`Post request for joining league went thru!`)
+    });
+  }
+
+  useEffect(() => {
+    if (userId) {
+      get("/api/standingprediction", { user_id: userId }).then((standingPrediction) => {      
+          const westStandings = standingPrediction.west_predictions;
+          const eastStandings = standingPrediction.east_predictions;
+          if (standingPrediction.score != undefined){
+            setUserScore(standingPrediction.score);
+          }
+      })
+    }
+  }, [userId]);
+
+  // const west_score = getSumOfSquareDistances(newStandingPrediction.west_predictions, actual_western_standings);
+  // const east_score = getSumOfSquareDistances(newStandingPrediction.east_predictions, actual_eastern_standings);
+  // const total_score = west_score + east_score;
+  // setScore(total_score);
+
+  // useEffect(() => {
+
+  // }, [user_score])
+
   return (
     <>
       <NavBar handleLogin={handleLogin} handleLogout={handleLogout} userId={userId}/>
@@ -65,10 +96,11 @@ const App = () => {
         <Router>
           {/* <Skeleton path="/" handleLogin={handleLogin} handleLogout={handleLogout} userId={userId} /> */}
           <DefaultPage path="/"/>
-          <UserPage path="/UserPage" user_id={userId}/>
-          <CreateLeague path="/createleague/" user_id={userId}/>
-          <JoinLeague path="/JoinLeague"/>
-          <YourLeagues path="/YourLeagues/"/>
+          <UserPage path="/UserPage" user_id={userId} user_score={user_score} handleScore={handleScoreUpdate}/>
+          <CreateLeague path="/createleague/" user_id={userId} user_score={user_score} defaultLeagueNameText="League Name" defaultLeaguePasswordText="League Password"/>
+          <JoinLeague path="/JoinLeague" user_id={userId} user_score={user_score} defaultLeagueNameText="League Name" defaultLeaguePasswordText="League Password"/>
+          <YourLeagues path="/YourLeagues/" user_id={userId} user_score={user_score}/>
+          <LeaguePage path="/LeaguePage/:league_name" user_id={userId} user_score={user_score}/>
           <NotFound default />
         </Router>
       </div>

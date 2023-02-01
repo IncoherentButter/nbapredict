@@ -236,21 +236,7 @@ const Standing = (props) => {
     // })
 
     const moveRow = (dragIndex, hoverIndex) => {
-        // console.log(`moveRow called. dragIndex = ${dragIndex}, hoverIndex = ${hoverIndex}`)
         const dragTeam = teams[dragIndex]
-        // newTeams.splice(dragIndex, 1);
-        // newTeams.splice(hoverIndex, 0, dragTeam);
-        // array_move(newTeams, dragIndex, hoverIndex)
-        // console.log(`moveRow type of newTeams = ${typeof newTeams[0]}`)
-        // for (let team of newTeams){
-        //     console.log(`team name = ${team.name}`);
-        // }
-        // newTeams = teams.splice: [
-        //       [dragIndex, 1],
-        //       [hoverIndex, 0, dragTeam],  
-        //     ]
-        
-        // setTeams(newTeams)
         setTeams(
             update(teams, {
                 $splice: [
@@ -259,25 +245,6 @@ const Standing = (props) => {
                 ],
             })
         )
-        // const newTeams = [...teams];
-        // setTeams(newTeams)
-        
-        // const firstTeam = newTeams[firstRowIndex];
-        // const secondTeam = newTeams[secondRowIndex];
-        // newTeams[firstRowIndex] = secondTeam;
-        // newTeams[secondRowIndex] = firstTeam;
-
-        // setTeams(newTeams);
-        // if (props.is_west){
-        //     console.log(`Working with west.`)
-        //     console.log(`moveRow newTeams West team 1 = ${newTeams[0].name}`)
-        //     console.log(`moveRow West team 1 = ${teams[0].name}`)
-        //     console.log(`moveRow west standings = ${JSON.stringify(newTeams)}`)
-        //     props.setUserStandings(props.user_id, newTeams, [], true);
-        // } else{
-        //     console.log(`Working with east.`)
-        //     props.setUserStandings(props.user_id, [], newTeams, false);
-        // }
     };
 
     useEffect(() => {
@@ -294,38 +261,6 @@ const Standing = (props) => {
     }, [teams])
     
 
-    // const [firstRowIndex, setFirstRowIndex] = useState(0);
-    // const [secondRowIndex, setSecondRowIndex] = useState(0);
-
-    // function handleFirstRowChange(event) {
-    //     setFirstRowIndex(event.target.value);
-    // }
-
-    // function handleSecondRowChange(event) {
-    //     setSecondRowIndex(event.target.value);
-    // }
-
-    // function handleConfirmClick() {
-    //     const newTeams = [...teams];
-    //     const firstTeam = newTeams[firstRowIndex];
-    //     const secondTeam = newTeams[secondRowIndex];
-    //     newTeams[firstRowIndex] = secondTeam;
-    //     newTeams[secondRowIndex] = firstTeam;
-
-    //     setTeams(newTeams);
-
-    //     if (props.is_west){
-    //         console.log(`Working with west.`)
-    //         console.log(`handleConfirmClick newTeams West team 1 = ${newTeams[0].name}`)
-    //         console.log(`handleConfirmClick West team 1 = ${teams[0].name}`)
-    //         props.setUserStandings(props.user_id, newTeams, [], true);
-    //     } else{
-    //         console.log(`Working with east.`)
-    //         props.setUserStandings(props.user_id, [], teams, false);
-    //     }
-
-    // }
-
 
     let confirmationSection;
     if (props.is_editable){
@@ -339,12 +274,7 @@ const Standing = (props) => {
                         </tr>
                     </thead>
                     <tbody>
-                        {/* {teams.map((team, index) => (
-                                <tr key={team.name} className="Standing-tbody-tr">
-                                    <td>{index + 1}</td>
-                                    <td>{team.name}</td>
-                                </tr>
-                        ))} */}
+
                         {teams.map((team, index) => (
                             <TeamRow    
                                 key={team.name}

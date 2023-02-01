@@ -1,0 +1,157 @@
+@import url('https://fonts.googleapis.com/css2?family=Imbue:opsz,wght@10..100,200&display=swap');
+.JoinLeague-Container{
+    display:flex;
+    flex-direction: column;
+    padding-bottom: 10%;
+    justify-content: space-around;
+    gap: 1em;
+    
+}
+.JoinLeague-Header{
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 0;
+    width: 1348;
+    height: 126;
+    box-sizing: border-box;
+
+    /* position: absolute;
+    width: 1348px;
+    height: 126px;
+    left: 45px;
+    top: 156px; */
+
+    background: #DAE0F2;
+    border: 1px solid #000000;
+    border-radius: 23px;
+
+    justify-content: center;
+
+    display: flex;
+    position: absolute;
+    width: 689px;
+    height: 75px;
+    left: 30%;
+    top: 150px;
+
+    font-family: 'Imbue', serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 48px;
+    line-height: 58px;
+    text-align: center;
+
+    color: #000000;
+    vertical-align: 50;
+}
+
+.JoinLeague-InputContainer{
+    display: flex;
+    /* flex-direction: row; */
+    /* padding: 10% 50% 15% 50%;
+    align-items: center;
+    border: black;
+    background-color: #DAE0F2;
+    border-radius: 10px;
+    flex: 1;
+    border-style: groove; */
+    box-sizing: border-box;
+
+    /* position: absolute; */
+    width: 1237px;
+    height: 652px;
+    left: 102px;
+    top: 315px;
+
+    background: #DAE0F2;
+    border: 1px solid #000000;
+    border-radius: 18px;
+    padding-bottom: 10%;
+    margin: 10%;
+    vertical-align: 50;
+    justify-content: center;
+}
+
+.JoinLeague-NameForm{
+    display:flex;
+    /* border: gray; */
+    /* background-color: #F9CFF2; */
+    /* position: absolute;
+    width: 459px;
+    height: 50px;
+    left: 520px;
+    top: 365px; */
+
+    background: #F9CFF2;
+    border-radius: 5px;
+
+    position: absolute;
+    width: 213px;
+    height: 49px;
+    left: 680px;
+    top: 366px;
+
+    font-family: 'Imbue';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 36px;
+    line-height: 43px;
+
+    color: #000000;
+
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.JoinLeague-PasswordForm{
+    display: flex;
+    
+    /* position: absolute;
+    width: 459px;
+    height: 50px;
+    left: 489px;
+    top: 423px; */
+
+    background: #F9CFF2;
+    border-radius: 5px;
+
+    position: absolute;
+    width: 213px;
+    height: 49px;
+    left: 680px;
+    top: 423px;
+
+    font-family: 'Imbue';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 36px;
+    line-height: 43px;
+
+    color: #000000;
+
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+
+
+.JoinLeague-StandingsButton{
+    display:flex;
+    border: gray;
+    border-radius: 50%;
+    /* background-color: #A672A0; */
+
+    position: absolute;
+    width: 363px;
+    height: 363px;
+    left: 600px;
+    top: 500px;
+
+    background: #A672A0;
+    align-self: center;
+    justify-content: center;
+}
+
+.JoinLeague-82Button{
+    display:flex;
+    border: gray;
+    background-color: #767A9B;
+}

@@ -4,6 +4,7 @@ const StandingPredictionSchema = new mongoose.Schema({
   user_id: String,
   west_predictions:  [{type: Object}],  
   east_predictions:  [{type: Object}],
+  score: Number,
 });
 
 // compile model from schema

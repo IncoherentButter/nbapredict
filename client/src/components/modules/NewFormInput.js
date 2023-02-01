@@ -10,9 +10,13 @@ import { post } from "../../utilities";
  * @param {string} defaultText is the placeholder text
  * @param {string} storyId optional prop, used for comments
  * @param {({storyId, value}) => void} onSubmit: (function) triggered when this post is submitted, takes {storyId, value} as parameters
+ * @param
  */
+
+//params for creating/joining league: user_id; league username, league password,
 const NewFormInput = (props) => {
   const [value, setValue] = useState("");
+  const [leagues, setLeagues] = useState([]);
   const [leagueUsername, setLeagueUsername] = useState('');
   const [leaguePassword, setLeaguePassword] = useState('');
 
@@ -24,7 +28,7 @@ const NewFormInput = (props) => {
   // called when the user hits "Submit" for a new post
   const handleSubmit = (event) => {
     event.preventDefault();
-    const leagueData = { creator_id: props.user_id, league_name: leagueUsername, league_password: leaguePassword, league_type: "Standings", users: [props.user_id]}
+    const leagueData = { creator_id: props.user_id, league_name: leagueUsername, league_password: leaguePassword, league_type: "Standings", user_ids: [props.user_id]}
     
 
     props.onSubmit && props.onSubmit(value);
@@ -61,14 +65,14 @@ const NewFormInput = (props) => {
  */
 const NewLeague = (props) => {
   const addLeagueName = (value) => {
-    const body = { parent: props.user_id, content: value };
+    const body = { creator_id: props.user_id, content: value };
     post("/api/comment", body).then((comment) => {
       // display this comment on the screen
       props.addNewLeagueName(comment);
     });
   };
 
-  return <NewFormInput defaultText="New Comment" onSubmit={addNewLeagueName} />;
+  return <NewFormInput defaultText="League Username" onSubmit={addLeagueName} />;
 };
 
 /**
@@ -86,7 +90,7 @@ const NewLeaguePassword = (props) => {
     });
   };
 
-  return <NewFormInput defaultText="New Story" onSubmit={addNewLeaguePassword} />;
+  return <NewFormInput defaultText="League Password" onSubmit={addNewLeaguePassword} />;
 };
 
 /**
