@@ -106,6 +106,7 @@ const westStandings = [];
 const eastStandings = [];
 let newStandingPrediction = null;
 
+//Credit for the NBA Logo images and associated components goes to ChirsKatsaras on Github: https://github.com/ChrisKatsaras/React-NBA-Logos
 const teams = {ATLANTA_HAWKS: {
   name: "Atlanta Hawks",
   logo: "https://www.example.com/hawks-logo.png",
