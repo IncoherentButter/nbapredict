@@ -443,7 +443,7 @@ const DefaultPage = (props) => {
     // </div>
     // );
     
-    let id = null;
+    const [id, setId] = useState(null);
     const rand = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
 
     const FancyText = (props) => {
@@ -451,22 +451,59 @@ const DefaultPage = (props) => {
           <div>
             <div id="text">
             <div className="line">
-              <Link to ="/createleague" id="createleagueslink">
+              {/* <Link to ="/createleague" id="createleagueslink" onMouseEnter={() => {
+                setId("createleagueslink")
+                }}
+                onMouseLeave={() => setId("createleagueslink")}>
               <p className="word fancy">Create</p>
               </Link>
-              <p className="word league">Leagues</p>
-            </div>
-    
-            <div className="line">
-              <Link to ="/JoinLeague" id="joinleagueslink">
-              <p className="word fancy">Join</p>
+              <p className="word league">Leagues</p> */}
+              <Link to ="/createleague">
+                <a
+                    id="createleagueslink"
+                    target="_blank" 
+                    className="word fancy"
+                    onMouseEnter={() => {
+                        setId("createleagueslink");
+                    }}
+                    onMouseLeave={() => setId("createleagueslink")}
+                >
+                Create 
+                </a>
               </Link>
               <p className="word league">Leagues</p>
             </div>
     
             <div className="line">
-              <Link to ="/YourLeagues" id="viewleagueslink">
-              <p className="word fancy">View</p>
+              <Link to ="/JoinLeague">
+                <a
+                    id="joinleagueslink"
+                    target="_blank" 
+                    className="word fancy"
+                    onMouseEnter={() => {
+                        setId("joinleagueslink");
+                    }}
+                    onMouseLeave={() => setId("joinleagueslink")}
+                >
+                Join 
+                </a>
+              </Link>
+              <p className="word league">Leagues</p>
+            </div>
+    
+            <div className="line">
+              <Link to ="/YourLeagues">
+                <a
+                    id="viewleagueslink"
+                    target="_blank" 
+                    className="word fancy"
+                    onMouseEnter={() => {
+                        setId("viewleagueslink");
+                    }}
+                    onMouseLeave={() => setId("viewleagueslink")}
+                >
+                View 
+                </a>
               </Link>
               <p className="word league">Leagues</p>
             </div>
@@ -477,6 +514,10 @@ const DefaultPage = (props) => {
                 id="channel-link"
                 target="_blank" 
                 className="word fancy"
+                onMouseEnter={() => {
+                    setId("channel-link");
+                }}
+                onMouseLeave={() => setId("channel-link")}
               >
                 YourPrediction 
               </a>
@@ -488,46 +529,50 @@ const DefaultPage = (props) => {
     }   
     const enhance = (i) => {
         useEffect(() => {
-            const element = document.getElementById(id);
-            let text = element.innerText.split("");
+            if (id){
+                console.log(`id = ${id}`)
+                const element = document.getElementById(id);
+                let text = element.innerText.split("");
+                
+                element.innerText = "";
+                
+                text.forEach((value, index) => {
+                  const outer = document.createElement("span");
+                  
+                  outer.className = "outer";
+                  
+                  const inner = document.createElement("span");
+                  
+                  inner.className = "inner";
+                  
+                  inner.style.animationDelay = `${rand(-5000, 0)}ms`;
+                  
+                  const letter = document.createElement("span");
+                  
+                  letter.className = "letter";
+                  
+                  letter.innerText = value;
+                  
+                  letter.style.animationDelay = `${index * 1000 }ms`;
+                  
+                  inner.appendChild(letter);    
+                  
+                  outer.appendChild(inner);    
+                  
+                  element.appendChild(outer);
+                  console.log(`finishig`)
+                });
+                console.log(`useEffect triggered: id = ${id}`)
+            }
             
-            element.innerText = "";
-            
-            text.forEach((value, index) => {
-              const outer = document.createElement("span");
-              
-              outer.className = "outer";
-              
-              const inner = document.createElement("span");
-              
-              inner.className = "inner";
-              
-              inner.style.animationDelay = `${rand(-5000, 0)}ms`;
-              
-              const letter = document.createElement("span");
-              
-              letter.className = "letter";
-              
-              letter.innerText = value;
-              
-              letter.style.animationDelay = `${index * 1000 }ms`;
-              
-              inner.appendChild(letter);    
-              
-              outer.appendChild(inner);    
-              
-              element.appendChild(outer);
-              console.log(`finishig`)
-            });
-            console.log(`useEffect triggered: id = ${id}`)
         }, [id])
       }
     
-    id = "channel-link";
+    // id = "channel-link";
     enhance(id);
-    enhance("viewleagueslink");
-    enhance("joinleagueslink");
-    enhance("createleagueslink");
+    // enhance("viewleagueslink");
+    // enhance("joinleagueslink");
+    // enhance("createleagueslink");
     return (
         <>
         <div className="DefaultPage-Container">
