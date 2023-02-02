@@ -1,98 +1,23 @@
-# How to code a webapp with this skeleton
+# Tips for Using NBAPredict!
 
-## Initial setup
+## Prediction
 
-All teammates will need (explained in http://weblab.is/install)
+First, you'll want to input your own prediction for the NBA season! Simply head over to "Your Prediction"
+and drag and drop the teams under the tables labeled "Your Prediction." Once you're satisfied with the
+selected order, hit Submit! You'll see a Score value filled in; this will update dynamically throughout
+the NBA season, and it reflects the accuracy of your prediction. Note that your account has exactly
+one prediction associated with it!
 
-- A bash console (on Mac or Linux, this is Terminal. On Windows, we recommend Git Bash)
-- NodeJS version 18. If it is installed correctly, typing "node --version" should give v18.13.0 and "npm --version" should give 8.19.3
-- Visual Studio Code (or another code editor)
-- the Prettier VSCode extension
+## Leagues
 
-Also, all of you will need to go through the MongoDB Atlas setup (http://weblab.is/mongo-setup).
+At its core, NBAPredict is about predicting the NBA's season alongside your friends!
+Forming leagues with friends is integral to the NBAPredict experience.
 
-Additionally for authentication, one of you will need to obtain a CLIENT_ID, instructions are at http://weblab.is/gauth.
+If you don't already have a league to join, you can create one by clicking "Create Leagues"
+and entering a Name and a Password for your league. Then, users can join your league by
+inputing the same Name and Password into the page found under "Join Leagues."
 
-## Downloading these files
-
-First, you probably have a team repository somewhere (the link looks like: https://github.com/weblab-class/teammate1-teammate2-teammate3). You each should clone this (empty) repository by navigating to where you want your folder to be (**NOT in catbook**) and typing: git clone https://github.com/weblab-class/teammate1-teammate2-teammate3.git <-- with the correct link.
-
-Then, one of your team members will need to do the following:
-
-First on GitHub, download the skeleton (this repository) as a zip file, by clicking Code -> Download as ZIP. (Do not clone it, since this will download extra files, like .git, which will lead to GitHub being confused).
-
-Then, drag over all of the files in this skeleton into your team's folder. **Make sure to also drag over the hidden files!** To see these hidden files, navigate to the skeleton in Finder/File Explorer and press command+shift+period (mac) or View > Show > Hidden items (windows).
-
-The files/folders you must drag over are:
-
-- .babelrc (hidden)
-- .gitignore (hidden)
-- .npmrc (hidden)
-- .prettierrc (hidden)
-- client (folder)
-- package-lock.json
-- package.json
-- README.md
-- server (folder)
-- webpack.config.js
-
-[Quick youtube demo on dragging the files](https://www.youtube.com/watch?v=7Q_xxowPW1c)
-
-Additionally, you must create a .env file in the root directory. See .env.example for an example of what this file should look like.
-
-Then, in terminal, navigate to your teams folder and push all of the files to your team's GitHub repository as usual:
-
-- git add -A
-- git commit -m "Skeleton code"
-- git push
-
-Now the rest of your teammates can pull all these files with a 'git pull'!
-
-Post on Piazza if you run into any issues
-
-## What you need to change in the skeleton
-
-- Change the Frontend CLIENT_ID (Skeleton.js) to your team's CLIENT_ID (obtain this at http://weblab.is/gauth)
-- Change the Server CLIENT_ID to the same CLIENT_ID (auth.js)
-- Change the Database SRV (mongoConnectionURL) for Atlas (server.js). You got this in the MongoDB setup. remember to replace <password> and <dbname> (should be no < or > in your SRV)
-- Change the Database Name for MongoDB to whatever you put in the SRV to replace <dbname> (server.js)
-- (Optional) Add a favicon to your website at the path client/dist/favicon.ico
-- (Optional) Update website title in client/dist/index.html
-- (Optional) Update this README file ;)
-- (Optional) Update the package.json file with your app name :) (line 2)
-
-## How to run this skeleton
-
-First, 'npm install'
-Then open two seperate terminals, and 'npm run hotloader' in the first, and 'npm start' in the second.
-Then open http://localhost:5050
-
-## How to go from this skeleton to your actual app
-
-Check out this [How to Get Started Guide](http://weblab.is/get-started)
-
-## Socket stuff
-
-Note: we'll be getting to this in lecture in week 2, so don't worry if you don't know it yet
-
-- If you're not using realtime updating or don't need server->client communication, you can remove socket entirely! (server-socket.js, client-socket.js, and anything that imports them)
-- If you are using sockets, consider what you want to do with the FIXME in server-socket.js
-
-## Edit at your own risk
-
-the following files students do not need to edit. feel free to read them if you would like.
-
-```
-client/src/index.js
-client/src/utilities.js
-client/src/client-socket.js
-server/validator.js
-server/server-socket.js
-.babelrc
-.npmrc
-.prettierrc
-package-lock.json
-webpack.config.js
-```
-
-## Good luck on your project :)
+Once you've created and/or joined leagues, you can view the list of leagues you're in under
+"View Leagues." For each league in the table of all your leagues, you can click that league's
+name to view that league's leaderboard! This tells you how accurate the predictions are for
+each user in the league.

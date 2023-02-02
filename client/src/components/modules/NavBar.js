@@ -48,7 +48,7 @@ const NavBar = (props) => {
         <div className="push-right">
             {props.userId && (
               <Link to={`/UserPage`} className="NavBar-link-right">
-                Your Predictions
+                Your Prediction
               </Link>
             )}
           </div>
