@@ -184,6 +184,43 @@
     z-index: 2;
 }
 
+
+.CreateLeague-StandingsButton:focus{
+  display:flex;
+  /* border: gray; */
+  border-radius: 50%;
+  /* background-color: #A672A0; */
+
+  /* position: absolute; */
+  width: 300px;
+  height: 300px;
+  /* left: 600px;
+  top: 500px; */
+  
+  color:#DAE0F2;
+  font-size: clamp(2rem, 4vw, 4rem);
+  font-family: "Rubik", sans-serif;
+  border-color: #000000;
+
+  background: #32567d;
+  border-width: 4px;
+  /* align-self: center; */
+  justify-content: center;
+  align-items: center;
+  z-index: 2;
+}
+
+.CreateLeague-StandingsButton:hover {
+  box-shadow: rgba(255, 255, 255, .2) 0 3px 15px inset, rgba(0, 0, 0, .1) 0 3px 5px, rgba(0, 0, 0, .1) 0 10px 13px;
+  /* transform: scale(1.05); */
+}
+
+@media (min-width: 768px) {
+  .CreateLeague-StandingsButton {
+    padding: 16px 48px;
+  }
+}
+
 .CreateLeague-82Button{
     display:flex;
     border: gray;
