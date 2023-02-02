@@ -494,15 +494,6 @@ router.post("/updateScoreInLeague", auth.ensureLoggedIn, (req, res) => {
     Promise.all(promises).then((result) => res.send(result));
   })
 
-  // League.updateMany({users: { $in: [{user_id: req.body.user_id}] }}, {$set: {user_score: req.body.user_score }}, {new: true, upsert: true}, (err) => {
-  //   if (err) {
-  //     console.log(err);
-  //     return res.status(500).send("Error updating/creating standingPrediction");
-  //   } else{
-  //     console.log(`NO ERROR!`)
-  //   }
-  //   return res.status(200)
-  // })
 })
 
 router.post("/addToLeague", auth.ensureLoggedIn, (req, res) => {
@@ -537,7 +528,7 @@ router.post("/addToLeague", auth.ensureLoggedIn, (req, res) => {
 });
 
 function sortLeagueStandings(users){
-  users.sort((user1, user2) => (user1.score > user2.score) ? 1 : -1)
+  users.sort((a, b) => b.user_score - a.user_score)
   return users
 }
 

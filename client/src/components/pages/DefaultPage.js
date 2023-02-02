@@ -215,7 +215,7 @@ const DefaultPage = (props) => {
         PHILADELPHIA_76ERS: {
         name: "Philadelphia 76ers",
         logo: "https://www.example.com/76ers-logo.png",
-        primaryColor: "#006BB6",
+        primaryColor: "#123752",
         secondaryColor: "#ED174C"
         },
         PHOENIX_SUNS: {
@@ -239,7 +239,7 @@ const DefaultPage = (props) => {
         SAN_ANTONIO_SPURS: {
         name: "San Antonio Spurs",
         logo: "https://www.example.com/spurs-logo.png",
-        primaryColor: "#B6BFBF",
+        primaryColor: "#7a8181  ",
         secondaryColor: "#000000"
         },
         TORONTO_RAPTORS: {
@@ -407,42 +407,8 @@ const DefaultPage = (props) => {
         }
         }
     };
-
-    // let CreateLeagueButton = null;
-    // let JoinLeagueButton = null;
-    // let ViewLeagueButton = null;
-    // CreateLeagueButton = (
-    // <div>
-    //     <Link to ="/createleague">
-    //         <button
-    //         id="defaultToCreate"
-    //         className="button-createleague"
-    //         onClick={()=>{}}
-    //         >CreateLeague</button>
-    //     </Link>
-    // </div>
-    // );
-    // JoinLeagueButton = (
-    // <div>
-    //     <Link to="/JoinLeague">
-    //         <button
-    //         className="button-joinleagues"
-    //         onClick={()=>{console.log("join league clicked")}}
-    //         >Join League</button>
-    //     </Link>
-    // </div>
-    // );
-    // ViewLeagueButton = (
-    // <div>
-    //     <Link to="/YourLeagues">
-    //         <button
-    //         className="button-viewleagues"
-    //         onClick={()=>{console.log("view league clicked")}}
-    //         >View Your Leagues</button>
-    //     </Link>
-    // </div>
-    // );
-    
+    //All code that handles animation and styling of component FancyText is derived from Youtuber Hyperplexed's codepen:
+    //https://codepen.io/Hyperplexed/pen/mdjPzgM
     const [id, setId] = useState(null);
     const rand = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
 
@@ -451,13 +417,6 @@ const DefaultPage = (props) => {
           <div>
             <div id="text">
             <div className="line">
-              {/* <Link to ="/createleague" id="createleagueslink" onMouseEnter={() => {
-                setId("createleagueslink")
-                }}
-                onMouseLeave={() => setId("createleagueslink")}>
-              <p className="word fancy">Create</p>
-              </Link>
-              <p className="word league">Leagues</p> */}
               <Link to ="/createleague">
                 <a
                     id="createleagueslink"

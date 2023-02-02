@@ -232,7 +232,7 @@ ORLANDO_MAGIC: {
 PHILADELPHIA_76ERS: {
   name: "Philadelphia 76ers",
   logo: "https://www.example.com/76ers-logo.png",
-  primaryColor: "#006BB6",
+  primaryColor: "#123752",
   secondaryColor: "#ED174C"
 },
 PHOENIX_SUNS: {
@@ -256,7 +256,7 @@ SACRAMENTO_KINGS: {
 SAN_ANTONIO_SPURS: {
   name: "San Antonio Spurs",
   logo: "https://www.example.com/spurs-logo.png",
-  primaryColor: "#B6BFBF",
+  primaryColor: "#7a8181",
   secondaryColor: "#000000"
 },
 TORONTO_RAPTORS: {
@@ -522,7 +522,7 @@ WASHINGTON_WIZARDS: {
       <button
       className="button-76"
       onClick={()=>{console.log(Click)}}>
-        Score={score}
+        Score = {score.toFixed(2)} / 100
       </button>
     </div>
   );

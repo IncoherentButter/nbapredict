@@ -63,44 +63,32 @@ const JoinLeague = (props) => {
   }
   return (
     <>
-      <div className="JoinLeague-container">
-        <div className="JoinLeague-Header">
-          <div>League Join Menu</div>
-        </div>
-        <div className="JoinLeague-InputContainer">
-          <input
-          type="text"
-          placeholder={props.defaultLeagueNameText}
-          value={leagueUsername}
-          onChange={handleLeagueNameChange}
-          className="JoinLeague-NameForm" 
-          /> 
-          <input
-          type="text"
-          placeholder={props.defaultLeaguePasswordText}
-          value={leaguePassword}
-          onChange={handleLeaguePasswordChange}
-          className="JoinLeague-PasswordForm" 
-          />
-          <button
-          type="submit"
-          className="JoinLeague-StandingsButton"
-          value="Submit"
-          onClick={handleJoinSubmit}>
-          Submit
-          </button>
-          {/* <div className="JoinLeague-PasswordForm">
-            League Password:
-          </div> */}
-          {/* <div> */}
-            {/* <div className="JoinLeague-StandingsButton">
-              Submit
-            </div> */}
-          {/* </div> */}
-        </div>
+      <div className="JoinLeague-Container">
+          <div className="JoinLeague-InputContainer">
+            <input
+            type="text"
+            placeholder={props.defaultLeagueNameText}
+            value={leagueUsername}
+            onChange={handleLeagueNameChange}
+            className="JoinLeague-NameForm" 
+            /> 
+            <button
+            type="submit"
+            className="JoinLeague-StandingsButton"
+            value="Submit"
+            onClick={handleJoinSubmit}>
+            Join
+            </button>
+            <hr className="CreateLeague-HorizontalLine" color="black" width="100%" size="15"/>
+            <input
+            type="text"
+            placeholder={props.defaultLeaguePasswordText}
+            value={leaguePassword}
+            onChange={handleLeaguePasswordChange}
+            className="JoinLeague-PasswordForm" 
+            />
+          </div>            
       </div>
-
-      {/* <div className="UserPage-Create-button">{JoinLeagueButton}</div> */}
     </>
   );
 }

@@ -27,8 +27,8 @@ const LeagueRow = (props) =>{
   const index = props.index
   return(
       <tr className="YourLeagues-Row">
-          <td className=".YourLeagues-Row-Index">{index}</td>
-          <td className=".YourLeagues-Row-LeagueName">{league.league_name}</td>
+          {/* <td className=".YourLeagues-Row-Index">{index}</td> */}
+          <td className=".YourLeagues-Row-LeagueName text.link">{league.league_name}</td>
       </tr>
   );
 };
@@ -465,26 +465,17 @@ WASHINGTON_WIZARDS: {
   }
   return (
     <>
-      <div className="YourLeagues-container">
-        <div className="YourLeagues-Header">
-          <div>Your Leagues</div>
-        </div>
+      <div className="YourLeagues-Container">
         <div className="YourLeagues-InputContainer">
-          {/* <div className="YourLeagues-NameForm">
-            League Name: 
-          </div>
-          <div className="YourLeagues-PasswordForm">
-            League Password:
-          </div> */}
           <table className="YourLeagues-Table">
-            <thead>
+            <thead className="YourLeagues-Table-Header">
               <tr>
                 <th>Your Leagues</th>
               </tr>
             </thead>
             <tbody>
               {yourLeagues.map((league, index) => (
-                <Link to={`../LeaguePage/${league.league_name}`}>
+                <Link to={`../LeaguePage/${league.league_name}`} className=".text-link">
                   <LeagueRow    
                       key={league.league_name}
                       league={league}
@@ -495,16 +486,11 @@ WASHINGTON_WIZARDS: {
               }
             </tbody>
           </table>
-          <div className="YourLeagues-UserPredictions">
+          {/* <div className="YourLeagues-UserPredictions">
             <ConferenceTable is_editable={false} west_teams={actual_western_standings} east_teams={actual_eastern_standings} user_id={props.user_id} setUserStandings={setUserStandings}/>
-          </div>
+          </div> */}
         </div>
-        {/*JoinLeagueButton*/}
-        {/*YourLeaguesButton*/}
-        
       </div>
-
-      {/* <div className="UserPage-Create-button">{YourLeaguesButton}</div> */}
     </>
   );
 }

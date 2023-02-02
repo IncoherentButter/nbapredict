@@ -1,11 +1,24 @@
 @import url('https://fonts.googleapis.com/css2?family=Imbue:opsz,wght@10..100,200&display=swap');
+
 .YourLeagues-Container{
     display:flex;
-    flex-direction: column;
-    padding-bottom: 10%;
-    justify-content: space-around;
-    gap: 1em;
-    
+    /* flex-direction: column; */
+    /* padding-bottom: 10%; */
+    /* justify-content: space-around; */
+    /* gap: 1em; */
+    /* height: 100%; */
+    /* width: 100%; */
+    background-color: black;
+    /* margin: 0rem; */
+    /* overflow: hidden; */
+    /* background-color: #000000; */
+    /* color: #000000; */
+
+    width: 100%;
+    height: 250vmin;
+    object-fit: cover;
+    object-position: 100% center;
+    justify-content: center;
 }
 .YourLeagues-Header{
     display: flex;
@@ -28,11 +41,11 @@
     justify-content: center;
 
     display: flex;
-    position: absolute;
+    /* position: absolute; */
     width: 689px;
     height: 75px;
-    left: 30%;
-    top: 150px;
+    /* left: 30%;
+    top: 150px; */
 
     font-family: 'Imbue', serif;
     font-style: normal;
@@ -41,13 +54,15 @@
     line-height: 58px;
     text-align: center;
 
-    color: #000000;
+    /* color: #000000; */
     vertical-align: 50;
 }
 
 .YourLeagues-InputContainer{
     display: flex;
     flex-direction: column;
+    border: #ffffff;
+    border-width: 4px;
     /* flex-direction: row; */
     /* padding: 10% 50% 15% 50%;
     align-items: center;
@@ -56,21 +71,24 @@
     border-radius: 10px;
     flex: 1;
     border-style: groove; */
-    box-sizing: border-box;
+    /* box-sizing: border-box; */
 
     /* position: absolute; */
-    width: 1237px;
-    height: 652px;
-    left: 102px;
-    top: 315px;
+    width: 35%;
+    height: 25%;
+    /* left: 102px;
+    top: 315px; */
 
-    background: #DAE0F2;
-    border: 1px solid #000000;
+    /* background: #6B294D; */
+    background: linear-gradient(315deg, #25b7c4, #4E76A1, #85B79D, #7E9C93);;
+    /* border: 1px solid #000000; */
     border-radius: 18px;
-    padding-bottom: 10%;
-    margin: 10%;
+    padding-top: 8em;
+    padding-bottom: 6em;
+    margin: 2%;
     vertical-align: 50;
-    justify-content: center;
+    justify-content: space-between;
+    align-items: center;  
 }
 
 .YourLeagues-NameForm{
@@ -86,11 +104,11 @@
     background: #F9CFF2;
     border-radius: 5px;
 
-    position: absolute;
+    /* position: absolute; */
     width: 213px;
     height: 49px;
-    left: 680px;
-    top: 366px;
+    /* left: 680px;
+    top: 366px; */
 
     font-family: 'Imbue';
     font-style: normal;
@@ -115,40 +133,55 @@
     background: #F9CFF2;
     border-radius: 5px;
 
-    position: absolute;
+    /* position: absolute; */
     width: 213px;
     height: 49px;
-    left: 680px;
-    top: 423px;
+    /* left: 680px;
+    top: 423px; */
 
     font-family: 'Imbue';
     font-style: normal;
     font-weight: 400;
     font-size: 36px;
     line-height: 43px;
+    
 
     color: #000000;
 
     text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
 
+.YourLeagues-HorizontalLine{
+  display: flex;
 
+  position: absolute;
+  top:55%;
+  z-index: 1;
+}
 
 .YourLeagues-StandingsButton{
     display:flex;
-    border: gray;
+    /* border: gray; */
     border-radius: 50%;
     /* background-color: #A672A0; */
 
-    position: absolute;
-    width: 363px;
-    height: 363px;
-    left: 600px;
-    top: 500px;
+    /* position: absolute; */
+    width: 300px;
+    height: 300px;
+    /* left: 600px;
+    top: 500px; */
+    
+    color:#DAE0F2;
+    font-size: clamp(2rem, 4vw, 4rem);
+    font-family: "Rubik", sans-serif;
+    border-color: #000000;
 
-    background: #A672A0;
-    align-self: center;
+    background: #1a334d;
+    border-width: 4px;
+    /* align-self: center; */
     justify-content: center;
+    align-items: center;
+    z-index: 2;
 }
 
 .YourLeagues-82Button{
@@ -156,13 +189,100 @@
     border: gray;
     background-color: #767A9B;
 }
-
-.YourLeagues-UserPredictions{
-    display: flex;
-    justify-content: end;
-    align-self: flex-end;
+.text-link {
+    color: black;
+    text-decoration: none;
 }
 
+.YourLeagues-LeagueCard{
+  display: flex;
+  /* gap: 4vmin; */
+  /* justify-content: center; */
+  /* align-items: center; */
+  /* left: 150%; */
+  /* top: 500%; */
+  /* transform: translate(200%, 50%);  */
+  /* user-select: none;  */
+  background-color: #000000;
+  color: #000000;
+
+  width: 150vmin;
+  height: 100vmin;
+  object-fit: cover;
+  object-position: 100% center;
+}
+  
+#image-track {
+  display: flex;
+  /* gap: 4vmin; */
+  /* justify-content: center; */
+  /* align-items: center; */
+  /* left: 150%; */
+  /* top: 500%; */
+  /* transform: translate(200%, 50%);  */
+  /* user-select: none;  */
+  /* -- Prevent image highlighting -- */
+}
+  
+#image-track > .image {
+  width: 80vmin;
+  height: 100vmin;
+  object-fit: cover;
+  object-position: 100% center;
+}
+  
+  /* -- YouTube Link Styles -- */
+  
+  body.menu-toggled > .meta-link > span {
+    color: rgb(30, 30, 30);
+  }
+  
+  #source-link {
+    bottom: 60px;
+  }
+  
+  #source-link > i {
+    color: rgb(94, 106, 210);
+  }
+  
+  #yt-link > i {
+    color: rgb(239, 83, 80);
+  }
+  
+  .meta-link {
+    align-items: center;
+    backdrop-filter: blur(3px);
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 6px;
+    bottom: 10px;
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1);
+    cursor: pointer;  
+    display: inline-flex;
+    gap: 5px;
+    left: 10px;
+    padding: 10px 20px;
+    position: fixed;
+    text-decoration: none;
+    transition: background-color 400ms, border-color 400ms;
+    z-index: 10000;
+  }
+  
+  .meta-link:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+  
+  .meta-link > i, .meta-link > span {
+    height: 20px;
+    line-height: 20px;
+  }
+  
+  .meta-link > span {
+    color: white;
+    font-family: "Rubik", sans-serif;
+    font-weight: 500;
+  }
 .YourLeagues-Table{
     display: flex;
     flex-direction: column;
@@ -170,30 +290,66 @@
     border-collapse: collapse;
     border: 1.5px solid rgb(7, 7, 7);
     gap: 1em;
+    border-radius: 4%;
+    
 
-    position: absolute;
+    /* position: absolute; */
     width: 170px;
     height: 363px;
-    left: 300px;
-    top: 300px;
+    /* left: 300px;
+    top: 300px; */
+}
+
+.YourLeagues-Table-Header{
+  color: rgb(24, 22, 22);
+  font-size: clamp(1.3rem, 1.3vw, 1.3rem);
+  font-family: "Rubik", sans-serif;
+  margin: 0rem;
+  /* text-transform: uppercase; */
+  /* transition: opacity 250ms ease; */
+  justify-content: center;
+  align-self: center;
+  vertical-align: middle;
 }
 
 .YourLeagues-Row{
     display: flex;
-    width: 150px;
+    width: 100%;
     height: 50px;
-    border: 1.5px solid rgb(7, 7, 7);
+    border: 1px solid rgb(7, 7, 7);
+    margin: 0 2em 0 0;
 
-    background: #DFFFD6;
-    border-radius: 5px;
+    background: #6B294D;
+    border-radius: 2px;
+    justify-content: center;
+    align-items: center;
+
+    font-size: clamp(2rem, 2vw, 2rem);
+    /* font-family: "Rubik", sans-serif; */
+    /* color: #000000; */
+    text-decoration: none;
+
+    color: rgb(237, 230, 230);
+    -webkit-text-stroke: 1px rgb(0, 0, 0);
+    -webkit-text-stroke-width: thin;
+    /* font-size: clamp(2rem, 6vw, 6rem); */
+    font-family: "Rubik", sans-serif;
 }
 
 .YourLeagues-Row-Index{
     display: flex;
     flex-direction: column;
-    align-items: flex-end;
+    justify-content: center;
+    align-self: flex-start;
 }
 
-/* .YourLeagues-Row-LeagueName{
-
-} */
+.YourLeagues-Row-LeagueName{
+    display: flex;
+    flex-direction: column;
+    color: #000000;
+    text-decoration: none;
+    /* justify-content: center;
+    align-items: center; */
+    font-size: clamp(2rem, 4vw, 4rem);
+    font-family: "Rubik", sans-serif;
+}

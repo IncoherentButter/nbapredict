@@ -5,7 +5,7 @@ const LeagueSchema = new mongoose.Schema({
     league_name: String,
     league_password: String,
     league_type: String,
-    users: [{user_id: String, user_score: Number}],
+    users: [{user_id: String, user_name: String, user_score: Number}],
 });
 
 // compile model from schema

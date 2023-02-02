@@ -15,7 +15,7 @@
     /* color: #000000; */
 
     width: 100%;
-    height: 250vmin;
+    height: 100vmin;
     object-fit: cover;
     object-position: 100% center;
     justify-content: center;
@@ -61,6 +61,8 @@
 .CreateLeague-InputContainer{
     display: flex;
     flex-direction: column;
+    border: #ffffff;
+    border-width: 4px;
     /* flex-direction: row; */
     /* padding: 10% 50% 15% 50%;
     align-items: center;
@@ -73,7 +75,7 @@
 
     /* position: absolute; */
     width: 35%;
-    height: 25%;
+    height: 60%;
     /* left: 102px;
     top: 315px; */
 
@@ -149,9 +151,17 @@
     text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
 
+.CreateLeague-HorizontalLine{
+  display: flex;
+
+  position: absolute;
+  top:55%;
+  z-index: 1;
+}
+
 .CreateLeague-StandingsButton{
     display:flex;
-    border: gray;
+    /* border: gray; */
     border-radius: 50%;
     /* background-color: #A672A0; */
 
@@ -164,12 +174,14 @@
     color:#DAE0F2;
     font-size: clamp(2rem, 4vw, 4rem);
     font-family: "Rubik", sans-serif;
+    border-color: #000000;
 
     background: #1a334d;
     border-width: 4px;
     /* align-self: center; */
     justify-content: center;
     align-items: center;
+    z-index: 2;
 }
 
 .CreateLeague-82Button{
@@ -197,74 +209,3 @@
   object-position: 100% center;
 }
   
-#image-track {
-  display: flex;
-  /* gap: 4vmin; */
-  /* justify-content: center; */
-  /* align-items: center; */
-  /* left: 150%; */
-  /* top: 500%; */
-  /* transform: translate(200%, 50%);  */
-  /* user-select: none;  */
-  /* -- Prevent image highlighting -- */
-}
-  
-#image-track > .image {
-  width: 80vmin;
-  height: 100vmin;
-  object-fit: cover;
-  object-position: 100% center;
-}
-  
-  /* -- YouTube Link Styles -- */
-  
-  body.menu-toggled > .meta-link > span {
-    color: rgb(30, 30, 30);
-  }
-  
-  #source-link {
-    bottom: 60px;
-  }
-  
-  #source-link > i {
-    color: rgb(94, 106, 210);
-  }
-  
-  #yt-link > i {
-    color: rgb(239, 83, 80);
-  }
-  
-  .meta-link {
-    align-items: center;
-    backdrop-filter: blur(3px);
-    background-color: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 6px;
-    bottom: 10px;
-    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1);
-    cursor: pointer;  
-    display: inline-flex;
-    gap: 5px;
-    left: 10px;
-    padding: 10px 20px;
-    position: fixed;
-    text-decoration: none;
-    transition: background-color 400ms, border-color 400ms;
-    z-index: 10000;
-  }
-  
-  .meta-link:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-  }
-  
-  .meta-link > i, .meta-link > span {
-    height: 20px;
-    line-height: 20px;
-  }
-  
-  .meta-link > span {
-    color: white;
-    font-family: "Rubik", sans-serif;
-    font-weight: 500;
-  }

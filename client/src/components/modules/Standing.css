@@ -20,6 +20,11 @@
     display: flex;
     flex-direction: column;
     align-items: flex-end;
+    color: rgb(237, 230, 230);
+    -webkit-text-stroke: 1px rgb(0, 0, 0);
+    -webkit-text-stroke-width: thin;
+    /* font-size: clamp(2rem, 6vw, 6rem); */
+    font-family: "Rubik", sans-serif;
 }
 
 /* .Standing-moveable-teamLogo{ */

@@ -113,7 +113,7 @@ const TeamRow = (props) => {
     drag(dragRef)
     // console.log(`drag(dragRef) just called`)
     return (
-        <tr ref={dropRef} bgcolor={team.primaryColor} className="   ">
+        <tr ref={dropRef} bgcolor={team.primaryColor} className="Standing-moveable-tbody-tr">
             <td ref={dragRef} className="Standing-moveable-teamSeed">{index + 1}</td>
             <td className="Standing-moveable-teamLogo"><TeamToLogo team={props.team}/></td>
             <td ref={dragRef} className="Standing-moveable-teamName">{team.name}</td>
@@ -252,7 +252,7 @@ const Standing = (props) => {
         <DndProvider backend={HTML5Backend}>
         <div>
                 <table className="Standing-Table">
-                    <thead>
+                    <thead align="center" valign="middle" className="Standing-Table-Header">
                         <tr>
                             <th>Your Prediction</th>
                         </tr>

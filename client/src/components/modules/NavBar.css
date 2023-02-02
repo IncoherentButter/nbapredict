@@ -1,8 +1,16 @@
+.flex-row{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .NavBar-container {
     padding: var(--s) var(--m);
     background-color: #1E50AE;
     display: flex;
     direction: row;
+    justify-content: space-between;
+    align-items: center;
   }
   
   .NavBar-title {
@@ -16,20 +24,23 @@
 
   .NavBar-title-pipe {
     color: #fbfbfb;
-    font-size: 1.8rem;
+    font-size: 2.2rem;
     font-family: "Rubik", sans-serif;
   }
   
   .NavBar-title-red {
-    color: #340303;
+    color: rgb(152, 17, 17);
+    font-weight: bold;
     font-size: clamp(2rem, 2vw, 3rem);
     font-family: "Rubik", sans-serif;
   }
   
   .NavBar-linkContainer {
-    /* margin-left: var(--l); */
+    margin-left: var(--l);
     display: flex;
+    justify-content: space-evenly;
     align-items: center;
+    align-self: flex-end;
   }
 
   .push-right{
@@ -41,16 +52,20 @@
     color: var(--white);
     opacity: 0.6;
     text-decoration: none;
+    font-size: clamp(1.5rem, 1.5vw, 1.5rem);
+    font-family: "Rubik", sans-serif;
   }
 
   .NavBar-link-right,
   .NavBar-link-right:visited {
-    display: flex;
+    /* display: flex; */
     /* justify-content: end; */
     color: var(--white);
     opacity: 0.6;
     text-decoration: none;
-    margin-left: auto;
+    /* margin-left: auto; */
+    font-size: clamp(2rem, 2vw, 2rem);
+    font-family: "Rubik", sans-serif;
   }
   
   .NavBar-link:hover {
@@ -62,6 +77,18 @@
   }
   
   .NavBar-link + .NavBar-link {
+    margin-left: var(--m);
+  }
+
+  .NavBar-link-right:hover {
+    opacity: 0.8;
+  }
+  
+  .NavBar-link-right.NavBar-login {
+    opacity: 1;
+  }
+  
+  .NavBar-link-right + .NavBar-link-right {
     margin-left: var(--m);
   }
   

@@ -24,15 +24,19 @@ import * as NBAIcons from 'react-nba-logos';
  */
 
 const ScoreRow = (props) =>{
-  const user_name = props.user_name.concat("||| ")
+  // const user_name = props.user_name.concat("||| ")
   const user_score = props.user_score
+  var user_name = props.user_name;
+  if (!user_name){
+    user_name = "Unnamed User"
+  }
   const index = props.index
   console.log(`ScoreRow name = ${user_name}; score = ${user_score}`)
   return(
       <tr className="LeaguePage-Row">
           <td className=".LeaguePage-Row-Index">{index}</td>
           <td className=".LeaguePage-Row-Username">{user_name}</td>
-          <td className=".LeaguePage-Row-User-Score">{user_score}</td>
+          <td className=".LeaguePage-Row-User-Score">{user_score.toFixed(2)}</td>
       </tr>
   );
 };
@@ -239,7 +243,7 @@ ORLANDO_MAGIC: {
 PHILADELPHIA_76ERS: {
   name: "Philadelphia 76ers",
   logo: "https://www.example.com/76ers-logo.png",
-  primaryColor: "#006BB6",
+  primaryColor: "#123752",
   secondaryColor: "#ED174C"
 },
 PHOENIX_SUNS: {
@@ -263,7 +267,7 @@ SACRAMENTO_KINGS: {
 SAN_ANTONIO_SPURS: {
   name: "San Antonio Spurs",
   logo: "https://www.example.com/spurs-logo.png",
-  primaryColor: "#B6BFBF",
+  primaryColor: "#7a8181",
   secondaryColor: "#000000"
 },
 TORONTO_RAPTORS: {
@@ -474,44 +478,35 @@ WASHINGTON_WIZARDS: {
   }
   return (
     <>
-      <div className="LeaguePage-container">
-        <div className="LeaguePage-Header">
-          <div>Your Leagues</div>
-        </div>
-        <div className="LeaguePage-InputContainer">
-          {/* <div className="LeaguePage-NameForm">
-            League Name: 
-          </div>
-          <div className="LeaguePage-PasswordForm">
-            League Password:
-          </div> */}
+      <div className="LeaguePage-Container">
+        <div className="LeaguePage-Navigator">
           <table className="LeaguePage-Table">
-            <thead>
-              <tr>
-                <th>{props.league_name} Leaderboard</th>
-              </tr>
-            </thead>
-            <tbody>
-              {leagueStandings.map((user, index) => (
-                  <ScoreRow    
-                      key={user.user_id}
-                      user_name={user.user_id}
-                      user_score={user.user_score}
-                      index={index}
-                  />
-                ))
-              }
-            </tbody>
+              <caption>{props.league_name} Leaderboard</caption>
+              <thead>
+                <tr>
+                  <th scope="col" className="LeaguePage-Table-Header">Rank</th>
+                  <th scope="col" className="LeaguePage-Table-Header">Username</th>
+                  <th scope="col" className="LeaguePage-Table-Header">Score</th>
+                </tr>
+              </thead>
+              <tbody>
+                {leagueStandings.map((user, index) => (
+                    <ScoreRow    
+                        key={user.user_id}
+                        user_name={user.user_name}
+                        user_score={user.user_score}
+                        index={index+1}
+                    />
+                  ))
+                }
+              </tbody>
           </table>
-          <div className="LeaguePage-UserPredictions">
-            <ConferenceTable is_editable={false} west_teams={actual_western_standings} east_teams={actual_eastern_standings} user_id={props.user_id} setUserStandings={setUserStandings}/>
-          </div>
         </div>
-        {/*JoinLeagueButton*/}
-        {/*YourLeaguesButton*/}
         
+        <div className="LeaguePage-ConferenceTableContainer">
+            <ConferenceTable is_editable={false} west_teams={actual_western_standings} east_teams={actual_eastern_standings} user_id={props.user_id} setUserStandings={setUserStandings}/>
+        </div>
       </div>
-
       {/* <div className="UserPage-Create-button">{YourLeaguesButton}</div> */}
     </>
   );

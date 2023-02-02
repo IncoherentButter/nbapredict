@@ -18,6 +18,7 @@ import * as NBAIcons from 'react-nba-logos';
  *
  * Proptypes
  * @param {string} user_id id of current logged in user
+ * @param {string} user_name name of current logged in user
  * @param {Number} user_score score of current user's prediction
  * @param {string} defaultLeagueNameText League Name form's default text before user types in
  * @param {string} defaultLeaguePasswordText League Password form's default text before user types in 
@@ -48,7 +49,7 @@ const CreateLeague = (props) => {
   const handleCreateSubmit = (event) => {
     event.preventDefault();
     const leagueData = { creator_id: props.user_id, league_name: leagueUsername,
-      league_password: leaguePassword, league_type: "Standings", users: [{user_id: props.user_id, user_score: userScore}]};
+      league_password: leaguePassword, league_type: "Standings", users: [{user_id: props.user_id, user_name: props.user_name, user_score: userScore}]};
 
     // props.onSubmit && props.onSubmit(value);
     addLeague(leagueData)
@@ -111,9 +112,11 @@ const CreateLeague = (props) => {
             type="submit"
             className="CreateLeague-StandingsButton"
             value="Submit"
+            
             onClick={handleCreateSubmit}>
-            Submit
+            Create
             </button>
+            <hr className="CreateLeague-HorizontalLine" color="black" width="100%" size="15"/>
             <input
             type="text"
             placeholder={props.defaultLeaguePasswordText}

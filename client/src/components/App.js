@@ -34,6 +34,7 @@ import LeaguePage from "./pages/LeaguePage.js";
  */
 const App = () => {
   const [userId, setUserId] = useState(undefined);
+  const [userName, setUserName] = useState(undefined);
   const [user_score, setUserScore] = useState(Number(-1));
 
   useEffect(() => {
@@ -41,6 +42,7 @@ const App = () => {
       if (user._id) {
         // they are registed in the database, and currently logged in.
         setUserId(user._id);
+        setUserName(user.name);
       }
     });
   }, []);
@@ -51,12 +53,14 @@ const App = () => {
     console.log(`Logged in as ${decodedCredential.name}`);
     post("/api/login", { token: userToken }).then((user) => {
       setUserId(user._id);
+      setUserName(user.name);
       post("/api/initsocket", { socketid: socket.id });
     });
   };
 
   const handleLogout = () => {
     setUserId(undefined);
+    setUserName(undefined);
     post("/api/logout");
   };
 
@@ -88,6 +92,8 @@ const App = () => {
   // useEffect(() => {
 
   // }, [user_score])
+  console.log(`TOP LEVEL: USERNAME = ${userName}`)
+
 
   return (
     <>
@@ -96,11 +102,11 @@ const App = () => {
         <Router>
           {/* <Skeleton path="/" handleLogin={handleLogin} handleLogout={handleLogout} userId={userId} /> */}
           <DefaultPage path="/"/>
-          <UserPage path="/UserPage" user_id={userId} user_score={user_score} handleScore={handleScoreUpdate}/>
-          <CreateLeague path="/createleague/" style='overflow: hidden' user_id={userId} user_score={user_score} defaultLeagueNameText="League Name" defaultLeaguePasswordText="League Password"/>
-          <JoinLeague path="/JoinLeague" user_id={userId} user_score={user_score} defaultLeagueNameText="League Name" defaultLeaguePasswordText="League Password"/>
-          <YourLeagues path="/YourLeagues/" user_id={userId} user_score={user_score}/>
-          <LeaguePage path="/LeaguePage/:league_name" user_id={userId} user_score={user_score}/>
+          <UserPage path="/UserPage" user_id={userId} user_name={userName} user_score={user_score} handleScore={handleScoreUpdate}/>
+          <CreateLeague path="/createleague/" style='overflow: hidden' user_id={userId} user_name={userName} user_score={user_score} defaultLeagueNameText="League Name" defaultLeaguePasswordText="League Password"/>
+          <JoinLeague path="/JoinLeague" user_id={userId} user_name={userName} user_score={user_score} defaultLeagueNameText="League Name" defaultLeaguePasswordText="League Password"/>
+          <YourLeagues path="/YourLeagues/" user_id={userId} user_name={userName} user_score={user_score}/>
+          <LeaguePage path="/LeaguePage/:league_name" user_id={userId} user_name={userName} user_score={user_score}/>
           <NotFound default />
         </Router>
       </div>

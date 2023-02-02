@@ -3,6 +3,7 @@ const LOGARITHMIC_SCALE_FACTOR = 1.0;
 
 const getSumOfSquareDistances = (teams1, teams2) => {
     let sum = 0;
+    let max = 0;
     teams1.forEach((team1, index1) => {
         teams2.forEach((team2, index2) => {
             if (team1.name === team2.name) {
@@ -13,7 +14,14 @@ const getSumOfSquareDistances = (teams1, teams2) => {
             }
         });
     });
-    return sum;
+    sum /= 2;
+    for (let i = 1; i < 8; i ++){
+        max += 2 * Math.log(2*i)
+    }
+    let score = 100 * (1- (sum / max)) / 2; //divide by 2 because we're in only one conference
+    console.log(`max = ${max} sum = ${sum} score = ${score}`)
+
+    return score;
 };
 
 export default getSumOfSquareDistances;
