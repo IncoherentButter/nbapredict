@@ -540,8 +540,7 @@ function sortLeagueStandings(users){
   users.sort((user1, user2) => (user1.score > user2.score) ? 1 : -1)
   return users
 }
-//PLAN: change all user_id instances in schemas to be {user_id, score}
-//objects instead
+
 router.get("/leagueStandings", (req, res) => {
   //nec info:
   //league_name
