@@ -97,7 +97,7 @@ const App = () => {
           {/* <Skeleton path="/" handleLogin={handleLogin} handleLogout={handleLogout} userId={userId} /> */}
           <DefaultPage path="/"/>
           <UserPage path="/UserPage" user_id={userId} user_score={user_score} handleScore={handleScoreUpdate}/>
-          <CreateLeague path="/createleague/" user_id={userId} user_score={user_score} defaultLeagueNameText="League Name" defaultLeaguePasswordText="League Password"/>
+          <CreateLeague path="/createleague/" style='overflow: hidden' user_id={userId} user_score={user_score} defaultLeagueNameText="League Name" defaultLeaguePasswordText="League Password"/>
           <JoinLeague path="/JoinLeague" user_id={userId} user_score={user_score} defaultLeagueNameText="League Name" defaultLeaguePasswordText="League Password"/>
           <YourLeagues path="/YourLeagues/" user_id={userId} user_score={user_score}/>
           <LeaguePage path="/LeaguePage/:league_name" user_id={userId} user_score={user_score}/>

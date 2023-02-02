@@ -4,8 +4,8 @@
     table-layout: fixed;
     width: 100%;
     border-collapse: collapse;
-    border: 1.5px solid rgb(255, 255, 255);
-    gap: 1em
+    border: 1.5px solid rgb(42, 30, 30);
+    margin: 0 1em 0 0em;
 }
 
 .Standing-moveable-tbody-tr{
@@ -26,9 +26,28 @@
     /* flex-grow: 2; */
 /* } */
 
-/* .Standing-moveable-teamName{
-    flex-grow: 2;
-} */
+.Standing-moveable-teamName{
+    /* flex-grow: 2; */
+    color: rgb(237, 230, 230);
+    -webkit-text-stroke: 1px rgb(0, 0, 0);
+    -webkit-text-stroke-width: thin;
+    /* font-size: clamp(2rem, 6vw, 6rem); */
+    font-family: "Rubik", sans-serif;
+    margin: 0rem;
+    /* text-transform: uppercase; */
+    /* transition: opacity 250ms ease; */
+}
+
+.Standing-Table-Header{
+    color: rgb(24, 22, 22);
+    background-color: bisque;
+    /* font-size: clamp(2rem, 6vw, 6rem); */
+    font-family: "Rubik", sans-serif;
+    margin: 0rem;
+    /* text-transform: uppercase; */
+    /* transition: opacity 250ms ease; */
+    justify-content: center;
+}
 
 .Standing-tbody-tr{
     background-color: rgb(145, 189, 174);

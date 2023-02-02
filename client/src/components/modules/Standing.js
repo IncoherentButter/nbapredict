@@ -113,26 +113,10 @@ const TeamRow = (props) => {
     drag(dragRef)
     // console.log(`drag(dragRef) just called`)
     return (
-        // <tr
-        //     ref={(node) => { 
-        //         drag(drop(node));
-        //     }}         
-        // >
-        //     <td>{index}</td>
-        //     <td>{team.name}</td>
-        // </tr>
-        // <tr>
-        //     <td>{index + 1}</td>
-        //     <td>{team.name}</td>
-        // </tr>
-        <tr ref={dropRef} bgcolor={team.primaryColor} className="Standing-moveable-tbody-tr">
-            {/* <td ref={dragRef}>mo    ve</td> */}
+        <tr ref={dropRef} bgcolor={team.primaryColor} className="   ">
             <td ref={dragRef} className="Standing-moveable-teamSeed">{index + 1}</td>
             <td className="Standing-moveable-teamLogo"><TeamToLogo team={props.team}/></td>
             <td ref={dragRef} className="Standing-moveable-teamName">{team.name}</td>
-            {/* {team.cells.map(cell => {
-                return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
-            })} */}
         </tr>
     );
 }
@@ -285,30 +269,6 @@ const Standing = (props) => {
                         ))}
                     </tbody>
                 </table>
-            
-            {/* <label>
-                Choose the first row to swap:
-                <select value={firstRowIndex} onChange={handleFirstRowChange}>
-                    {[...Array(15)].map((_, i) => (
-                        <option key={i} value={i}>
-                            {i + 1}
-                        </option>
-                    ))}
-                </select>
-            </label>
-            <br />
-            <label>
-                Choose the second row to swap:
-                <select value={secondRowIndex} onChange={handleSecondRowChange}>
-                    {[...Array(15)].map((_, i) => (
-                        <option key={i} value={i}>
-                            {i + 1}
-                        </option>
-                    ))}
-                </select>
-            </label>
-            <br />
-            <button onClick={handleConfirmClick}>Confirm</button> */}
         </div>
         </DndProvider>
         )
@@ -316,19 +276,12 @@ const Standing = (props) => {
         confirmationSection = (
             <div>
                 <table className="Standing-Table">
-                    <thead>
+                    <thead align="center" valign="middle" className="Standing-Table-Header">
                         <tr>
-                            <th>True</th>
-                            <th>Standings</th>
+                            <th>True Standings</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {/* {teams.map((team, index) => (
-                            <tr key={team.name} className="Standing-tbody-tr">
-                                <td>{index + 1}</td>
-                                <td>{team.name}</td>
-                            </tr>
-                        ))} */}
                         {
                         teams.map((team, index) => (
                             <TeamRowImmutable    
@@ -350,50 +303,7 @@ const Standing = (props) => {
         </div>
         
     );
-    // return ( 
-    //     <div>
-    //         <table>
-    //             <thead>
-    //                 <tr>
-    //                     <th>Seed</th>
-    //                     <th>Team</th>
-    //                 </tr>
-    //             </thead>
-    //             <tbody>
-    //                 {props.teams.map((team, index) => (
-                        // <tr key={team.name}>
-                        //     <td>{index + 1}</td>
-                        //     <td>{team.name}</td>
-                        // </tr>
-    //                 ))}
-    //             </tbody>
-    //         </table>
-    //     </div>
-    //     // <Table
-    //     // className = "table table-hover table-responsive">
-    //         // <thead className="thead-dark">
-    //         //     <tr>
-    //         //         <th scope="col">Seed</th>
-    //         //         <th scope="col">Team</th>
-    //         //     </tr>
-    //         // </thead>
-    //         // <tbody>
-    //             // {props.teams.map((team, index) => (
-    //             // <tr key={team.name}>
-    //             //     <td>
-    //             //         <span>
-    //             //             {index + 1}
-    //             //         </span>
-    //             //     </td>
-    //             //     <td>
-    //             //         {team.logo}
-    //             //         {team.name}
-    //             //     </td>
-    //             // </tr>
-    //             // ))}
-    //         // </tbody>
-    //     // </Table> 
-    // )
+   
 };
 
 export default Standing;

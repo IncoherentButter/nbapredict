@@ -317,11 +317,9 @@ const ConferenceTable = (props) => {
     return ( 
         <div className="ConferenceTable-container">
             <div>
-                {/* <Standing user_id={props.user_id} teams={props.west_teams} is_editable={props.is_editable} setUserStandings={props.setUserStandings} is_west={true}/> */}
                 <Standing user_id={props.user_id} teams={westStanding} is_editable={props.is_editable} setUserStandings={props.setUserStandings} is_west={true}/>
             </div>
             <div>
-                {/* <Standing user_id={props.user_id} teams={props.east_teams} is_editable={props.is_editable} setUserStandings={props.setUserStandings} is_west={false}/> */}
                 <Standing user_id={props.user_id} teams={eastStanding} is_editable={props.is_editable} setUserStandings={props.setUserStandings} is_west={false}/>
             </div>
         </div>

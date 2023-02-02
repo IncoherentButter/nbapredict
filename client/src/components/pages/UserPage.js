@@ -589,6 +589,9 @@ WASHINGTON_WIZARDS: {
     console.log(`TRACKING westernStandings = ${JSON.stringify(westernStandings)}`)
   }, [westernStandings, easternStandings])
 
+
+
+
   if (!props.user_id) {
     return <div>Log in before using NBAPredict</div>;
   }

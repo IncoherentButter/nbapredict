@@ -14,12 +14,12 @@ const GOOGLE_CLIENT_ID = "449503962510-3bph545kka03uneu6bqv8gvrckl4flub.apps.goo
 const NavBar = (props) => {
   return (
     <nav className="NavBar-container">
-      <div className="NavBar-title u-inlineBlock">NBA</div>
-      <div className="NavBar-title u-inlineBlock">|</div>
+      <div className="NavBar-title u-inlineBlock">NBA </div>
+      <div className="NavBar-title-pipe u-inlineBlock"> |</div>
       <div className="NavBar-title-red u-inlineBlock">Predict</div>
       {/* <div className="NavBar-title u-inlineBlock">book</div> */}
-      <div className="NavBar-linkContainer u-inlineBlock">
-        <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
+      <div className="NavBar-linkContainer">
+        <div><GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
           {props.userId ? (
             <button
               onClick={() => {
@@ -32,40 +32,18 @@ const NavBar = (props) => {
           ) : (
             <GoogleLogin onSuccess={props.handleLogin} onError={(err) => console.log(err)} />
           )}
-        </GoogleOAuthProvider>
-        <Link to="/" className="NavBar-link">Home</Link>
-        
-        {/* {props.userId && (
-          <Link to={`/UserPage`} className="NavBar-link">
-            UserPage
-          </Link>
-        )} */}
-        <Link to={`/createleague`} className="NavBar-link"> CreateLeague</Link>
-        {props.userId && (
-          <Link to={`/UserPage`} className="NavBar-link-right">
-            Your Predictions
-          </Link>
-        )}
-        {/* {props.userId ? (
-          <GoogleLogout
-            clientId={GOOGLE_CLIENT_ID}
-            buttonText="Logout"
-            onLogoutSuccess={props.handleLogout}
-            onFailure={(err) => console.log(err)}
-            className="NavBar-link NavBar-login"
-          />
-        ) : (
-          <GoogleLogin
-            clientId={GOOGLE_CLIENT_ID}
-            buttonText="Login"
-            onSuccess={props.handleLogin}
-            onFailure={(err) => {
-              console.log(err)
-              console.log("LOGIN FAILED") 
-            }}
-            className="NavBar-link NavBar-login"
-          />
-        )} */}
+        </GoogleOAuthProvider></div>
+        <div><Link to="/" className="NavBar-link">Home</Link></div>
+        <div>
+          <Link to={`/createleague`} className="NavBar-link"> CreateLeague</Link>
+        </div>
+        <div className="push-right">
+          {props.userId && (
+            <Link to={`/UserPage`} className="NavBar-link-right">
+              Your Predictions
+            </Link>
+          )}
+        </div>
       </div>
     </nav>
   );

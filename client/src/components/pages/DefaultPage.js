@@ -260,7 +260,7 @@ const DefaultPage = (props) => {
         primaryColor: "#E31837",
         secondaryColor: "#002B5C"
     }}
-    const sample_western_standings = [
+    const sample_actual_western_standings = [
         teams.DALLAS_MAVERICKS,
         teams.DENVER_NUGGETS,
         teams.GOLDEN_STATE_WARRIORS,
@@ -277,94 +277,270 @@ const DefaultPage = (props) => {
         teams.SAN_ANTONIO_SPURS,
         teams.UTAH_JAZZ
     ];
-    const sample_eastern_standings = [
-        teams.ATLANTA_HAWKS,
-        teams.BOSTON_CELTICS,
-        teams.BROOKLYN_NETS,
-        teams.CHARLOTTE_HORNETS,
-        teams.CHICAGO_BULLS,
-        teams.CLEVELAND_CAVALIERS,
-        teams.DETROIT_PISTONS,
-        teams.INDIANA_PACERS,
-        teams.MIAMI_HEAT,
-        teams.MILWAUKEE_BUCKS,
-        teams.NEW_YORK_KNICKS,
-        teams.ORLANDO_MAGIC,
-        teams.PHILADELPHIA_76ERS,
-        teams.TORONTO_RAPTORS,
-        teams.WASHINGTON_WIZARDS
+    const sample_actual_eastern_standings = [
+    teams.ATLANTA_HAWKS,
+    teams.BOSTON_CELTICS,
+    teams.BROOKLYN_NETS,
+    teams.CHARLOTTE_HORNETS,
+    teams.CHICAGO_BULLS,
+    teams.CLEVELAND_CAVALIERS,
+    teams.DETROIT_PISTONS,
+    teams.INDIANA_PACERS,
+    teams.MIAMI_HEAT,
+    teams.MILWAUKEE_BUCKS,
+    teams.NEW_YORK_KNICKS,
+    teams.ORLANDO_MAGIC,
+    teams.PHILADELPHIA_76ERS,
+    teams.TORONTO_RAPTORS,
+    teams.WASHINGTON_WIZARDS
     ];
+    const [actual_western_standings, setActualWesternStandings] = useState(sample_actual_western_standings);
+    const [actual_eastern_standings, setActualEasternStandings] = useState(sample_actual_eastern_standings);
+    function teamNameToTeamObject(teamName){
+        console.log(`Converted team with name ${teamName}`)
+        switch(teamName){
+          case "Atlanta Hawks":
+            return teams.ATLANTA_HAWKS;
+            break;
+          case "Boston Celtics":
+              return teams.BOSTON_CELTICS;
+              break;
+          case "Brooklyn Nets":
+              return teams.BROOKLYN_NETS;
+              break;
+          case "Charlotte Hornets":
+              return teams.CHARLOTTE_HORNETS;
+              break;
+          case "Chicago Bulls":
+              return teams.CHICAGO_BULLS;
+              break;
+          case "Cleveland Cavaliers":
+              return teams.CLEVELAND_CAVALIERS;
+          case "Dallas Mavericks":
+              return teams.DALLAS_MAVERICKS;
+          case "Denver Nuggets":
+              return teams.DENVER_NUGGETS
+          case "Detroit Pistons":
+              return teams.DETROIT_PISTONS;
+          case "Golden State Warriors":
+              return teams.GOLDEN_STATE_WARRIORS;
+          case "Houston Rockets":
+              return teams.HOUSTON_ROCKETS;
+          case "Indiana Pacers":
+              return teams.INDIANA_PACERS;
+          case "Los Angeles Clippers":
+              return teams.LOS_ANGELES_CLIPPERS;
+          case "Los Angeles Lakers":
+              return teams.LOS_ANGELES_LAKERS;
+          case "Memphis Grizzlies":
+              return teams.MEMPHIS_GRIZZLIES;
+          case "Miami Heat":
+              return teams.MIAMI_HEAT;
+          case "Milwaukee Bucks":
+              return teams.MILWAUKEE_BUCKS;
+          case "Minnesota Timberwolves":
+              return teams.MINNESOTA_TIMBERWOLVES;
+          case "New Orleans Pelicans":
+              return teams.NEW_ORLEANS_PELICANS;
+          case "New York Knicks":
+              return teams.NEW_YORK_KNICKS;
+          case "Oklahoma City Thunder":
+              return teams.OKLAHOMA_CITY_THUNDER;
+          case "Orlando Magic":
+              return teams.ORLANDO_MAGIC;
+          case "Philadelphia 76ers":
+              return teams.PHILADELPHIA_76ERS;
+          case "Phoenix Suns":
+              return teams.PHOENIX_SUNS;
+          case "Portland Trail Blazers":
+              return teams.PORTLAND_TRAIL_BLAZERS;
+          case "Sacramento Kings":
+              return teams.SACRAMENTO_KINGS;
+          case "San Antonio Spurs":
+              return teams.SAN_ANTONIO_SPURS;
+          case "Toronto Raptors":
+              return teams.TORONTO_RAPTORS;
+          case "Utah Jazz":
+              return teams.UTAH_JAZZ;
+          case "Washington Wizards":
+              return teams.WASHINGTON_WIZARDS;
+          default:
+              return teams.WASHINGTON_WIZARDS;
+        }
+    }
 
 
-    // useEffect(() => {
-    //     get("/api/standingprediction", { user_id: props.user_id }).then((standingPrediction) => {
-    //         const westStandings = standingPrediction.west_predictions;
-    //         const eastStandings = standingPrediction.east_predictions;
-    //         if (westStandings != undefined){
-    //         //   setWesternStandings(westStandings);
-    //           setUserStandings(props.user_id, westStandings, null, true);
-    //         }
-    //         if (eastStandings != undefined){
-    //         //   setEasternStandings(eastStandings);
-    //           setUserStandings(props.user_id, null, eastStandings, false);
-    //         }
-    //     });
-    // }, []); 
+    useEffect(() => {
+        get("/api/actualStanding").then((actualStandings) => {      
+          const westStandingsString = actualStandings.west_predictions;
+          const eastStandingsString = actualStandings.east_predictions;
+          const actualWestStandings = [];
+          const actualEastStandings = [];
+          if (westStandingsString != undefined){
+            for (let i = 0; i < westStandingsString.length; i++){
+              console.log(`GET actualStanding west team ${i} = ${westStandingsString[i]}`)
+              actualWestStandings.push(teamNameToTeamObject(westStandingsString[i]))
+            } 
+            setUserStandings(props.user_id, actualWestStandings, null, true, false);
+          }
+          if (eastStandingsString != undefined){
+            for (let i = 0; i < eastStandingsString.length; i++){
+              actualEastStandings.push(teamNameToTeamObject(eastStandingsString[i]))
+            } 
+            setUserStandings(props.user_id, null, actualEastStandings, false, false);
+          }
+    })}, [])
 
-    const setUserStandings = (user, tempWestStandings, tempEastStandings, isWest) => {
-        return;
-      }; 
-    let CreateLeagueButton = null;
-    let JoinLeagueButton = null;
-    let ViewLeagueButton = null;
-    CreateLeagueButton = (
-    <div>
-        <Link to ="/createleague">
-            <button
-            id="defaultToCreate"
-            className="button-createleague"
-            onClick={()=>{}}
-            >CreateLeague</button>
-        </Link>
-    </div>
-    );
-    JoinLeagueButton = (
-    <div>
-        <Link to="/JoinLeague">
-            <button
-            className="button-joinleagues"
-            onClick={()=>{console.log("join league clicked")}}
-            >Join League</button>
-        </Link>
-    </div>
-    );
-    ViewLeagueButton = (
-    <div>
-        <Link to="/YourLeagues">
-            <button
-            className="button-viewleagues"
-            onClick={()=>{console.log("view league clicked")}}
-            >View Your Leagues</button>
-        </Link>
-    </div>
-    );
+
+    const setUserStandings = (user, tempWestStandings, tempEastStandings, isWest, is_editable) => {
+        if (isWest){
+            if (is_editable){
+                setWesternStandings(tempWestStandings);
+            } else{
+                setActualWesternStandings(tempWestStandings);
+            }
+        } else {
+        if (is_editable){
+            setEasternStandings(tempEastStandings);
+        } else{
+            setActualEasternStandings(tempEastStandings);
+        }
+        }
+    };
+
+    // let CreateLeagueButton = null;
+    // let JoinLeagueButton = null;
+    // let ViewLeagueButton = null;
+    // CreateLeagueButton = (
+    // <div>
+    //     <Link to ="/createleague">
+    //         <button
+    //         id="defaultToCreate"
+    //         className="button-createleague"
+    //         onClick={()=>{}}
+    //         >CreateLeague</button>
+    //     </Link>
+    // </div>
+    // );
+    // JoinLeagueButton = (
+    // <div>
+    //     <Link to="/JoinLeague">
+    //         <button
+    //         className="button-joinleagues"
+    //         onClick={()=>{console.log("join league clicked")}}
+    //         >Join League</button>
+    //     </Link>
+    // </div>
+    // );
+    // ViewLeagueButton = (
+    // <div>
+    //     <Link to="/YourLeagues">
+    //         <button
+    //         className="button-viewleagues"
+    //         onClick={()=>{console.log("view league clicked")}}
+    //         >View Your Leagues</button>
+    //     </Link>
+    // </div>
+    // );
     
+    let id = null;
+    const rand = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
+
+    const FancyText = (props) => {
+        return (
+          <div>
+            <div id="text">
+            <div className="line">
+              <Link to ="/createleague" id="createleagueslink">
+              <p className="word fancy">Create</p>
+              </Link>
+              <p className="word league">Leagues</p>
+            </div>
+    
+            <div className="line">
+              <Link to ="/JoinLeague" id="joinleagueslink">
+              <p className="word fancy">Join</p>
+              </Link>
+              <p className="word league">Leagues</p>
+            </div>
+    
+            <div className="line">
+              <Link to ="/YourLeagues" id="viewleagueslink">
+              <p className="word fancy">View</p>
+              </Link>
+              <p className="word league">Leagues</p>
+            </div>
+            
+            <div className="line">
+            <Link to="/UserPage">
+              <a
+                id="channel-link"
+                target="_blank" 
+                className="word fancy"
+              >
+                YourPrediction 
+              </a>
+              </Link>
+            </div>
+          </div>
+        </div>
+        )
+    }   
+    const enhance = (i) => {
+        useEffect(() => {
+            const element = document.getElementById(id);
+            let text = element.innerText.split("");
+            
+            element.innerText = "";
+            
+            text.forEach((value, index) => {
+              const outer = document.createElement("span");
+              
+              outer.className = "outer";
+              
+              const inner = document.createElement("span");
+              
+              inner.className = "inner";
+              
+              inner.style.animationDelay = `${rand(-5000, 0)}ms`;
+              
+              const letter = document.createElement("span");
+              
+              letter.className = "letter";
+              
+              letter.innerText = value;
+              
+              letter.style.animationDelay = `${index * 1000 }ms`;
+              
+              inner.appendChild(letter);    
+              
+              outer.appendChild(inner);    
+              
+              element.appendChild(outer);
+              console.log(`finishig`)
+            });
+            console.log(`useEffect triggered: id = ${id}`)
+        }, [id])
+      }
+    
+    id = "channel-link";
+    enhance(id);
+    enhance("viewleagueslink");
+    enhance("joinleagueslink");
+    enhance("createleagueslink");
     return (
         <>
-            <div className="DefaultPage-container">
-            <div>
-                <div>{CreateLeagueButton}</div>
-                <div>{JoinLeagueButton}</div>
-                <div>{ViewLeagueButton}</div>
+        <div className="DefaultPage-Container">
+            <div className="DefaultPage-Navigator">
+                <FancyText/>
             </div>
             <div className="DefaultPage-ConferenceTableContainer">
-                {/* <WestLabel/> */}
-                {/* <EastLabel/> */}
-                <ConferenceTable is_editable={false} west_teams={sample_western_standings} east_teams={sample_eastern_standings} user_id={props.user_id} setUserStandings={setUserStandings}/>
+                <ConferenceTable is_editable={false} west_teams={actual_western_standings} east_teams={actual_eastern_standings} user_id={props.user_id} setUserStandings={setUserStandings}/>
             </div>
-            </div>
+        </div>
         </>
     );
+
 }
 
 export default DefaultPage;
