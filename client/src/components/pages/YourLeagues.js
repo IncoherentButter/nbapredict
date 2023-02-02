@@ -320,15 +320,12 @@ WASHINGTON_WIZARDS: {
   const userLeagues = [];
   const [yourLeagues, setYourLeagues] = useState(userLeagues);
 
-  console.log(`YourLeagues props = ${JSON.stringify(props)}`)
-  console.log(`YourLeagues input userid = ${props.user_id}`)
   const userLeagueData = { user_id: props.user_id, user_score: props.user_score};
 
   //get request here to update userLeagues
   useEffect(() => {
     get("/api/userLeagues", userLeagueData).then((userLeagues) => {      
       if (userLeagues != undefined){
-        console.log(`GET userLeagues = ${JSON.stringify(userLeagues)}`)
         setYourLeagues(userLeagues);
       }
     })}, [props.user_id])
@@ -336,7 +333,6 @@ WASHINGTON_WIZARDS: {
   
   
   function teamNameToTeamObject(teamName){
-    console.log(`Converted team with name ${teamName}`)
     switch(teamName){
       case "Atlanta Hawks":
         return teams.ATLANTA_HAWKS;
@@ -409,17 +405,13 @@ WASHINGTON_WIZARDS: {
   }
   
   useEffect(() => {
-    get("/api/actualStanding").then((actualStandings) => { 
-      console.log(`getActualStanding props.user_id = ${props.user_id}`)
-     
+    get("/api/actualStanding").then((actualStandings) => {      
       const westStandingsString = actualStandings.west_predictions;
       const eastStandingsString = actualStandings.east_predictions;
       const actualWestStandings = [];
       const actualEastStandings = [];
-      console.log(`actualStanding GET RES actualWest team 1 = ${typeof westStandingsString}`)
       if (westStandingsString != undefined){
         for (let i = 0; i < westStandingsString.length; i++){
-          console.log(`GET actualStanding west team ${i} = ${westStandingsString[i]}`)
           actualWestStandings.push(teamNameToTeamObject(westStandingsString[i]))
         } 
         setUserStandings(props.user_id, actualWestStandings, null, true, false);
@@ -433,25 +425,16 @@ WASHINGTON_WIZARDS: {
     })}, [])
   
   const setUserStandings = (user, tempWestStandings, tempEastStandings, isWest, is_editable) => {
-    console.log(`setUserStandings props.user_id = ${props.user_id}`)
     if (user !== props.user_id){
-      console.log(`Ids dont match!`)
-      console.log(`user parameter = ${user}, user prop is ${props.user_id}`)
       return;
     }
-    console.log(`IS EDITABLE? ${is_editable}`)
     if (isWest){
-      console.log(`Is west, updating standings!`)
-      console.log(`setUserStandings parameter West team 1 = ${tempWestStandings[0].name}`)
       if (is_editable){
-        console.log(`setting west standings for editable section`)
         setWesternStandings(tempWestStandings);
       } else{
-        console.log(`setting west standings for uneditable section`)
         setActualWesternStandings(tempWestStandings);
       }
     } else {
-      console.log(`Is east, updating standings!`)
       if (is_editable){
         setEasternStandings(tempEastStandings);
       } else{
@@ -486,9 +469,6 @@ WASHINGTON_WIZARDS: {
               }
             </tbody>
           </table>
-          {/* <div className="YourLeagues-UserPredictions">
-            <ConferenceTable is_editable={false} west_teams={actual_western_standings} east_teams={actual_eastern_standings} user_id={props.user_id} setUserStandings={setUserStandings}/>
-          </div> */}
         </div>
       </div>
     </>

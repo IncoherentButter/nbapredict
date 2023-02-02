@@ -6,9 +6,6 @@
 | This file defines the routes for your server.
 |
 */
-// import {getSumOfSquareDistances} from "./ranking-logic.js";
-// import {sample_western_standings, sample_eastern_standings} from "./actual-standings.js";
-// import {teams} from "./actual-standings.js";
 
 const express = require("express");
 
@@ -69,8 +66,6 @@ async function scrape() {
   // const cur_month = date.getMonth();
   // const cur_day = date.getDay();
   // const cur_year = date.getFullYear();
-  // console.log(`MONTH: ${JSON.stringify(cur_month)}`)
-  console.log(`MONTH/DATE/YEAR = ${mm}/${dd}/${yyyy}`)
   const url = `https://www.basketball-reference.com/friv/standings.fcgi?month=${mm}&day=${dd}&year=${yyyy}`
   const { data } = await axios.get(url); 
   const $ = cheerio.load(data);
@@ -79,16 +74,8 @@ async function scrape() {
   let actualWestStandings = null;
   actualEastStandings = $('table#standings_e');
   actualEastStandings = parseHTMLStandings(JSON.stringify(actualEastStandings.html()))
-  // console.log("SCRAPE RESULTS")
-  // console.log(`-----ACTUAL EAST STANDINGS-----`)
-  // console.log(actualEastStandings.html());
-  // console.log(`STRING OF EAST STANDINGS`)
-  // console.log(JSON.stringify(actualEastStandings.html()));
   actualWestStandings = $('table#standings_w');
   actualWestStandings = parseHTMLStandings(JSON.stringify(actualWestStandings.html()))
-  console.log(`actualWestStandings = ${actualWestStandings}`)
-  // console.log(`-----ACTUAL WEST STANDINGS-----`)
-  // console.log(actualWestStandings.html());
   const actualStandings = {actualWestStandings, actualEastStandings}
   return actualStandings;
   {/* <ConferenceTable west_teams={west_standings} east_teams={east_standings} league_id="actual"><ConferenceTable/>; */}
@@ -108,9 +95,6 @@ function parseHTMLStandings(htmlStandings){
     i = teamNameEndIndex + 1;
     teamsFound += 1;
   }
-  // console.log(`parsed Standings = ${JSON.stringify(parsedStandings)}`)
-  console.log(`parsed Standings = ${parsedStandings}`)
-  console.log(`typeof parsedStandings = ${typeof parsedStandings}`)
   return parsedStandings;
 
 }
@@ -406,40 +390,27 @@ const sample_eastern_standings = [
 router.get("/userLeagues", auth.ensureLoggedIn, (req, res) => {
   //return all leagues that have user's user_id in them
   // filter = {user_id: req.body.user_id}
-  console.log(`entered GET userLeagues. user_id = ${req.query.user_id}`)
 
   League.find({}).then((leagues) => {
     let userLeagues = [];
     leagues.map((league, index) => {
-      console.log(`~~~ updateScoreInLeague league_name = ${league.league_name}`)
       // first check if user_id is part of league ids
       // var allLeagueUserIds = [];
       // let userIdIndex;
       for (let i = 0; i < league.users.length; i++){
         // allLeagueUserIds.push(league.users[i].user_id)
-        console.log(`League user = ${league.users[i]}`)
         if (league.users[i].user_id === req.query.user_id){
-          console.log(`${league.users[i].user_id} = ${req.query.user_id}!`)
           // userIdIndex = i;
           userLeagues.push(league);
         }
       }
     })
-    console.log(`userLeagues at end of GET = ${JSON.stringify(userLeagues)}`)
     res.send(userLeagues);
   })
   .catch((error) => {
     res.status(500).send(error);
   });
-  
-  // League.find({ users: { $in: [req.query.user_id] } })
-  //   .then((leagues) => {
-  //     console.log(`Entered then!`)
-  //     res.send(leagues);
-  //   })
-  //   .catch((error) => {
-  //     res.status(500).send(error);
-  //   });
+
 });
 
 router.post("/createLeague", auth.ensureLoggedIn, (req, res) => {
@@ -455,9 +426,7 @@ router.post("/createLeague", auth.ensureLoggedIn, (req, res) => {
   League.findOne(filter).then((foundLeague)=> {
     if (!foundLeague){
       leagueObj.save().then((league) => {res.send(league)})
-      console.log(`Saved the input league!`)
     } else{
-      console.log(`League of this name already exists`)
       res.send({ status: 0, message: "A league with that name already exists!" });
     }
   }).catch((err) =>{
@@ -466,27 +435,21 @@ router.post("/createLeague", auth.ensureLoggedIn, (req, res) => {
 });
 
 router.post("/updateScoreInLeague", auth.ensureLoggedIn, (req, res) => {
-  console.log(`~~~ updateScoreInLeague user_id = ${req.body.user_id}; user_score = ${req.body.user_score}`)
   League.find({}).then((leagues) => {
     let promises = [];
     leagues.map((league, index) => {
-      console.log(`~~~ updateScoreInLeague league_name = ${league.league_name}`)
       // first check if user_id is part of league ids
       var allLeagueUserIds = [];
       let userIdIndex;
       for (let i = 0; i < league.users.length; i++){
         allLeagueUserIds.push(league.users[i].user_id)
         if (league.users[i].user_id === req.body.user_id){
-          console.log(`${league.users[i].user_id} = ${req.body.user_id}!`)
           userIdIndex = i;
         }
       }
 
       if (allLeagueUserIds.includes(req.body.user_id)) {
-        console.log(`~~~ updateScoreInLeague user_id is in this league`)
         // let userIdIndex = league.users.indexOf(req.body.user_id);
-        console.log(`~~~ updateScoreInLeague index of user in users array = ${userIdIndex}`)
-        console.log(`~~~ updateScoreInLeague user score currently stored in array = ${league.users[userIdIndex].user_score}`)
         league.users[userIdIndex].user_score = req.body.user_score;
         promises.push(league.save());
       }
@@ -500,22 +463,15 @@ router.post("/addToLeague", auth.ensureLoggedIn, (req, res) => {
   //necessary info:
   // league_name, league_password, user_id
   const filter = {league_name: req.body.league_name, league_password: req.body.league_password}
-  console.log(`entered POST addToLeague. filter=${JSON.stringify(filter)}`)
   League.findOne(filter).then((foundLeague) => {
-    console.log(`Entered findOne`)
-    console.log(`foundLeague=${JSON.stringify(foundLeague)}`)
     if(!foundLeague){
-      console.log(`Didnt find league`)
       res.status(404).send('League with that name not found');
     } else if (foundLeague.users.includes(req.body.user_id)) {
-      console.log(`User in league`)
       res.status(404).send('You have already joined that league!');
     } else {
-      console.log(`Found league; user not in it`)
       const user = {user_id: req.body.user_id, user_score: req.body.user_score}
       League.findOneAndUpdate(filter, { $push: { users: user } }, { new: true })
       .then((updatedLeague) => {
-        console.log(`Adding to league!`)
         res.status(200).send(updatedLeague); 
       })
       .catch((error) => {
@@ -535,11 +491,9 @@ function sortLeagueStandings(users){
 router.get("/leagueStandings", (req, res) => {
   //nec info:
   //league_name
-  console.log(`get leagueStandings input name = ${req.query.league_name}`)
   const filter = { league_name: req.query.league_name, }
   League.findOne(filter).then((foundLeague) => {
     if(!foundLeague){
-      console.log(`Didnt find league`)
       res.status(404).send('League with that name not found');
     } else {
       var users = foundLeague.users;
@@ -553,23 +507,17 @@ router.get("/leagueStandings", (req, res) => {
 });
 
 router.get("/actualStanding", (req, res) => {
-  console.log(`Scraping the actual standings`)
-  // const actualScrapedStandings = scrape();
   scrape().then((scrapedResults) => {
     const actualScrapedStandings = scrapedResults;
-    // console.log(`actualScrapedStandings = ${JSON.stringify(actualScrapedStandings)}`)
-    console.log(`actualScrapedStandings = ${actualScrapedStandings.actualWestStandings}`) 
     const actualStandings = new ActualStanding({
       west_predictions: actualScrapedStandings.actualWestStandings,
       east_predictions: actualScrapedStandings.actualEastStandings,
     })
-    console.log("GOT ACTUALSTANDINGS")
     res.send(actualStandings);
   })
 });
 
 router.get("/standingprediction", (req, res) => {
-  console.log(`Req input for get standingpreds: ${req.query.user_id}`);
 
   StandingPrediction.findOne({user_id: req.query.user_id}).then((standingPrediction) => {
     res.send(standingPrediction)
@@ -578,9 +526,6 @@ router.get("/standingprediction", (req, res) => {
 });
 
 router.post("/standingprediction", (req, res) => {
-  // console.log(`Received a standing prediction from ${req.body.user_id}`);
-  // console.log(`req.body west predictions = ${JSON.stringify(req.body.west_predictions)}`)
-  // console.log(`Req = ${req}`);
   const filter = { user_id: req.body.user_id }
   const incomingPrediction = new StandingPrediction({
     user_id: req.body.user_id,

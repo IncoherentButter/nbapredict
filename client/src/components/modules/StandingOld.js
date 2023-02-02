@@ -64,25 +64,7 @@ const type = 'teamRow';
 // }
 
 const Standing = (props) => {
-    // const [conferenceStanding, setConferenceStanding] = useState(props.teams);
-    // const [firstRowIndex, setFirstRowIndex] = useState(-1);
-    // const [secondRowIndex, setSecondRowIndex] = useState(-2);
     const [teams, setTeams] = useState(props.teams);
-
-    teams.forEach((team, index) => {
-        console.log(`Team at index=${index} is ${team.name}`);
-    })
-    // const handleChange(e){
-    //     alert('')
-    // }
-
-    // Handles the logic for drag and drop
-    // function moveTeam(dragIndex, hoverIndex) {
-    //     const newTeams = [...conferenceStanding];
-    //     const [draggedTeam] = newTeams.splice(dragIndex, 1); //remove the dragged team, assign to draggedTeam
-    //     newTeams.splice(hoverIndex, 0, draggedTeam); //insert draggedTeam after the team at hoverIndex
-    //     setConferenceStanding(newTeams); //update teams
-    // }
 
     const [firstRowIndex, setFirstRowIndex] = useState(0);
     const [secondRowIndex, setSecondRowIndex] = useState(0);
@@ -105,12 +87,8 @@ const Standing = (props) => {
         setTeams(newTeams)
 
         if (props.is_west){
-            console.log(`Working with west.`)
-            console.log(`handleConfirmClick newTeams West team 1 = ${newTeams[0].name}`)
-            console.log(`handleConfirmClick West team 1 = ${teams[0].name}`)
             props.setUserStandings(props.user_id, newTeams, [], true);
         } else{
-            console.log(`Working with east.`)
             props.setUserStandings(props.user_id, [], teams, false);
         }
 

@@ -45,21 +45,16 @@ const TeamRow = (props) => {
     const team = props.team;
     const index = props.index;
     
-    // console.log(`Entered TeamRow. Team name = ${team.name}. Index = ${index}`)
     const dropRef = React.useRef(null);
     const dragRef = React.useRef(null);
-    // console.log(`dropRef = ${dropRef}`)
     const [, drop] = useDrop({ 
         accept: TEAM_ROW_TYPE,
         hover(item, monitor) { //hover() is called whenever you hover over component
             //---Check if we can drop---
-            // console.log(`entered useDrop's hover()`)
             if (!dropRef.current){
-                // console.log(`dropRef.current is FALSE`)
                 return
             }
             if (!monitor.canDrop()) {
-                // console.log(`monitor.canDrop is FALSE`)
                 return;
             }
             //-------------------------
@@ -67,7 +62,6 @@ const TeamRow = (props) => {
             const dragIndex = item.index; //index the item started at
             const hoverIndex = index; //index hovering at
             if (dragIndex === hoverIndex) {
-                // console.log(`dragIndex === hoverIndex = ${dragIndex}`)
                 return;
             }  
             //-----------------------------------------------------------------
@@ -87,12 +81,10 @@ const TeamRow = (props) => {
             // When dragging upwards, only move when the cursor is above 50%
             // Dragging downwards
             if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
-                // console.log(`Dragging down + cursor is above 50%`)
               return
             }
             // Dragging upwards
             if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
-                // console.log(`Dragging up + cursor is below 50%`)
               return
             }
 
@@ -111,7 +103,6 @@ const TeamRow = (props) => {
     preview(drop(dropRef))
     
     drag(dragRef)
-    // console.log(`drag(dragRef) just called`)
     return (
         <tr ref={dropRef} bgcolor={team.primaryColor} className="Standing-moveable-tbody-tr">
             <td ref={dragRef} className="Standing-moveable-teamSeed">{index + 1}</td>
@@ -215,10 +206,6 @@ const Standing = (props) => {
         }
     }, [props.teams]);
 
-    // teams.forEach((team, index) => {
-    //     console.log(`Team at index=${index} is ${team.name}`);
-    // })
-
     const moveRow = (dragIndex, hoverIndex) => {
         const dragTeam = teams[dragIndex]
         setTeams(
@@ -233,13 +220,8 @@ const Standing = (props) => {
 
     useEffect(() => {
         if (props.is_west){
-            console.log(`Working with west.`)
-            // console.log(`moveRow newTeams West team 1 = ${newTeams[0].name}`)
-            console.log(`moveRow West team 1 = ${teams[0].name}`)
-            console.log(`moveRow west standings = ${JSON.stringify(teams)}`)
             props.setUserStandings(props.user_id, teams, [], true, props.is_editable);
         } else{
-            console.log(`Working with east.`)
             props.setUserStandings(props.user_id, [], teams, false, props.is_editable);
         }
     }, [teams])

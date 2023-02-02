@@ -65,14 +65,9 @@ const CreateLeague = (props) => {
   // }
 
   const addLeague = (leagueData) => {
-    console.log(`entered addLeague`)
-    console.log(`leagueData = ${JSON.stringify(leagueData)}`)
-    // const leagueData = { creator_id: props.user_id, league_name: leagueUsername, league_password: leaguePassword, league_type: "Standings", user_ids: [props.user_id]}
     post("/api/createLeague", leagueData).then((leagueObj) => {
       // display feedback on screen that league creation was successful
       // props.addNewLeague(comment);
-      console.log(`Post request for adding league went thru!`)
-      console.log(`POST League response: ${JSON.stringify(leagueObj)}`)
     });
   }
 

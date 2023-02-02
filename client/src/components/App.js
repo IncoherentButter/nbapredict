@@ -3,7 +3,6 @@ import { Router } from "@reach/router";
 import jwt_decode from "jwt-decode";
 
 import NotFound from "./pages/NotFound.js";
-import Skeleton from "./pages/Skeleton.js";
 
 import NavBar from "./modules/NavBar.js";
 
@@ -50,7 +49,6 @@ const App = () => {
   const handleLogin = (credentialResponse) => {
     const userToken = credentialResponse.credential;
     const decodedCredential = jwt_decode(userToken);
-    console.log(`Logged in as ${decodedCredential.name}`);
     post("/api/login", { token: userToken }).then((user) => {
       setUserId(user._id);
       setUserName(user.name);
@@ -68,7 +66,6 @@ const App = () => {
     setUserScore(newScore);
     const userInfo = {user_id: userId, user_score: newScore}
     post("/api/updateScoreInLeague", userInfo).then(() => {
-      console.log(`Post request for joining league went thru!`)
     });
   }
 
@@ -84,23 +81,12 @@ const App = () => {
     }
   }, [userId]);
 
-  // const west_score = getSumOfSquareDistances(newStandingPrediction.west_predictions, actual_western_standings);
-  // const east_score = getSumOfSquareDistances(newStandingPrediction.east_predictions, actual_eastern_standings);
-  // const total_score = west_score + east_score;
-  // setScore(total_score);
-
-  // useEffect(() => {
-
-  // }, [user_score])
-  console.log(`TOP LEVEL: USERNAME = ${userName}`)
-
 
   return (
     <>
       <NavBar handleLogin={handleLogin} handleLogout={handleLogout} userId={userId}/>
       <div className="App-container">
         <Router>
-          {/* <Skeleton path="/" handleLogin={handleLogin} handleLogout={handleLogout} userId={userId} /> */}
           <DefaultPage path="/"/>
           <UserPage path="/UserPage" user_id={userId} user_name={userName} user_score={user_score} handleScore={handleScoreUpdate}/>
           <CreateLeague path="/createleague/" style='overflow: hidden' user_id={userId} user_name={userName} user_score={user_score} defaultLeagueNameText="League Name" defaultLeaguePasswordText="League Password"/>

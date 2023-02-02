@@ -49,14 +49,11 @@ const JoinLeague = (props) => {
   };
 
   const joinLeague = (leagueJoinData) => {
-    console.log(`entered joinLeague`)
-    console.log(`leagueJoinData = ${JSON.stringify(leagueJoinData)}`)
+
     // const leagueData = { creator_id: props.user_id, league_name: leagueUsername, league_password: leaguePassword, league_type: "Standings", user_ids: [props.user_id]}
     post("/api/addToLeague", leagueJoinData).then((leagueObj) => {
       // display feedback on screen that league creation was successful
-      // props.addNewLeague(comment);
-      console.log(`Post request for joining league went thru!`)
-      console.log(`POST JoinLeague response: ${JSON.stringify(leagueObj)}`)
+
     });
   }
 

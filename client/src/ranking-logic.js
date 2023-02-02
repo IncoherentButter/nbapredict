@@ -19,7 +19,6 @@ const getSumOfSquareDistances = (teams1, teams2) => {
         max += 2 * Math.log(2*i)
     }
     let score = 100 * (1- (sum / max)) / 2; //divide by 2 because we're in only one conference
-    console.log(`max = ${max} sum = ${sum} score = ${score}`)
 
     return score;
 };

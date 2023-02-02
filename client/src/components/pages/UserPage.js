@@ -348,7 +348,6 @@ WASHINGTON_WIZARDS: {
   const [actual_western_standings, setActualWesternStandings] = useState(sample_actual_western_standings);
   const [actual_eastern_standings, setActualEasternStandings] = useState(sample_actual_eastern_standings);
   function teamNameToTeamObject(teamName){
-    console.log(`Converted team with name ${teamName}`)
     switch(teamName){
       case "Atlanta Hawks":
         return teams.ATLANTA_HAWKS;
@@ -427,10 +426,8 @@ WASHINGTON_WIZARDS: {
       const eastStandingsString = actualStandings.east_predictions;
       const actualWestStandings = [];
       const actualEastStandings = [];
-      console.log(`actualStanding GET RES actualWest team 1 = ${typeof westStandingsString}`)
       if (westStandingsString != undefined){
         for (let i = 0; i < westStandingsString.length; i++){
-          console.log(`GET actualStanding west team ${i} = ${westStandingsString[i]}`)
           actualWestStandings.push(teamNameToTeamObject(westStandingsString[i]))
         } 
         setUserStandings(props.user_id, actualWestStandings, null, true, false);
@@ -476,9 +473,6 @@ WASHINGTON_WIZARDS: {
   const handlePredictionSubmit = (event) => {
     event.preventDefault();
     const newStandingPrediction = {user_id: props.user_id, west_predictions: westernStandings, east_predictions: easternStandings};
-    newStandingPrediction.west_predictions.forEach((team, index) => {
-      console.log(`Team at index=${index} is ${team.name}`);
-    })  
 
     const west_score = getSumOfSquareDistances(newStandingPrediction.west_predictions, actual_western_standings);
     const east_score = getSumOfSquareDistances(newStandingPrediction.east_predictions, actual_eastern_standings);
@@ -489,9 +483,6 @@ WASHINGTON_WIZARDS: {
     post("/api/standingprediction", newStandingPrediction).then((prediction) => {
       if (westernStandings != undefined){
         const firstTeam = prediction.west_predictions[0];
-        if (firstTeam != undefined){
-          console.log(`POST RES westernStandings team 1 = ${firstTeam.name}`)
-        }
       }
       
 
@@ -521,7 +512,7 @@ WASHINGTON_WIZARDS: {
     <div>
       <button
       className="button-76"
-      onClick={()=>{console.log(Click)}}>
+      onClick={()=>{}}>
         Score = {score.toFixed(2)} / 100
       </button>
     </div>
@@ -530,7 +521,7 @@ WASHINGTON_WIZARDS: {
     <div>
       <button
       className="button-72"
-      onClick={()=>{console.log("create league clicked")}}
+      onClick={()=>{}}
       >CreateLeague</button>
     </div>
   );
@@ -538,7 +529,7 @@ WASHINGTON_WIZARDS: {
     <div>
       <button
       className="button-72"
-      onClick={()=>{console.log("join league clicked")}}
+      onClick={()=>{}}
       >Join League</button>
     </div>
   );
@@ -546,7 +537,7 @@ WASHINGTON_WIZARDS: {
     <div>
       <button
       className="button-72"
-      onClick={()=>{console.log("view league clicked")}}
+      onClick={()=>{}}
       >View Your Leagues</button>
     </div>
   );
@@ -559,24 +550,15 @@ WASHINGTON_WIZARDS: {
   //------method that updates user predictions LOCALLY 
   const setUserStandings = (user, tempWestStandings, tempEastStandings, isWest, is_editable) => {
     if (user !== props.user_id){
-      console.log(`Ids dont match!`)
-      console.log(`user parameter = ${user}, user prop is ${props.user_id}`)
       return;
     }
-    console.log(`IS EDITABLE? ${is_editable}`)
     if (isWest){
-      console.log(`Is west, updating standings!`)
-      console.log(`setUserStandings parameter West team 1 = ${tempWestStandings[0].name}`)
       if (is_editable){
-        console.log(`setting west standings for editable section`)
         setWesternStandings(tempWestStandings);
       } else{
-        console.log(`setting west standings for uneditable section`)
         setActualWesternStandings(tempWestStandings);
       }
-      console.log(`setUserStandings updated West team 1 = ${westernStandings[0].name}`)
     } else {
-      console.log(`Is east, updating standings!`)
       if (is_editable){
         setEasternStandings(tempEastStandings);
       } else{
@@ -584,10 +566,6 @@ WASHINGTON_WIZARDS: {
       }
     }
   }; 
-
-  useEffect(() => {
-    console.log(`TRACKING westernStandings = ${JSON.stringify(westernStandings)}`)
-  }, [westernStandings, easternStandings])
 
 
 
