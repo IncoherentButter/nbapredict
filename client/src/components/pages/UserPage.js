@@ -601,17 +601,17 @@ WASHINGTON_WIZARDS: {
         <div>
           <ConferenceTable is_editable={true} west_teams={westernStandings} east_teams={easternStandings} user_id={props.user_id} setUserStandings={setUserStandings}/>
         </div>
-        <div className="UserPage-Submit-button">{submitButton}</div>
+        <div className="UserPage-ButtonContainer">
+          <div className="UserPage-Submit-button">{submitButton}</div>
+          <div>
+            <span className="UserPage-Score-button" disabled>{scoreButton}</span>
+          </div>
+        </div>
         <div>
           <ConferenceTable is_editable={false} west_teams={actual_western_standings} east_teams={actual_eastern_standings} user_id={props.user_id} setUserStandings={setUserStandings}/>
         </div>
       </div>
-      <div>
-        <span className="UserPage-Score-button Disabed">{scoreButton}</span>
-      </div>
-      {/* <div className="UserPage-Create-button">{CreateLeagueButton}</div> */}
-      {/* <div className="UserPage-Join-button">{JoinLeagueButton}</div> */}
-      {/* <div className="UserPage-View-button">{ViewLeagueButton}</div> */}
+  
     </>
   );
 }

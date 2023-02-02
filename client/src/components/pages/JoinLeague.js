@@ -25,6 +25,7 @@ const JoinLeague = (props) => {
   const [leagues, setLeagues] = useState([]);
   const [leagueUsername, setLeagueUsername] = useState('');
   const [leaguePassword, setLeaguePassword] = useState('');
+  const [JoinText, setJoinText] = useState("Join");
 
   // called whenever the user types in the League Username box
   const handleLeagueNameChange = (event) => {
@@ -36,6 +37,7 @@ const JoinLeague = (props) => {
   };
   
   const handleJoinSubmit = (event) => {
+    setJoinText("Joined!")
     event.preventDefault();
     const leagueJoinData = { user_id: props.user_id, user_score: props.user_score, league_name: leagueUsername, league_password: leaguePassword }
 
@@ -77,7 +79,7 @@ const JoinLeague = (props) => {
             className="JoinLeague-StandingsButton"
             value="Submit"
             onClick={handleJoinSubmit}>
-            Join
+            {JoinText}
             </button>
             <hr className="CreateLeague-HorizontalLine" color="black" width="100%" size="15"/>
             <input

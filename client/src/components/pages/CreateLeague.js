@@ -32,6 +32,8 @@ const CreateLeague = (props) => {
   const [leaguePassword, setLeaguePassword] = useState('');
   const [userScore, setUserScore] = useState(props.user_score);
 
+  const [CreateText, setCreateText] = useState("Create");
+
   useEffect(() => {
     setUserScore(props.user_score);
   }, [props.user_score]);
@@ -47,6 +49,7 @@ const CreateLeague = (props) => {
 
   // called when the user hits "Submit" to create a league
   const handleCreateSubmit = (event) => {
+    setCreateText("Created!")
     event.preventDefault();
     const leagueData = { creator_id: props.user_id, league_name: leagueUsername,
       league_password: leaguePassword, league_type: "Standings", users: [{user_id: props.user_id, user_name: props.user_name, user_score: userScore}]};
@@ -114,7 +117,7 @@ const CreateLeague = (props) => {
             value="Submit"
             
             onClick={handleCreateSubmit}>
-            Create
+            {CreateText}
             </button>
             <hr className="CreateLeague-HorizontalLine" color="black" width="100%" size="15"/>
             <input
