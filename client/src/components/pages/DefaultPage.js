@@ -527,11 +527,7 @@ const DefaultPage = (props) => {
         }, [id])
       }
     
-    // id = "channel-link";
     enhance(id);
-    // enhance("viewleagueslink");
-    // enhance("joinleagueslink");
-    // enhance("createleagueslink");
     return (
         <>
         <div className="DefaultPage-Container">

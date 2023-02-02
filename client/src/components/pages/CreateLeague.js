@@ -60,14 +60,11 @@ const CreateLeague = (props) => {
     setLeagueUsername("");
     setLeaguePassword("");
   };
-  // const addNewLeague = (leagueObj) => {
-  //   setLeagues(leagues.concat([leagueObj]));
-  // }
+
 
   const addLeague = (leagueData) => {
     post("/api/createLeague", leagueData).then((leagueObj) => {
       // display feedback on screen that league creation was successful
-      // props.addNewLeague(comment);
     });
   }
 
@@ -95,9 +92,6 @@ const CreateLeague = (props) => {
   }
   return (
       <div className="CreateLeague-Container">
-          {/* <div className="CreateLeague-Header">
-            <div>League Creation Menu</div>
-          </div> */}
           <div className="CreateLeague-InputContainer">
             <input
             type="text"
@@ -122,14 +116,6 @@ const CreateLeague = (props) => {
             onChange={handleLeaguePasswordChange}
             className="CreateLeague-PasswordForm" 
             />
-            {/* <div className="CreateLeague-PasswordForm">
-              League Password:
-            </div>
-            <div>
-              <div className="CreateLeague-StandingsButton">
-                Submit
-              </div>
-            </div> */}
           </div>            
       </div>
   );

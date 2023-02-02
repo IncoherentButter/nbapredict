@@ -44,7 +44,6 @@ const NavBar = (props) => {
           </div>
         </div>
       </div>
-      {/* <div className="NavBar-title u-inlineBlock">book</div> */}
       <div className="NavBar-linkContainer">
         <div className="push-right">
             {props.userId && (
