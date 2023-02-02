@@ -24,6 +24,3 @@ const getSumOfSquareDistances = (teams1, teams2) => {
 };
 
 export default getSumOfSquareDistances;
-// const teams1 = [...array1];
-// const teams2 = [...array2];
-// const sum = getSumOfSquareDistances(teams1, teams2);
